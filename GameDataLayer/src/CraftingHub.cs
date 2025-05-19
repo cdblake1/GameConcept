@@ -1,19 +1,16 @@
-class CraftingHub
+using GameDataLayer.CraftingItemTemplates;
+
+public class CraftingHub
 {
-    public List<CraftingRecipe> Recipes { get; set; }
+    public List<ICraftingRecipe> Recipes { get; set; }
     public CraftingHub()
     {
-        Recipes = new List<CraftingRecipe>();
-        Stations = new List<CraftingStation>();
-    }
-
-    public void AddRecipe(CraftingRecipe recipe)
-    {
-        Recipes.Add(recipe);
-    }
-
-    public void AddStation(CraftingStation station)
-    {
-        Stations.Add(station);
+        Recipes = new List<ICraftingRecipe>()
+        {
+            new CraftingRecipesTemplates.IronChestRecipe(),
+            new CraftingRecipesTemplates.IronHelmetRecipe(),
+            new CraftingRecipesTemplates.IronLegsRecipe(),
+            new CraftingRecipesTemplates.IronSwordRecipe(),
+        };
     }
 }

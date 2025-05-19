@@ -5,18 +5,21 @@ public class Shop
     public string Name { get; set; }
     public List<IItem> Items { get; set; } = new();
 
-    private readonly double purchasePercent;
 
-    public Shop(string name, List<IItem> items, double purchasePercent = 0.3)
+    public Shop(string name, List<IItem> items)
     {
         Name = name;
         Items = items;
-        this.purchasePercent = purchasePercent;
     }
 
     public GoldCoin Sell(IItem item)
     {
-        return GoldCoin.FromAmount(item.Amount * purchasePercent);
+        return GoldCoin.FromAmount(item.Amount.Amount);
+    }
+
+    public GoldCoin Sell(IItem item, int amount)
+    {
+        return GoldCoin.FromAmount(item.Amount * amount);
     }
 
     public IItem Buy(IItem item)

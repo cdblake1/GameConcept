@@ -48,10 +48,10 @@ public class LootTable
 
     public readonly record struct LootTableEntry
     {
-        public Equipment Item { get; init; }
+        public IItem Item { get; init; }
         public int Weight { get; init; }
 
-        public LootTableEntry(Equipment item, int weight)
+        public LootTableEntry(IItem item, int weight)
         {
             Item = item;
             Weight = weight;

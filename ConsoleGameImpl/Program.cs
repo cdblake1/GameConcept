@@ -7,11 +7,14 @@ var shop = new Shop("General Store", new List<IItem>()
     new HealthPotionBase.MinorHealthPotion()
 });
 
+var craftingStation = new CraftingHub();
+
 bool inCombat;
 WriteToConsole("Game Started!");
-WriteToConsole(".");
-WriteToConsole(".");
-WriteToConsole(".");
+WriteToConsole(".", 300, false);
+WriteToConsole(".", 300, false);
+WriteToConsole(".", 300, false);
+
 Console.WriteLine();
 var playerOne = CaptureCharacterDetails();
 while (true)
@@ -30,7 +33,7 @@ void WriteToConsole(string message, int delayMs = defaultDelay, bool clearConsol
     Thread.Sleep(delayMs);
 }
 
-void StartCombatSession(MobBase opponent)
+bool StartCombatSession(MobBase opponent)
 {
     inCombat = true;
     WriteToConsole($"Player encounters {opponent.Name}!", defaultDelay, true);
@@ -60,38 +63,50 @@ void StartCombatSession(MobBase opponent)
                     var experience = opponent.AwardExperience();
                     WriteToConsole($"You gained {experience} experience points.", defaultDelay, true);
                     WaitForInput();
-                    if (playerOne.LevelManager.AddExperience(experience))
+                    if (playerOne.Level.AddExperience(experience))
                     {
-                        WriteToConsole($"Congratulations! You leveled up to level {playerOne.LevelManager.CurrentLevel}!", defaultDelay, true);
+                        WriteToConsole($"Congratulations! You leveled up to level {playerOne.Level.CurrentLevel}!", defaultDelay, true);
                         WaitForInput();
                         WriteToConsole($"Your stats have increased!", defaultDelay, true);
-                        WriteToConsole($"{nameof(playerOne.LevelManager.Stats.AttackPower)} +{playerOne.LevelManager.Stats.AttackPower}", defaultDelay, false);
-                        WriteToConsole($"{nameof(playerOne.LevelManager.Stats.Defense)} +{playerOne.LevelManager.Stats.Defense}", defaultDelay, false);
+                        WriteToConsole($"{nameof(playerOne.Level.Stats.AttackPower)} +{playerOne.Level.Stats.AttackPower}", defaultDelay, false);
+                        WriteToConsole($"{nameof(playerOne.Level.Stats.Defense)} +{playerOne.Level.Stats.Defense}", defaultDelay, false);
                         WriteToConsole($"{nameof(playerOne.MaxHealth)} +{playerOne.MaxHealth}", defaultDelay, false);
                     }
                     else
                     {
-                        WriteToConsole($"You need {playerOne.LevelManager.GetExperienceNeededForNextLevel() - playerOne.LevelManager.CurrentExperience} more experience points to level up!", 0, false);
+                        WriteToConsole($"You need {playerOne.Level.GetExperienceNeededForNextLevel() - playerOne.Level.CurrentExperience} more experience points to level up!", 0, false);
                         WaitForInput();
                     }
 
                     var loot = opponent.DropLoot();
-                    if (loot is Equipment item)
+                    if (loot is IItem item)
                     {
-                        WriteToConsole($"You found {item.Name}!", defaultDelay, true);
-                        WaitForInput();
+                        if (item is CraftingMaterial material)
+                        {
+                            WriteToConsole($"You found {material.Count} {material.Name}!", defaultDelay, true);
+                            WaitForInput();
+                        }
+                        else if (item is Equipment equipment)
+                        {
+                            WriteToConsole($"You found {equipment.Name}!", defaultDelay, true);
+                            WaitForInput();
+                        }
+                        else
+                        {
+                            WriteToConsole($"You found {item.Name}!", defaultDelay, true);
+                            WaitForInput();
+                        }
 
                         playerOne.Inventory.AddItem(item);
-
                         WriteToConsole($"You added {item.Name} to your inventory.", defaultDelay, true);
                     }
                     else
                     {
                         WriteToConsole("No loot dropped.", defaultDelay, true);
                     }
-                    WaitForInput();
 
-                    return;
+                    WaitForInput();
+                    return true;
                 }
 
                 PerformOpponentAttack(opponent);
@@ -100,7 +115,7 @@ void StartCombatSession(MobBase opponent)
                     WriteToConsole("You have been defeated!");
                     inCombat = false;
                     WaitForInput();
-                    return;
+                    return false;
                 }
 
                 break;
@@ -111,30 +126,32 @@ void StartCombatSession(MobBase opponent)
             case '3':
                 WriteToConsole("You fled the battle!", 1000, true);
                 inCombat = false;
-                break;
+                return false;
 
             default:
                 WriteToConsole("Invalid input. Please try again.");
                 break;
         }
     }
+
+    return false;
 }
 
-void DisplayCombatStatus(CharacterBase opponent)
+void DisplayCombatStatus(MobBase opponent)
 {
     WriteToConsole($"You are in combat with a {opponent.Name}!", defaultDelay, true);
     WriteToConsole($"""
-        {playerOne.Name} Level: {playerOne.LevelManager.CurrentLevel}
+        {playerOne.Name} Level: {playerOne.Level.CurrentLevel}
         {playerOne.Name} Health: {playerOne.CurrentHealth}/{playerOne.MaxHealth}
-        {playerOne.LevelManager.CurrentExperience} / {playerOne.LevelManager.GetExperienceNeededForNextLevel()} experience to next level
+        {playerOne.Level.CurrentExperience} / {playerOne.Level.GetExperienceNeededForNextLevel()} experience to next level
 
-        {opponent.Name} Level: {opponent.LevelManager.CurrentLevel}
+        {opponent.Name} Level: {opponent.Level}
         {opponent.Name} Health: {opponent.CurrentHealth}/{opponent.MaxHealth}
         """, 0, false);
     Console.WriteLine();
 }
 
-void PerformPlayerAttack(CharacterBase opponent)
+void PerformPlayerAttack(MobBase opponent)
 {
     WriteToConsole($"You attack the {opponent.Name}!", 0, true);
     Console.WriteLine();
@@ -145,7 +162,7 @@ void PerformPlayerAttack(CharacterBase opponent)
     WaitForInput();
 }
 
-void PerformOpponentAttack(CharacterBase opponent)
+void PerformOpponentAttack(MobBase opponent)
 {
     WriteToConsole($"The {opponent.Name} attacks back!", 0, true);
     Console.WriteLine();
@@ -169,71 +186,308 @@ CharacterBase CaptureCharacterDetails()
             continue;
         }
 
-        var player = new CharacterBase(name, new StatTemplate
-        {
-            AttackPower = 20,
-            Defense = 5,
-            Health = 100
-        },
-        new LevelManager(15, ExperienceTable.Default, new StatTemplate
-        {
-            AttackPower = 1,
-            Defense = 1,
-            Health = 5
-        }, 1));
+        var player = new PlayerTemplate.Player(name);
         WriteToConsole($"Welcome, {name}!");
         return player;
     }
 }
 
-void MainOptionsLoop()
+void EncounterLoop()
 {
-    WriteToConsole("What would you like to do?", 500, true);
-    WriteToConsole("1. Battle! I want loot!", 0, false);
-    WriteToConsole("2. Check Inventory", 0, false);
-    WriteToConsole("3. Check Equipment", 0, false);
-    WriteToConsole("4. Check Stats", 0, false);
-    WriteToConsole("5. Heal at the Inn", 0, false);
-    WriteToConsole("6. Go to the Shop", 0, false);
-    WriteToConsole("0. Exit Game", 0, false);
+    while (true)
+    {
+        var encounters = new List<dynamic>
+        {
+            EncounterTemplates.SpringLandsEncounter.FromDurationRange(playerOne.Level.CurrentLevel, 1, 3),
+            EncounterTemplates.GoblinEncampment.FromDurationRange(playerOne.Level.CurrentLevel, 1, 3)
+        };
 
-    var input = Console.ReadKey();
-    if (input.KeyChar == '1')
-    {
-        StartCombatSession(GetRandomOpponent(playerOne.LevelManager.CurrentLevel));
+        WriteToConsole("What would you like to do?", 0, true);
+        for (int i = 0; i < encounters.Count; i++)
+        {
+            WriteToConsole($"{i + 1}. {encounters[i].Name} - {encounters[i].Description}", 0, false);
+        }
+        WriteToConsole("0. Go back", 0, false);
+
+        var encounterInput = Console.ReadKey();
+        int selectedIndex = -1;
+        if (int.TryParse(encounterInput.KeyChar.ToString(), out selectedIndex) && selectedIndex > 0 && selectedIndex <= encounters.Count)
+        {
+            var encounter = encounters[selectedIndex - 1];
+            HandleEncounter(encounter);
+            return;
+        }
+        else if (encounterInput.KeyChar == '0')
+        {
+            return;
+        }
+        else
+        {
+            WriteToConsole("Invalid input. Please try again.", 0, false);
+        }
     }
-    else if (input.KeyChar == '2')
+}
+
+void HandleEncounter(dynamic encounter)
+{
+    while (encounter.EncounterIsActive)
     {
-        DisplayInventory();
-    }
-    else if (input.KeyChar == '3')
-    {
-        CheckEquipment();
-    }
-    else if (input.KeyChar == '4')
-    {
-        CheckStats();
-    }
-    else if (input.KeyChar == '5')
-    {
-        WriteToConsole("You healed at the inn.", 0, true);
-        playerOne.CurrentHealth = playerOne.MaxHealth;
+        WriteToConsole($"You are in the {encounter.Name} encounter!", defaultDelay, true);
+        WriteToConsole($"You have {encounter.Duration - encounter.CurrentDuration} turns left.", defaultDelay, false);
+        WriteToConsole($"You have {playerOne.CurrentHealth}/{playerOne.MaxHealth} health remaining.", defaultDelay, false);
+
         WaitForInput();
+
+        var input = new Menu("What would you like to do?", new List<MenuOption>
+        {
+            new MenuOption("Continue Encounter"),
+            new MenuOption("End Encounter Early", ConsoleKey.E)
+        }).ShowMenu();
+
+        switch (input)
+        {
+            case 0:
+                var opponent = encounter.AdvanceEncounter();
+                var outcome = StartCombatSession(opponent);
+                if (outcome == false)
+                {
+                    encounter.EndEncounterEarly();
+                }
+                break;
+            case 1:
+                encounter.EndEncounterEarly();
+                WaitForInput();
+                break;
+            default:
+                continue;
+        }
     }
-    else if (input.KeyChar == '6')
+
+    if (!encounter.EncounterEndedEarly)
     {
-        ShopScene();
-    }
-    else if (input.KeyChar == '0')
-    {
-        WriteToConsole("Exiting game...", 0, true);
-        Environment.Exit(0);
+        WriteToConsole($"You completed the {encounter.Name} encounter!", defaultDelay, true);
+        WaitForInput();
+
+        var reward = encounter.EncounterReward();
+        if (reward.GoldCoin is not null)
+        {
+            playerOne.Gold += reward.GoldCoin;
+            WriteToConsole($"You received {reward.GoldCoin.Amount} gold coins.", defaultDelay, false);
+            WaitForInput();
+        }
+
+        foreach (var item in reward.Loot)
+        {
+            if (item is CraftingMaterial material)
+            {
+                WriteToConsole($"You received {material.Count} {material.Name}!", defaultDelay, false);
+            }
+            else if (item is Equipment equipment)
+            {
+                WriteToConsole($"You received {equipment.Name}!", defaultDelay, false);
+            }
+            else
+            {
+                WriteToConsole($"You received {item.Name}!", defaultDelay, false);
+            }
+
+            playerOne.Inventory.AddItem(item);
+        }
+
+        WaitForInput();
     }
     else
     {
-        WriteToConsole("Invalid input. Please try again.", 0, false);
-        MainOptionsLoop();
+        WriteToConsole($"You ended the {encounter.Name} encounter early.", defaultDelay, true);
+        WaitForInput();
     }
+}
+
+
+void MainOptionsLoop()
+{
+    var mainMenu = new Menu("Main Menu", new List<MenuOption>
+    {
+        new MenuOption("Check Active Encounters"),
+        new MenuOption("Check Inventory", ConsoleKey.I),
+        new MenuOption("Check Equipment", ConsoleKey.E),
+        new MenuOption("Check Stats", ConsoleKey.A),
+        new MenuOption("Heal at the Inn", ConsoleKey.H),
+        new MenuOption("Go to the Shop", ConsoleKey.S),
+        new MenuOption("Use Crafting Station", ConsoleKey.C),
+        new MenuOption("Exit Game", ConsoleKey.Escape)
+    });
+
+    var input = mainMenu.ShowMenu();
+    switch (input)
+    {
+        case 0:
+            EncounterLoop();
+            break;
+        case 1:
+            DisplayInventory();
+            break;
+        case 2:
+            CheckEquipment();
+            break;
+        case 3:
+            CheckStats();
+            break;
+        case 4:
+            WriteToConsole("You healed at the inn.", 0, true);
+            playerOne.CurrentHealth = playerOne.MaxHealth;
+            WaitForInput();
+            break;
+        case 5:
+            ShopScene();
+            break;
+        case 6:
+            CraftingLoop();
+            break;
+        case 7:
+            WriteToConsole("You exited the game.", 0, true);
+            WaitForInput();
+            Environment.Exit(0);
+            break;
+        case -1:
+            WriteToConsole("You exited the game.", 0, true);
+            WaitForInput();
+            Environment.Exit(0);
+            break;
+        default:
+            WriteToConsole("Invalid input. Please try again.", 0, false);
+            break;
+    }
+}
+
+void CraftingLoop()
+{
+    WriteToConsole("You used the crafting station.", 0, true);
+    while (true)
+    {
+        WriteToConsole("Which crafting building?", 0, true);
+        WriteToConsole("1. The Forgery", 0, false);
+        WriteToConsole("0. Go back", 0, false);
+        var input2 = Console.ReadKey();
+        if (input2.KeyChar == '1')
+        {
+            while (true)
+            {
+                WriteToConsole("Available recipes:", 0, true);
+                if (craftingStation.Recipes.Count == 0)
+                {
+                    WriteToConsole("No recipes available.");
+                    WaitForInput();
+                    break;
+                }
+                for (int i = 0; i < craftingStation.Recipes.Count; i++)
+                {
+                    var recipe = craftingStation.Recipes[i];
+                    WriteToConsole($"{i + 1}. {recipe.CraftedItem.Name} - {recipe.CraftedItem.Description}", 0, false);
+                }
+                WriteToConsole("0. Go back", 0, false);
+
+                var recipeInput = Console.ReadLine();
+                if (recipeInput == "0")
+                {
+                    break;
+                }
+                if (int.TryParse(recipeInput, out int recipeIndex) && recipeIndex > 0 && recipeIndex <= craftingStation.Recipes.Count)
+                {
+                    var selectedRecipe = craftingStation.Recipes[recipeIndex - 1];
+                    WriteToConsole($"You selected {selectedRecipe.CraftedItem.Name}.", 0, true);
+                    while (true)
+                    {
+                        WriteToConsole("What would you like to do?", 0, false);
+                        WriteToConsole("1. Inspect Recipe", 0, false);
+                        WriteToConsole("2. Craft Item", 0, false);
+                        WriteToConsole("0. Cancel", 0, false);
+
+                        var recipeActionInput = Console.ReadKey();
+                        if (recipeActionInput.KeyChar == '1')
+                        {
+                            WriteToConsole($"{selectedRecipe.CraftedItem.Name} - {selectedRecipe.CraftedItem.Description}", 0, true);
+                            WriteToConsole("Required Materials:", 0, false);
+                            foreach (var material in selectedRecipe.RequiredMaterials)
+                            {
+                                if (material is CraftingMaterial craftingMaterial)
+                                {
+                                    WriteToConsole($"{craftingMaterial.Name} - {craftingMaterial.Description}", 0, false);
+                                }
+                                else if (material is Equipment equipment)
+                                {
+                                    WriteToConsole($"{equipment.Name} - {equipment.Description}", 0, false);
+                                }
+                                else
+                                {
+                                    WriteToConsole($"{material.Name} - {material.Description}", 0, false);
+                                }
+                            }
+
+                            WaitForInput();
+                        }
+                        else if (recipeActionInput.KeyChar == '2')
+                        {
+                            for (int i = 0; i < selectedRecipe.RequiredMaterials.Count; i++)
+                            {
+                                var material = selectedRecipe.RequiredMaterials[i];
+                                if (material is CraftingMaterial craftingMaterial)
+                                {
+                                    if (!playerOne.Inventory.HasAmount(craftingMaterial))
+                                    {
+                                        WriteToConsole($"You don't have enough {craftingMaterial.Name} to craft {selectedRecipe.CraftedItem.Name}. You have {playerOne.Inventory.GetAmount(craftingMaterial)}, but need {craftingMaterial.Count}.", defaultDelay, true);
+                                        WaitForInput();
+                                        break;
+                                    }
+                                }
+                                else if (material is Equipment equipment)
+                                {
+                                    if (!playerOne.Inventory.HasAmount(equipment))
+                                    {
+                                        WriteToConsole($"You don't have the required equipment to craft {selectedRecipe.CraftedItem.Name}.", defaultDelay, true);
+                                        WaitForInput();
+                                        break;
+                                    }
+                                }
+                            }
+
+                            // Add crafted item to inventory
+                            playerOne.Inventory.AddItem(selectedRecipe.CraftedItem);
+                            WriteToConsole($"You crafted {selectedRecipe.CraftedItem.Name}.", defaultDelay, true);
+
+                            var totalMaterialsLeft = playerOne.Inventory.CraftingMaterials.Sum(mat => mat.Count);
+                            WriteToConsole($"You have {totalMaterialsLeft} crafting materials left.", defaultDelay, true);
+
+                            WaitForInput();
+                            break;
+                        }
+                        else if (recipeActionInput.KeyChar == '0')
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            WriteToConsole("Invalid input. Please try again.", 0, false);
+                        }
+                    }
+                }
+                else
+                {
+                    WriteToConsole("Invalid input. Please try again.", 0, false);
+                }
+            }
+        }
+        else if (input2.KeyChar == '0')
+        {
+            break;
+        }
+        else
+        {
+            WriteToConsole("Invalid input. Please try again.", 0, false);
+            continue;
+        }
+    }
+    WaitForInput();
 }
 
 void CheckEquipment()
@@ -242,7 +496,7 @@ void CheckEquipment()
     Console.WriteLine();
 
     var slots = new List<EquipmentKind>();
-    foreach (var (slot, item) in playerOne.EquipmentManager.GetAllEquipment())
+    foreach (var (slot, item) in playerOne.Equipment.GetAllEquipment())
     {
         slots.Add(slot);
         if (item is Equipment equippedItem)
@@ -279,7 +533,7 @@ void CheckEquipment()
                 if (int.TryParse(slotInput, out int slotIndex) && slotIndex > 0 && slotIndex <= slots.Count)
                 {
                     var selectedSlot = slots[slotIndex - 1];
-                    var item = playerOne.Inventory.GetItemsMatchingKind(selectedSlot);
+                    var item = playerOne.Inventory.GetItemsOfKind(selectedSlot);
                     if (item.Count == 0)
                     {
                         WriteToConsole($"You have no items of kind {selectedSlot} in your inventory.", defaultDelay, true);
@@ -365,16 +619,25 @@ void DisplayInventory()
 {
     WriteToConsole("You checked your inventory.", 500, true);
     Console.WriteLine();
-    if (playerOne.Inventory.Count == 0)
+    if (playerOne.Inventory.Equipment.Count == 0 && playerOne.Inventory.CraftingMaterials.Count == 0 && playerOne.Inventory.CraftingMaterials.Count == 0)
     {
         WriteToConsole("Your inventory is empty.");
         WaitForInput();
         return;
     }
 
-    foreach (var item in playerOne.Inventory)
+    WriteToConsole("Equipment:", 0, true);
+    foreach (var item in playerOne.Inventory.Equipment)
     {
         WriteToConsole($"{item.Name} - {item.Description}", 0, false);
+    }
+
+    WaitForInput();
+
+    WriteToConsole("Crafting Materials:", 0, true);
+    foreach (var item in playerOne.Inventory.CraftingMaterials)
+    {
+        WriteToConsole($"{item.Name}: {item.Count}", 0, false);
     }
 
     WaitForInput();
@@ -383,8 +646,8 @@ void DisplayInventory()
 void CheckStats()
 {
     WriteToConsole($"{playerOne.Name} Stats.", 0, true);
-    WriteToConsole($"Level: {playerOne.LevelManager.CurrentLevel}");
-    WriteToConsole($"Experience: {playerOne.LevelManager.CurrentExperience} / {playerOne.LevelManager.GetExperienceNeededForNextLevel()}");
+    WriteToConsole($"Level: {playerOne.Level.CurrentLevel}");
+    WriteToConsole($"Experience: {playerOne.Level.CurrentExperience} / {playerOne.Level.GetExperienceNeededForNextLevel()}");
     WriteToConsole($"Health: {playerOne.CurrentHealth}/{playerOne.MaxHealth}");
     WriteToConsole($"Attack Power: {playerOne.Stats.AttackPower}");
     WriteToConsole($"Defense: {playerOne.Stats.Defense}");
@@ -433,7 +696,7 @@ void HandleViewItems()
 {
     while (true)
     {
-        WriteToConsole($"You have {playerOne.Gold.Value} gold.", defaultDelay, true);
+        WriteToConsole($"You have {playerOne.Gold.Amount} gold.", defaultDelay, true);
         WriteToConsole("Please select an item", 0, true);
 
         for (int i = 0; i < shop.Items.Count; i++)
@@ -461,9 +724,9 @@ void HandleBuyItem(IItem selectedItem)
 {
     while (true)
     {
-        WriteToConsole($"You have {playerOne.Gold.Value} gold.", defaultDelay, true);
+        WriteToConsole($"You have {playerOne.Gold.Amount} gold.", defaultDelay, true);
         WriteToConsole($"{selectedItem.Name}", 0, false);
-        WriteToConsole($"Price: {selectedItem.Amount.Value} gold.", defaultDelay, false);
+        WriteToConsole($"Price: {selectedItem.Amount.Amount} gold.", defaultDelay, false);
         Console.WriteLine();
         WriteToConsole("What would you like to do?", 0, false);
         WriteToConsole("1. Inspect Item", 0, false);
@@ -495,7 +758,7 @@ void ConfirmPurchase(IItem selectedItem)
     {
         while (true)
         {
-            WriteToConsole($"You have {playerOne.Gold.Value} gold.", defaultDelay, true);
+            WriteToConsole($"You have {playerOne.Gold.Amount} gold.", defaultDelay, true);
             WriteToConsole($"Are you sure you want to buy {selectedItem.Name} for {selectedItem.Amount} gold?", 0, false);
             WriteToConsole("1. Yes", 0, false);
             WriteToConsole("2. No", 0, false);
@@ -522,7 +785,7 @@ void ConfirmPurchase(IItem selectedItem)
     else
     {
         WriteToConsole($"You don't have enough gold to buy {selectedItem.Name}.", 0, true);
-        WriteToConsole($"You need {selectedItem.Amount.Value - playerOne.Gold.Value} more gold to buy {selectedItem.Name}.", defaultDelay, false);
+        WriteToConsole($"You need {selectedItem.Amount.Amount - playerOne.Gold.Amount} more gold to buy {selectedItem.Name}.", defaultDelay, false);
         WaitForInput();
     }
 }
@@ -532,20 +795,52 @@ void HandleSellItems()
     while (true)
     {
         WriteToConsole("Which Item would you like to sell?", 0, true);
-
-        for (int i = 0; i < playerOne.Inventory.Count; i++)
+        var count = 0;
+        var combinedItems = new List<IItem>();
+        foreach (var item in playerOne.Inventory.Equipment)
         {
-            var item = playerOne.Inventory[i];
-            WriteToConsole($"{i + 1}. {item.Name} - {item.Amount.Value} gold", 0, false);
+            count++;
+            combinedItems.Add(item);
+            WriteToConsole($"{count}. {item.Name} - {item.Description} - {item.Amount.Amount} gold", 0, false);
         }
+        foreach (var item in playerOne.Inventory.CraftingMaterials)
+        {
+            count++;
+            combinedItems.Add(item);
+            WriteToConsole($"{count}. {item.Name} - {item.Description} - {item.Amount.Amount} gold", 0, false);
+        }
+
         WriteToConsole("0. Go back", 0, false);
 
         var itemInput = Console.ReadKey();
         if (itemInput.KeyChar == '0') break;
 
-        if (int.TryParse(itemInput.KeyChar.ToString(), out int itemIndex) && itemIndex > 0 && itemIndex <= playerOne.Inventory.Count)
+        if (int.TryParse(itemInput.KeyChar.ToString(), out int itemIndex) && itemIndex > 0 && itemIndex <= combinedItems.Count)
         {
-            ConfirmSellItem(playerOne.Inventory[itemIndex - 1]);
+            var selectedItem = combinedItems[itemIndex - 1];
+            if (selectedItem is Equipment item)
+            {
+                ConfirmSellItem(item);
+            }
+            else if (selectedItem is CraftingMaterial material)
+            {
+                WriteToConsole($"How many {material.Name} do you want to sell?", 0, false);
+                WriteToConsole($"You have {material.Count} {material.Name}.", 0, false);
+                var amountInput = Console.ReadLine();
+                if (int.TryParse(amountInput, out int amount) && amount > 0 && amount <= material.Count)
+                {
+                    playerOne.Inventory.RemoveItem(material);
+                    playerOne.Gold += shop.Sell(material, amount);
+                    WriteToConsole($"You sold {amount} {material.Name} for {material.Amount.Amount * amount} gold.", defaultDelay, true);
+                    WaitForInput();
+                }
+                else
+                {
+                    WriteToConsole("Invalid input. Please try again.", 0, false);
+                }
+            }
+
+            ConfirmSellItem(combinedItems[itemIndex - 1]);
         }
         else
         {
@@ -557,7 +852,7 @@ void HandleSellItems()
 void ConfirmSellItem(IItem selectedItem)
 {
     WriteToConsole($"You selected {selectedItem.Name}.", defaultDelay, true);
-    WriteToConsole($"You can sell it for {selectedItem.Amount.Value} gold.", defaultDelay, true);
+    WriteToConsole($"You can sell it for {selectedItem.Amount.Amount} gold.", defaultDelay, true);
     WriteToConsole("Do you want to sell this item?", 0, false);
     WriteToConsole("1. Yes", 0, false);
     WriteToConsole("2. No", 0, false);
@@ -565,27 +860,13 @@ void ConfirmSellItem(IItem selectedItem)
     var confirmInput = Console.ReadKey();
     if (confirmInput.KeyChar == '1')
     {
-        playerOne.Inventory.Remove(selectedItem);
-        playerOne.AddGold(shop.Sell(selectedItem));
-        WriteToConsole($"You sold {selectedItem.Name} for {selectedItem.Amount.Value} gold.", defaultDelay, true);
+        playerOne.Inventory.RemoveItem(selectedItem);
+        playerOne.Gold += shop.Sell(selectedItem);
+        WriteToConsole($"You sold {selectedItem.Name} for {selectedItem.Amount.Amount} gold.", defaultDelay, true);
         WaitForInput();
     }
     else if (confirmInput.KeyChar != '2')
     {
         WriteToConsole("Invalid input. Please try again.", 0, false);
     }
-}
-
-MobBase GetRandomOpponent(int startingLevel)
-{
-    var random = new Random();
-    var adjustedLevel = Math.Max(0, startingLevel + random.Next(-1, 2));
-
-    return random.Next(0, 3) switch
-    {
-        0 => MobTemplates.GetWolf(adjustedLevel),
-        1 => MobTemplates.GetBoar(adjustedLevel),
-        2 => MobTemplates.GetBear(adjustedLevel),
-        _ => throw new InvalidOperationException("Unexpected opponent index.")
-    };
 }
