@@ -1,21 +1,30 @@
 class MenuOption
 {
-    public string Text { get; }
+    public IReadOnlyList<TextPacket> Text { get; }
     public ConsoleKey? KeyBind { get; }
 
     public MenuOption(string text, ConsoleKey? keyBind = null)
     {
-        Text = text;
+        Text = [new(text)];
         KeyBind = keyBind;
     }
+
+    public MenuOption(IReadOnlyList<TextPacket> text, ConsoleKey? keyBind = null)
+    {
+        Text = text.ToArray();
+        KeyBind = keyBind;
+    }
+
+
 }
 
 class Menu
 {
-    private readonly string menuHeader;
+    private readonly string? menuHeader;
     private readonly IReadOnlyList<MenuOption> options;
+    public bool ClearConsole { get; init; } = true;
 
-    public Menu(string menuHeader, IReadOnlyList<MenuOption> options)
+    public Menu(string? menuHeader, IReadOnlyList<MenuOption> options)
     {
         this.menuHeader = menuHeader;
         this.options = options;
@@ -31,10 +40,15 @@ class Menu
         do
         {
             Console.Clear();
-            Console.WriteLine(menuHeader + "\n");
-            Console.WriteLine("Use arrow keys to navigate, Enter to select, number keys or keybinds to select, and Esc to exit.\n");
+            if (menuHeader != null)
+            {
+                Console.WriteLine(menuHeader);
+                Console.WriteLine(new string('-', menuHeader.Length));
+            }
 
-            for (int i = 0; i < options.Count; i++)
+            GameTextPrinter.DefaultInstance.Print("Use arrow keys to navigate, Enter to select, number keys or keybinds to select, and Esc to exit.\n");
+
+            for (int i = 0; i < options.Count && i >= 0; i++)
             {
                 if (i == selectedIndex)
                 {
@@ -48,7 +62,23 @@ class Menu
 
                 var option = options[i];
                 string keybindDisplay = option.KeyBind.HasValue ? $"{option.KeyBind.Value}" : $"{i + 1}";
-                Console.WriteLine($"[{keybindDisplay}] {option.Text}");
+
+                GameTextPrinter.DefaultInstance.PrintLine([new($"[{keybindDisplay}]")], false);
+                foreach (var textPacket in option.Text)
+                {
+                    if (i == selectedIndex)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    }
+                    else
+                    {
+                        Console.ResetColor();
+                    }
+                    GameTextPrinter.DefaultInstance.PrintLine([textPacket], false);
+                }
+
+                Console.WriteLine();
                 Console.ResetColor();
             }
 
@@ -85,10 +115,10 @@ class Menu
             switch (key)
             {
                 case ConsoleKey.UpArrow:
-                    selectedIndex = (selectedIndex - 1 + options.Count) % options.Count;
+                    selectedIndex = options.Count == 0 ? 0 : (selectedIndex - 1 + options.Count) % options.Count;
                     break;
                 case ConsoleKey.DownArrow:
-                    selectedIndex = (selectedIndex + 1) % options.Count;
+                    selectedIndex = options.Count == 0 ? 0 : (selectedIndex + 1) % options.Count;
                     break;
                 case ConsoleKey.Enter:
                     return selectedIndex;
