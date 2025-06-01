@@ -6,6 +6,10 @@ namespace GameDataTests
 {
     public class LootTests
     {
+        public LootTests()
+        {
+        }
+
         private Player CreateTestCharacter() => new("TestCharacter");
 
         [Fact]
@@ -85,7 +89,7 @@ namespace GameDataTests
         public void AddCraftingMaterialThatDropsToCharacterTest()
         {
             var character = CreateTestCharacter();
-            var mob = MobFactory.Instance.Create(typeof(FrogActor));
+            var mob = TestMob.Create();
 
             var loot = mob.DropLoot();
             Assert.NotNull(loot);
@@ -117,24 +121,36 @@ namespace GameDataTests
         [Fact]
         public void DropLootTest()
         {
-            var sword = ItemTemplates.SwordOfMight;
-            var helm = ItemTemplates.HelmOfValor;
-
-            var lootTable = new LootTable(new List<LootTable.LootTableEntry>
-            {
-                new(sword, 50),
-                new(helm, 30)
-            }, alwaysDropLoot: true);
-
-            var mob = MobFactory.Instance.Create(typeof(FrogActor));
+            var mob = TestMob.Create();
 
             var player = CreateTestCharacter();
 
             var loot = mob.DropLoot();
             Assert.NotNull(loot);
 
-            if (loot is Equipment item)
-                player.Inventory.AddItem(item);
+            player.Inventory.AddItem(loot);
+
+            Assert.True(player.Inventory.RemoveItem(loot));
+        }
+    }
+
+    public class TestMob : MobBase
+    {
+        public TestMob(IActor actor, LootTable LootTable, IReadOnlyList<Skill> skills, int level) : base(actor, LootTable, skills, level)
+        {
+        }
+
+        public static MobBase Create()
+        {
+            return new TestMob(new MobDto("test mob", new()
+            {
+                AttackPower = 10,
+                Defense = 5,
+                Health = 100,
+                Speed = 1
+            }), new LootTable([
+                new LootTable.LootTableEntry(IronScrap.FromAmount(2), 100)
+            ], true), [new DefaultMobAttack()], 1);
         }
     }
 }

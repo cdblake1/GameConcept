@@ -1,0 +1,10 @@
+{
+  "id": "slash_applies_pierce_talent",
+  "actions": [
+    {
+      "type": "apply_effect",
+      "effect": "pierce_effect",
+      "from_skill": "slash_skill"
+    }
+  ]
+}

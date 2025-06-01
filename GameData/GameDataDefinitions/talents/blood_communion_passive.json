@@ -1,0 +1,14 @@
+{
+  "id": "blood_communion_passive_talent",
+  "actions": [
+    {
+      "type": "modify_effect",
+      "duration": "permanent",
+      "leech": {
+        "operation": "set",
+        "value": 10
+      },
+      "id": "blood_communion_effect"
+    }
+  ]
+}

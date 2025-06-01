@@ -19,19 +19,23 @@ public class MainMenuScene
             {
                 case 0:
                     MainGameScene.InitializeNewGame();
-                    break;
+                    return;
                 case 1:
-                    LoadGameScene.Show();
+                    if (LoadGameScene.Show())
+                    {
+                        return;
+                    }
                     break;
                 case 2:
                     ShowOptions();
                     break;
                 case 3:
                     ExitGameScene.Show();
-                    return;
+                    break;
+                default:
+                    ExitGameScene.Show();
+                    break;
             }
-
-            return;
         }
     }
 
@@ -56,7 +60,10 @@ public class MainMenuScene
                     SaveGameScene.Create().ShowScene();
                     break;
                 case 2:
-                    LoadGameScene.Show();
+                    if (LoadGameScene.Show())
+                    {
+                        return; // Exit to resume the loaded game
+                    }
                     break;
                 case 3:
 
@@ -70,8 +77,6 @@ public class MainMenuScene
 
     private static void ShowOptions()
     {
-        var textPrinter = new GameTextPrinter();
-        textPrinter.Print("Options are not implemented yet.");
-        textPrinter.WaitForInput();
+        DialogueQueue.AddDialogue(["Options are not implemented yet."]);
     }
 }

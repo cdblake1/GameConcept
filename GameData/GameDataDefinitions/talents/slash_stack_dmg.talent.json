@@ -1,0 +1,10 @@
+{
+  "id": "slash_stack_dmg_talent",
+  "actions": [
+    {
+      "type": "apply_effect",
+      "effect": "slash_stack_effect",
+      "from_skill": "slash"
+    }
+  ]
+}

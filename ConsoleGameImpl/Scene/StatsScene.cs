@@ -18,15 +18,15 @@ public class StatsScene
             throw new InvalidOperationException("Player is not initialized.");
         }
 
-        GameTextPrinter.DefaultInstance.Print([$"\n{player.Name}'s Stats",
-            $"\nClass: {player.Class?.Name ?? "None"}",
-            $"\nLevel: {player.LevelManager.CurrentLevel}",
-            $"\nExperience: {player.LevelManager.CurrentExperience} / {player.LevelManager.GetExperienceNeededForNextLevel()}",
-            $"\nHealth: {player.CurrentHealth}/{player.MaxHealth}",
-            $"\nAttack Power: {player.Stats.AttackPower}",
-            $"\nDefense: {player.Stats.Defense}",
-            $"\nSpeed: {player.Stats.Speed}",
-        ]);
+        GameTextPrinter.DefaultInstance.PrintLine([new($"\n{player.Name}'s Stats")], false, 0);
+        GameTextPrinter.DefaultInstance.PrintLine([new($"\nClass: {player.Class?.Name ?? "None"}")]);
+        GameTextPrinter.DefaultInstance.PrintLine([new($"\nLevel: {player.LevelManager.CurrentLevel}")]);
+        GameTextPrinter.DefaultInstance.PrintLine([new($"\nExperience: {player.LevelManager.CurrentExperience} / {player.LevelManager.GetExperienceNeededForNextLevel()}")]);
+        GameTextPrinter.DefaultInstance.PrintLine([new($"\nHealth: {player.CurrentHealth}/{player.MaxHealth}")]);
+        GameTextPrinter.DefaultInstance.PrintLine([new($"\nAttack Power: {player.Stats.AttackPower}")]);
+        GameTextPrinter.DefaultInstance.PrintLine([new($"\nDefense: {player.Stats.Defense}")]);
+        GameTextPrinter.DefaultInstance.PrintLine([new($"\nSpeed: {player.Stats.Speed}")]);
+
         GameTextPrinter.DefaultInstance.WaitForInput();
     }
 }

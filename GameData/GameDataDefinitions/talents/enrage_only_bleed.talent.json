@@ -1,0 +1,25 @@
+{
+  "id": "enrage_only_bleed_talent",
+  "actions": [
+    {
+      "type": "modify_effect",
+      "id": "enrage_buff_effect",
+      "modifiers": {
+        "operation": "set",
+        "value": [
+          {
+            "damage_type": "bleed",
+            "type": "damage",
+            "modifier": { "operation": "mult", "value": 10 }
+          }
+        ]
+      }
+    }
+  ],
+  "applies_to": [
+    {
+      "type": "skill",
+      "id": "enrage_skill"
+    }
+  ]
+}

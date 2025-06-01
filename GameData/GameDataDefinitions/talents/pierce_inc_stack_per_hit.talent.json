@@ -1,0 +1,25 @@
+{
+  "id": "pierce_inc_stack_per_hit_talent",
+  "applies_to": [
+    {
+      "type": "skill",
+      "id": "pierce_skill"
+    }
+  ],
+  "actions": [
+    {
+      "type": "modify_effect",
+      "id": "pierce_effect",
+      "stacking": {
+        "max_stacks": {
+          "operation": "mult",
+          "value": 2
+        },
+        "stacks_per_application": {
+          "operation": "mult",
+          "value": 100
+        }
+      }
+    }
+  ]
+}

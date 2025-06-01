@@ -1,0 +1,10 @@
+{
+  "category": "debuff",
+  "damage_types": ["physical"],
+  "id": "enrage_stack",
+  "stacking": {
+    "max_stacks": 5,
+    "refresh_mode": "reset_time"
+  },
+  "duration": "permanent"
+}

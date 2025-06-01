@@ -84,9 +84,9 @@ public class EquipmentScene
             }
             else if (input == 1)
             {
-                GameTextPrinter.DefaultInstance.Print(GameTextPrinter.GetItemText(item));
-                GameTextPrinter.DefaultInstance.Print($"Stats:\nAttack Power: {item.Stats.AttackPower}\nDefense: {item.Stats.Defense}\nHealth: {item.Stats.Health}\nSpeed: {item.Stats.Speed}\n\n");
-                GameTextPrinter.DefaultInstance.Print(item.Description.Split("\n"));
+                GameTextPrinter.DefaultInstance.PrintLine([GameTextPrinter.GetItemText(item)], false, 0);
+                GameTextPrinter.DefaultInstance.PrintLine([new($"Stats:\nAttack Power: {item.Stats.AttackPower}\nDefense: {item.Stats.Defense}\nHealth: {item.Stats.Health}\nSpeed: {item.Stats.Speed}\n\n")], false, 0);
+                GameTextPrinter.DefaultInstance.PrintLine([.. item.Description.Split("\n").Select(s => new TextPacket(s))], false, 0);
                 GameTextPrinter.DefaultInstance.WaitForInput();
                 break;
             }

@@ -33,7 +33,7 @@ namespace GameDataTests
 
             Assert.Equal(0, initialExperience);
             Assert.Equal(1, character.LevelManager.CurrentLevel);
-            var experienceGained = ExperienceTable.MonsterExpTable.GetCumulativeExperienceForLevel(2) - initialExperience;
+            var experienceGained = ExperienceTable.PlayerExpTable.GetCumulativeExperienceForLevel(2) - initialExperience;
 
             // Act
             character.LevelManager.AddExperience(experienceGained);
@@ -42,9 +42,9 @@ namespace GameDataTests
             Assert.Equal(initialExperience + experienceGained, character.LevelManager.CurrentExperience);
             Assert.Equal(2, character.LevelManager.CurrentLevel);
 
-            var additionalExperience = ExperienceTable.MonsterExpTable.GetCumulativeExperienceForLevel(3) - character.LevelManager.CurrentExperience;
+            var additionalExperience = ExperienceTable.PlayerExpTable.GetCumulativeExperienceForLevel(3) - character.LevelManager.CurrentExperience;
             character.LevelManager.AddExperience(additionalExperience);
-            Assert.Equal(ExperienceTable.MonsterExpTable.GetCumulativeExperienceForLevel(3), character.LevelManager.CurrentExperience);
+            Assert.Equal(ExperienceTable.PlayerExpTable.GetCumulativeExperienceForLevel(3), character.LevelManager.CurrentExperience);
 
             Assert.Equal(3, character.LevelManager.CurrentLevel);
         }
@@ -65,7 +65,7 @@ namespace GameDataTests
             character.LevelManager.AddExperience(experienceGained);
 
             // Assert
-            Assert.Equal(ExperienceTable.MonsterExpTable.GetCumulativeExperienceForLevel(character.LevelManager.MaxLevel), character.LevelManager.CurrentExperience);
+            Assert.Equal(ExperienceTable.PlayerExpTable.GetCumulativeExperienceForLevel(character.LevelManager.MaxLevel), character.LevelManager.CurrentExperience);
         }
 
         [Fact]
@@ -104,7 +104,7 @@ namespace GameDataTests
             var totalExperienceToNextLevel = character.LevelManager.GetExperienceNeededForNextLevel();
 
             // Assert
-            Assert.Equal(ExperienceTable.MonsterExpTable[character.LevelManager.CurrentLevel + 1], totalExperienceToNextLevel);
+            Assert.Equal(ExperienceTable.PlayerExpTable[character.LevelManager.CurrentLevel + 1], totalExperienceToNextLevel);
         }
     }
 

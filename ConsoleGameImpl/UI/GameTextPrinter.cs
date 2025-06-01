@@ -1,19 +1,21 @@
 
+using System.Reflection;
 using GameData;
 
 public readonly struct TextPacket
 {
     public string Text { get; }
-    public ConsoleColor Color { get; }
+    public ConsoleColor Color { get; init; }
+    public ConsoleColor? BackgroundColor { get; init; }
 
-    public TextPacket(string text, ConsoleColor? color = null)
+    public TextPacket(string text, ConsoleColor? color = null, ConsoleColor? backgroundColor = null)
     {
         if (string.IsNullOrWhiteSpace(text))
             throw new ArgumentException("Text cannot be null or whitespace.", nameof(text));
 
         Color = color ?? ConsoleColor.White;
+        BackgroundColor = backgroundColor;
         Text = text;
-        Color = color ?? ConsoleColor.Gray;
     }
 }
 
@@ -27,11 +29,15 @@ public class GameTextPrinter
     public static GameTextPrinter DefaultInstance => defaultInstance;
     private static readonly GameTextPrinter defaultInstance = new();
 
-    public void PrintLine(IReadOnlyList<TextPacket> packet, bool newLine = true)
+    public void PrintLine(IReadOnlyList<TextPacket> packet, bool newLine = true, int? delay = null)
     {
         foreach (var textPacket in packet)
         {
             Console.ForegroundColor = textPacket.Color;
+            if (textPacket.BackgroundColor is ConsoleColor bgColor)
+            {
+                Console.BackgroundColor = bgColor;
+            }
 
             if (EnableTypingEffect)
             {
@@ -44,7 +50,7 @@ public class GameTextPrinter
                         Console.Write(textPacket.Text.Substring(textPacket.Text.IndexOf(c)));
                         break;
                     }
-                    Thread.Sleep(TypingDelay);
+                    Thread.Sleep(delay ?? TypingDelay);
                 }
             }
             else
@@ -77,11 +83,6 @@ public class GameTextPrinter
         WaitOrSkip(LineDelay);
     }
 
-    public void Print(IReadOnlyList<string> texts, ConsoleColor? color = null)
-    {
-        Print(texts.Select(t => new TextPacket(t, color)).ToArray());
-    }
-
     public void WaitForInput()
     {
         Console.WriteLine("\nPress any key to continue...");
@@ -110,7 +111,9 @@ public class GameTextPrinter
 
     public void NotImplementedText(string text)
     {
+        Console.Clear();
         Console.WriteLine($"[Not Implemented] {text}");
+        this.WaitForInput();
     }
 
     public static ConsoleColor GetColor(TextKind kind)

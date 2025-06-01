@@ -1,0 +1,24 @@
+{
+  "id": "crash_less_cooldown_talent",
+
+  "actions": [
+    {
+      "type": "modify_damage",
+      "skill": "crash_skill",
+      "delivery": "hit",
+      "base_damage": {
+        "operation": "add",
+        "value": 0
+      }
+    },
+    {
+      "type": "modify_skill",
+      "skill": "crash_skill",
+      "id": "crash_skill",
+      "cooldown": {
+        "operation": "add",
+        "value": -1
+      }
+    }
+  ]
+}

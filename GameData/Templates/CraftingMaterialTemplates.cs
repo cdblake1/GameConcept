@@ -9,7 +9,7 @@ public static class CraftingMaterialTemplates
             Register<IronScrap>(amount => new IronScrap() { Count = amount });
         }
 
-        public IronScrap() : base("Iron Scrap", "A piece of iron scrap.", GoldCoin.FromAmount(10), ItemRarity.Uncommon)
+        public IronScrap() : base("Iron Scrap", "A piece of iron scrap.", GoldCoin.FromAmount(10), ItemRarity.Common)
         {
         }
 
@@ -30,7 +30,7 @@ public static class CraftingMaterialTemplates
         {
             Register<WoodenShoot>(amount => new WoodenShoot() { Count = amount });
         }
-        public WoodenShoot() : base("Wooden Shoot", "A piece of wooden shoot.", GoldCoin.FromAmount(10), ItemRarity.Uncommon)
+        public WoodenShoot() : base("Wooden Shoot", "A piece of wooden shoot.", GoldCoin.FromAmount(10), ItemRarity.Common)
         {
         }
 
@@ -52,7 +52,7 @@ public static class CraftingMaterialTemplates
             Register<TatteredCloth>(amount => new TatteredCloth() { Count = amount });
         }
 
-        public TatteredCloth() : base("Tattered Cloth", "A piece of tattered cloth.", GoldCoin.FromAmount(10), ItemRarity.Uncommon)
+        public TatteredCloth() : base("Tattered Cloth", "A piece of tattered cloth.", GoldCoin.FromAmount(10), ItemRarity.Common)
         {
         }
 

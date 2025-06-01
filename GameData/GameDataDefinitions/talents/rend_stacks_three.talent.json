@@ -1,0 +1,23 @@
+{
+  "id": "rend_stack_talent",
+  "actions": [
+    {
+      "type": "modify_damage",
+      "skill": "rend_skill",
+      "delivery": "dot",
+      "dot_props": {
+        "stacking": {
+          "max_stacks": {
+            "operation": "set",
+            "value": 3
+          },
+          "stacks_per_application": {
+            "operation": "set",
+            "value": 1
+          },
+          "refresh_mode": "reset_time"
+        }
+      }
+    }
+  ]
+}

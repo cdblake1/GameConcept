@@ -9,16 +9,20 @@ class TabMenuNavigator
         this.tabs = tabs;
     }
 
+
     public void ShowTabbedMenu()
     {
         var selectedTab = 0;
+        var position = 0;
+
         Console.CursorVisible = false;
         do
         {
             Console.Clear();
             Console.WriteLine(menuHeader + "\n");
+            position++;
             Console.WriteLine("Use arrow keys to navigate, Enter to select, number keys or keybinds to select, and Esc to exit.\n");
-
+            position++;
             for (int i = 0; i < tabs.Count; i++)
             {
                 if (i == selectedTab)
@@ -33,18 +37,21 @@ class TabMenuNavigator
 
                 var tab = tabs[i];
                 Console.Write($"[{i + 1}] {tab.tabName}");
+                Console.ResetColor();
+
                 if (i != tabs.Count - 1)
                 {
                     Console.Write("\t");
                     Console.Write(" | ");
                 }
-
-                Console.ResetColor();
+                else
+                {
+                    Console.Write("\t");
+                }
             }
+            position += 5;
 
-            Console.WriteLine("\n\n");
-
-            var selectedMenu = tabs[selectedTab].menu.ShowMenu();
+            var selectedMenu = tabs[selectedTab].menu.ShowMenu(position);
 
             if (selectedMenu == -1)
             {
@@ -65,7 +72,7 @@ class TabMenuNavigator
 
             Console.ResetColor();
             Console.Clear();
-
+            position = 0;
         } while (true);
     }
 
@@ -80,7 +87,13 @@ class TabMenuNavigator
             this.options = options;
         }
 
-        public int ShowMenu()
+        private void ClearLine(int position)
+        {
+            Console.SetCursorPosition(0, position);
+            Console.WriteLine(new string(' ', Console.WindowWidth));
+        }
+
+        public int ShowMenu(int initialPosition)
         {
             int selectedIndex = 0;
             ConsoleKey key;
@@ -89,13 +102,22 @@ class TabMenuNavigator
 
             do
             {
+                var position = initialPosition;
+                ClearLine(position);
+                Console.SetCursorPosition(0, position);
                 Console.WriteLine(menuHeader + "\n");
-                Console.WriteLine("Use arrow keys to navigate, Enter to select, number keys or keybinds to select, and Esc to exit.\n");
+                position += 2;
 
                 for (int i = 0; i < options.Count; i++)
                 {
+                    var option = options[i];
+                    var text = options[i].Text;
+                    position++;
+                    ClearLine(position);
+                    Console.SetCursorPosition(0, position);
                     if (i == selectedIndex)
                     {
+                        text = [.. text.Select(t => t with { BackgroundColor = ConsoleColor.DarkGray })];
                         Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ForegroundColor = ConsoleColor.Black;
                     }
@@ -104,10 +126,11 @@ class TabMenuNavigator
                         Console.ResetColor();
                     }
 
-                    var option = options[i];
                     string keybindDisplay = option.KeyBind.HasValue ? $"{option.KeyBind.Value}" : $"{i + 1}";
-                    Console.WriteLine($"[{keybindDisplay}] {option.Text}");
+                    GameTextPrinter.DefaultInstance.PrintLine([new TextPacket($"[{keybindDisplay}] "), .. text], false, 0);
                     Console.ResetColor();
+
+                    position++;
                 }
 
                 var keyInfo = Console.ReadKey(true);

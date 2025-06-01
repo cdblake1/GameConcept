@@ -1,0 +1,10 @@
+{
+  "id": "slash_apply_2x_stack_talent",
+  "actions": [
+    {
+      "type": "apply_effect",
+      "effect": "enrage_stack_effect",
+      "from_skill": "slash_skill"
+    }
+  ]
+}

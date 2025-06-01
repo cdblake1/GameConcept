@@ -1,0 +1,15 @@
+{
+  "id": "dot_increase_dmg_talent",
+  "actions": [
+    {
+      "from_skill": "global",
+      "type": "apply_effect",
+      "effect": "bleed_dmg_increase_stat"
+    },
+    {
+      "from_skill": "global",
+      "type": "apply_effect",
+      "effect": "hit_dmg_decrease_stat"
+    }
+  ]
+}

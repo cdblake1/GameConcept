@@ -1,0 +1,21 @@
+{
+  "id": "enrage_increase_stacks_talent",
+  "applies_to": [
+    {
+      "type": "skill",
+      "id": "enrage"
+    }
+  ],
+  "actions": [
+    {
+      "type": "modify_effect",
+      "id": "enrage_stack_effect",
+      "stacking": {
+        "max_stacks": {
+          "operation": "add",
+          "value": 2
+        }
+      }
+    }
+  ]
+}

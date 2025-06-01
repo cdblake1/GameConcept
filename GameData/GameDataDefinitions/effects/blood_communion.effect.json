@@ -1,0 +1,10 @@
+{
+  "category": "buff",
+  "duration": 3,
+  "id": "blood_communion_effect",
+  "tags": [{ "tag": "physical" }],
+  "leech": {
+    "pct": 50
+  },
+  "damage_types": ["bleed"]
+}

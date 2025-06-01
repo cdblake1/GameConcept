@@ -1,0 +1,20 @@
+{
+  "category": "debuff",
+  "damage_types": ["physical"],
+  "duration": 3,
+  "id": "pierce_effect",
+  "modifiers": [
+    {
+      "type": "stat",
+      "stat": ["defense"],
+      "modifier": {
+        "operation": "mult",
+        "value": -5
+      }
+    }
+  ],
+  "stacking": {
+    "max_stacks": 3,
+    "refresh_mode": "reset_time"
+  }
+}

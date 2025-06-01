@@ -5,7 +5,7 @@ using GameData.Save;
 
 public class LoadGameScene
 {
-    public static void Show()
+    public static bool Show()
     {
         var saveManager = new SaveManager();
         var textPrinter = new GameTextPrinter();
@@ -14,9 +14,8 @@ public class LoadGameScene
 
         if (saveStates.Count == 0)
         {
-            textPrinter.Print("No saves found.");
-            textPrinter.WaitForInput();
-            return;
+            DialogueQueue.AddDialogue(["No saves found."]);
+            return false;
         }
         var saveStateList = new List<MenuOption>();
         foreach (var saveState in saveStates)
@@ -31,7 +30,7 @@ public class LoadGameScene
 
             if (selectedOption == -1)
             {
-                return;
+                return false;
             }
 
             if (selectedOption >= 0 && selectedOption < saveStates.Count)
@@ -40,11 +39,11 @@ public class LoadGameScene
                 GlobalGameState.Instance.Player = Player.Restore(selectedSave.Player);
                 textPrinter.Print($"Loaded game: {selectedSave.GameName}");
                 textPrinter.WaitForInput();
-                break;
+                return true;
             }
             else
             {
-                break;
+                return false;
             }
         }
     }

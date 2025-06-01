@@ -1,0 +1,16 @@
+{
+  "id": "deep_gash_reduced_duration_talent",
+  "actions": [
+    {
+      "type": "modify_damage",
+      "skill": "deep_gash_skill",
+      "delivery": "dot",
+      "dot_props": {
+        "duration": {
+          "operation": "mult",
+          "value": -50
+        }
+      }
+    }
+  ]
+}

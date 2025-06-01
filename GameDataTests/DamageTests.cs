@@ -10,9 +10,9 @@ namespace GameDataTests
         public void DamageIsAppliedToTarget()
         {
 
-            var one = MobFactory.Instance.Create(typeof(FrogActor));
+            var one = TestMob.Create();
 
-            var two = MobFactory.Instance.Create(typeof(FrogActor));
+            var two = TestMob.Create();
 
             var effect = one.AttackSkill[0].Apply(new()
             {
@@ -29,7 +29,7 @@ namespace GameDataTests
         public void DamageIsReducedByDefense()
         {
             var one = new Player("One");
-            var two = MobFactory.Instance.Create(typeof(FrogActor));
+            var two = TestMob.Create();
 
             var effect = two.AttackSkill[0].Apply(new()
             {

@@ -15,10 +15,6 @@ class InventoryScene
             throw new InvalidOperationException("Player is not initialized.");
         }
 
-        Console.Clear();
-        GameTextPrinter.DefaultInstance.Print("Welcome to the inventory scene!");
-        GameTextPrinter.DefaultInstance.WaitForInput();
-
         var menu = new TabMenuNavigator("Inventory", [
             ("Equipment", GetEquipment(player), ShowEquipmentMenu(player)),
             ("Crafting", GetCraftingMaterials(player), ShowCraftingMaterialsMenu(player)),
@@ -41,16 +37,15 @@ class InventoryScene
 
     TabbedMenu GetCraftingMaterials(Player player)
     {
-        return new TabbedMenu("Crafting Materials", player.Inventory.CraftingMaterials
-            .Select(material => new MenuOption($"{material.Name}: {material.Amount}")).ToList());
+        return new TabbedMenu("Crafting Materials", [..player.Inventory.CraftingMaterials
+            .Select(material => new MenuOption([GameTextPrinter.GetItemText(material)]))]);
     }
 
     Action<int> ShowCraftingMaterialsMenu(Player player) => (int selectedIndex) =>
     {
         var selectedItem = player.Inventory.CraftingMaterials[selectedIndex];
 
-        GameTextPrinter.DefaultInstance.Print(GameTextPrinter.GetItemText(selectedItem));
-        GameTextPrinter.DefaultInstance.Print($"Amount: {selectedItem.Amount}");
+        GameTextPrinter.DefaultInstance.PrintLine([GameTextPrinter.GetItemText(selectedItem)], false, 0);
 
         var seeRecipes = "See Recipes";
         var menu = new Menu(null, [
@@ -67,12 +62,17 @@ class InventoryScene
                 GameTextPrinter.DefaultInstance.NotImplementedText(seeRecipes);
                 break;
             case 1:
-                GameTextPrinter.DefaultInstance.Print(GameTextPrinter.GetItemText(selectedItem));
-                GameTextPrinter.DefaultInstance.Print(selectedItem.Description.Split("\n"));
-                GameTextPrinter.DefaultInstance.Print($"Amount: {selectedItem.Amount}");
+                Console.Clear();
+                GameTextPrinter.DefaultInstance.PrintLine([GameTextPrinter.GetItemText(selectedItem)], true, 0);
+                GameTextPrinter.DefaultInstance.PrintLine([.. selectedItem.Description.Split("\n").Select(s => new TextPacket(s))], true, 0);
+                GameTextPrinter.DefaultInstance.PrintLine([new($"Amount: {selectedItem.Count}")], true, 0);
+                GameTextPrinter.DefaultInstance.PrintLine([new($"Value: {selectedItem.Amount}")], true, 0);
+                GameTextPrinter.DefaultInstance.WaitForInput();
+
                 break;
         }
     };
+
 
 
 }

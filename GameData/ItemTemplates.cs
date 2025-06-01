@@ -185,6 +185,11 @@ public class GoldCoin : IEquatable<GoldCoin>
     {
         return Amount.GetHashCode();
     }
+
+    public override string ToString()
+    {
+        return $"{Amount} Gold Coin{(Amount != 1 ? "s" : "")}";
+    }
 }
 
 public abstract class Consumable : IItem

@@ -1,0 +1,10 @@
+{
+  "id": "deep_gash_inc_bleed_dmg_talent",
+  "actions": [
+    {
+      "type": "apply_effect",
+      "effect": "deep_gash_inc_bleed_effect",
+      "from_skill": "deep_gash"
+    }
+  ]
+}

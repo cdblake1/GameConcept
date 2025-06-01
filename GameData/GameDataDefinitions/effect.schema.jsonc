@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "effect.schema.json",
+  "title": "Effect Definitions",
+  "type": "object",
+  "required": ["id", "category", "duration"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "category": { "enum": ["buff", "debuff", "persistent"] },
+    "tags": {
+      "type": "array",
+      "items": { "$ref": "common.schema.jsonc#/$defs/tag" },
+      "uniqueItems": true
+    },
+    "duration": { "$ref": "common.schema.jsonc#/$defs/duration" },
+    "stacking": { "$ref": "#/$defs/stacking" },
+    "modifiers": {
+      "type": "array",
+      "items": {
+        "anyOf": [{ "$ref": "common.schema.jsonc#/$defs/modifiers" }]
+      },
+      "uniqueItems": true
+    },
+
+    "leech": {
+      // generic mini-DSL
+      "type": "object",
+      "required": ["pct"],
+      "properties": {
+        "pct": { "type": "number", "minimum": 0, "maximum": 100 }
+      },
+      "additionalProperties": false
+    },
+    "damage_types": {
+      "type": "array",
+      "items": { "$ref": "common.schema.jsonc#/$defs/damage_type" }
+    },
+    "apply_status": {
+      "type": "array",
+      "items": {
+        "anyOf": [{ "$ref": "#/$defs/stun" }]
+      }
+    },
+    "stacks_from_effect": { "$ref": "common.schema.jsonc#/$defs/stacks_from_effect" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "effect_mod": {
+      "type": "object",
+      "required": ["target_id"],
+      "properties": {
+        "target_id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+
+        /* multiply numeric fields --------------*/
+        "tick_amount_pct": { "type": "number", "default": 1.0 },
+        "tick_interval_pct": { "type": "number", "default": 1.0 },
+        "max_stacks_delta": { "type": "integer", "default": 0 }
+
+        /* optional: change tags, refresh mode… */
+      },
+      "additionalProperties": false
+    },
+    "stun": {
+      "type": "object",
+      "required": ["id", "duration"],
+      "properties": {
+        "id": { "const": "stun" },
+        "duration": { "type": "integer", "exclusiveMinimum": 0 }
+      }
+    },
+    "stacking": {
+      "type": "object",
+      "properties": {
+        "stacks_per_application": { "type": "integer", "minimum": 1, "default": 1 },
+        "max_stacks": { "type": "integer", "minimum": 1, "default": 1 },
+        "refresh_mode": { "enum": ["add_time", "reset_time", "no_refresh"] }
+      },
+      "additionalProperties": false,
+      "default": { "max_stacks": 1, "refresh_mode": "reset_time" }
+    }
+  }
+}

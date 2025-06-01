@@ -135,11 +135,11 @@ public class ExperienceTable
 
     public int GetLevelByExperience(int experience)
     {
-        foreach (var entry in Table.OrderByDescending(e => e.Key))
+        for (int level = maxLevel; level >= minLevel; level--)
         {
-            if (experience >= entry.Value)
+            if (experience >= GetCumulativeExperienceForLevel(level))
             {
-                return entry.Key;
+                return level;
             }
         }
 

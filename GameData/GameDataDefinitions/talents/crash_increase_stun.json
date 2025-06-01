@@ -1,0 +1,18 @@
+{
+  "id": "crash_increase_stun_talent",
+  "actions": [
+    {
+      "type": "modify_effect",
+      "id": "crash_stun_effect",
+      "apply_status": {
+        "operation": "set",
+        "value": [
+          {
+            "id": "stun",
+            "duration": 2
+          }
+        ]
+      }
+    }
+  ]
+}

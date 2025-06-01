@@ -1,0 +1,11 @@
+{
+  "cooldown": 6,
+  "cost": 1,
+  "effects": [{ "type": "apply_effect", "effect": "blood_communion_effect" }],
+  "id": "blood_communion_skill",
+  "tags": [{ "tag": "spell" }],
+  "presentation": {
+    "description": "a buff that heals you for physical damage dealt",
+    "name": "Blood communion"
+  }
+}

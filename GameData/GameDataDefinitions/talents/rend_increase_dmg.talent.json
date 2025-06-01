@@ -1,0 +1,21 @@
+{
+  "id": "rend_increase_dmg_talent",
+  "applies_to": [
+    {
+      "type": "skill",
+      "id": "rend_skill"
+    }
+  ],
+  "actions": [
+    {
+      "type": "modify_damage",
+      "skill": "rend_skill",
+      "application": "add",
+      "delivery": "dot",
+      "base_damage": {
+        "operation": "mult",
+        "value": 20
+      }
+    }
+  ]
+}

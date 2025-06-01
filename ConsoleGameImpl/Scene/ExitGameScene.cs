@@ -15,6 +15,11 @@ public class ExitGameScene
         while (true)
         {
             var input = menu.ShowMenu();
+            if (input == -1)
+            {
+                return;
+            }
+
             switch (input)
             {
                 case 0:
@@ -31,6 +36,8 @@ public class ExitGameScene
                 case 2:
                     // Cancel exit
                     return;
+                default:
+                    throw new InvalidOperationException("Invalid menu selection");
             }
         }
     }

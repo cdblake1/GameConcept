@@ -1,6 +1,8 @@
 using GameData;
 using GameData.Mobs;
 
+namespace GameDataTests;
+
 public class EncounterSelectorTests
 {
     private readonly EncounterSelector _encounterSelector;
@@ -36,9 +38,9 @@ public class EncounterSelectorTests
         public override string Description => "Mock description";
 
         public override WeightedMobSelector MobSelector => new WeightedMobSelector(new List<MobSpawnConfig>()
-        {
-            new MobSpawnConfig(() => MobFactory.Instance.Create(typeof(GoblinGruntActor)), 1)
-        });
+    {
+        new MobSpawnConfig(() => MobFactory.Instance.Create(typeof(GoblinGruntActor)), 1)
+    });
 
         public override MobBase AdvanceEncounter()
         {

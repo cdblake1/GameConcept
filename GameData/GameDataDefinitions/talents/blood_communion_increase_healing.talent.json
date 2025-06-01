@@ -1,0 +1,27 @@
+{
+  "id": "blood_communion_increase_heal_talent",
+  "applies_to": [
+    {
+      "type": "skill",
+      "id": "blood_communion_skill"
+    }
+  ],
+  "actions": [
+    {
+      "type": "modify_effect",
+      "id": "blood_communion_effect",
+      "leech": {
+        "operation": "mult",
+        "value": 20
+      }
+    },
+    {
+      "type": "modify_skill",
+      "skill": "blood_communion_skill",
+      "cooldown": {
+        "operation": "add",
+        "value": -2
+      }
+    }
+  ]
+}

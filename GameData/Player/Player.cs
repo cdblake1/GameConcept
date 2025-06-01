@@ -79,30 +79,6 @@ public class Player : CharacterBase, IStateSerializable<PlayerDto, Player>
 
     public static Player Restore(PlayerDto dto)
     {
-        var player = new Player(dto);
-
-        var equipment = EquipmentManager.Restore(dto.Equipment);
-        foreach (var (kind, item) in equipment.GetAllEquipment())
-        {
-            if (item is null)
-            {
-                continue;
-            }
-
-            player.Equipment.Equip(item);
-        }
-
-        var inventory = InventoryManager.Restore(dto.Inventory);
-        foreach (var item in inventory.Equipment)
-        {
-            player.Inventory.AddItem(item);
-        }
-
-        foreach (var item in inventory.CraftingMaterials)
-        {
-            player.Inventory.AddItem(item);
-        }
-
-        return player;
+        return new Player(dto); ;
     }
 }

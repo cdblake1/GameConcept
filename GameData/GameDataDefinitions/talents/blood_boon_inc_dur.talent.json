@@ -1,0 +1,21 @@
+{
+  "id": "blood_boon_inc_dur_talent",
+  "actions": [
+    {
+      "type": "modify_skill",
+      "skill": "blood_boon_skill",
+      "cooldown": {
+        "operation": "mult",
+        "value": 50
+      }
+    },
+    {
+      "type": "modify_effect",
+      "id": "blood_boon_effect",
+      "duration": {
+        "operation": "mult",
+        "value": 100
+      }
+    }
+  ]
+}

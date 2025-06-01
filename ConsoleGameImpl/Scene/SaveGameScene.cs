@@ -44,6 +44,7 @@ public class SaveGameScene
             gameTextPrinter.Print($"Your progress has been successfully saved under the name '{saveName}'.");
 
             gameTextPrinter.WaitForInput();
+            return;
         }
     }
 

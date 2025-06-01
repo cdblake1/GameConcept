@@ -1,0 +1,16 @@
+{
+  "id": "pierce_stacks_permanent_talent",
+  "applies_to": [
+    {
+      "type": "skill",
+      "id": "pierce_skill"
+    }
+  ],
+  "actions": [
+    {
+      "type": "modify_effect",
+      "id": "pierce_effect",
+      "duration": "permanent"
+    }
+  ]
+}

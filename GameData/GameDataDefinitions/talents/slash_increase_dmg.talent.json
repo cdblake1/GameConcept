@@ -1,0 +1,14 @@
+{
+  "id": "slash_increase_dmg_talent",
+  "actions": [
+    {
+      "type": "modify_damage",
+      "skill": "slash_skill",
+      "delivery": "hit",
+      "base_damage": {
+        "operation": "mult",
+        "value": 20
+      }
+    }
+  ]
+}
