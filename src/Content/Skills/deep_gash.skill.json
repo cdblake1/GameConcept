@@ -1,0 +1,45 @@
+{
+  "id": "deep_gash_skill",
+  "cooldown": 3,
+  "cost": 1,
+  "tags": [{ "tag": "physical" }],
+  "effects": [
+    {
+      "type": "damage",
+      "attack_kind": "hit",
+      "base_damage": 5,
+      "crit": true,
+      "damage_types": ["physical"],
+      "scale_coef": {
+        "scalar_operation": {
+          "operation": "mult",
+          "value": 5
+        },
+        "stat": "melee_damage"
+      }
+    },
+    {
+      "type": "damage",
+      "attack_kind": "dot",
+      "base_damage": 10,
+      "crit": false,
+      "damage_types": ["bleed", "physical"],
+      "dot_props": {
+        "duration": 4,
+        "frequency": 1,
+        "timing": "start_turn"
+      },
+      "scale_coef": {
+        "scalar_operation": {
+          "operation": "mult",
+          "value": 5
+        },
+        "stat": "melee_damage"
+      }
+    }
+  ],
+  "presentation": {
+    "name": "Deep Gash",
+    "description": "wound the target applying a powerful bleed"
+  }
+}

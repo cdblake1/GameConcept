@@ -1,0 +1,20 @@
+{
+  "id": "class_test",
+  "presentation": {
+    "name": "class_test",
+    "description": "this is a class test"
+  },
+  "skills": [
+    {
+      "level": 1,
+      "skill": "hit_damage_test"
+    }
+  ],
+  "talents": [
+    {
+      "prerequisites": ["test_talent"],
+      "talent_tier": "tier_05",
+      "id": "test_talent"
+    }
+  ]
+}

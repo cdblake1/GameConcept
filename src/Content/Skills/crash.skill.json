@@ -1,0 +1,30 @@
+{
+  "cooldown": 4,
+  "cost": 1,
+  "effects": [
+    {
+      "type": "damage",
+      "attack_kind": "hit",
+      "base_damage": 20,
+      "crit": true,
+      "damage_types": ["physical"],
+      "scale_coef": {
+        "scalar_operation": {
+          "operation": "mult",
+          "value": 10
+        },
+        "stat": "melee_damage"
+      }
+    },
+    {
+      "type": "apply_effect",
+      "effect": "crash_stun_effect"
+    }
+  ],
+  "id": "crash_skill",
+  "tags": [{ "tag": "physical" }],
+  "presentation": {
+    "name": "Crash",
+    "description": "a hard hitting attack that stuns the target"
+  }
+}

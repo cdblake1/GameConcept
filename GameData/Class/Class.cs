@@ -86,7 +86,7 @@ public abstract class Effect
     public abstract string Description { get; }
 }
 
-public abstract class SkillModifier : Effect
+public abstract class SkillModifierOld : Effect
 {
     public override string Name { get; } = "Skill Modifier";
     public override string Description { get; } = "Modifies the skill's base damage.";
@@ -189,7 +189,7 @@ public class Rend : Skill
 
         foreach (var effect in Effects)
         {
-            if (effect is SkillModifier modifier)
+            if (effect is SkillModifierOld modifier)
             {
                 snapshot += modifier.Apply();
             }
@@ -285,7 +285,7 @@ public class Slash : Skill
 
         foreach (var effect in Effects)
         {
-            if (effect is SkillModifier modifier)
+            if (effect is SkillModifierOld modifier)
             {
                 snapshot += modifier.Apply();
             }
@@ -375,7 +375,7 @@ public class SlashTalentOne : Talent
     {
     }
 
-    public class SlashOneMultiplierEffect : SkillModifier
+    public class SlashOneMultiplierEffect : SkillModifierOld
     {
         public override string Name { get; } = "Slash One Multiplier Effect";
         public override string Description { get; } = "Increases the damage of the Slash skill by 10%.";
@@ -422,7 +422,7 @@ public class SlashTalentTwo : Talent
     {
     }
 
-    public class SlashBaseDamageEffect : SkillModifier
+    public class SlashBaseDamageEffect : SkillModifierOld
     {
         public override SkillPropertySnapshot Apply()
         {

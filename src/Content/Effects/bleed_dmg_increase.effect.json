@@ -1,0 +1,18 @@
+{
+  "id": "bleed_dmg_increase_effect",
+  "damage_types": ["bleed"],
+  "modifiers": [
+    {
+      "type": "damage",
+      "damage_type": "bleed",
+      "scalar_operation": { "operation": "mult", "value": 50 }
+    },
+    {
+      "type": "attack_kind",
+      "attack_kind": "hit",
+      "scalar_operation": { "operation": "mult", "value": -40 }
+    }
+  ],
+  "duration": "permanent",
+  "category": "buff"
+}

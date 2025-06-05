@@ -1,0 +1,60 @@
+{
+  "id": "hit_damage_test",
+  "cooldown": 0,
+  "cost": 1,
+  "effects": [
+    {
+      "attack_kind": "hit",
+      "base_damage": 1,
+      "crit": true,
+      "damage_types": ["physical"],
+      "scale_coef": {
+        "scalar_operation": { "operation": "mult", "value": 1 },
+        "stat": "melee_damage"
+      },
+      "type": "damage"
+    },
+    {
+      "type": "damage",
+      "attack_kind": "dot",
+      "base_damage": 10,
+      "crit": false,
+      "damage_types": ["bleed"],
+      "dot_props": {
+        "duration": {
+          "expires_with": "test_effect",
+          "source": "effect"
+        },
+        "frequency": 1,
+        "stacking": {
+          "type": "stack_from_effect",
+          "consume_stacks": true,
+          "from": "test_effect"
+        },
+        "timing": "end_turn"
+      },
+      "scale_coef": {
+        "scalar_operation": {
+          "operation": "set",
+          "value": 10
+        },
+        "stat": "spell_damage"
+      }
+    },
+    {
+      "type": "apply_effect",
+      "effect": "to_effect"
+    }
+  ],
+  "presentation": {
+    "name": "Hit Damage Test",
+    "icon": "./hit_damage_test.ico",
+    "description": "hit damage test descripton"
+  },
+  "activation_req": {
+    "count": 1,
+    "id": "test_effect",
+    "scope": "target",
+    "type": "effect_present"
+  }
+}

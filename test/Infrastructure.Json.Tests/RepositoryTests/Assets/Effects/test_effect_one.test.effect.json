@@ -1,0 +1,23 @@
+{
+  "id": "test_effect_one",
+  "apply_status": [
+    {
+      "duration": 1,
+      "id": "stun"
+    }
+  ],
+  "category": "buff",
+  "damage_types": ["bleed"],
+  "duration": 1,
+  "modifiers": [
+    {
+      "type": "damage",
+      "damage_type": ["physical"],
+      "scalar_operation": {
+        "operation": "add",
+        "value": 1
+      }
+    }
+  ],
+  "leech": 1
+}

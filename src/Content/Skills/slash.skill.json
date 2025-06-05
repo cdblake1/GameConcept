@@ -1,0 +1,20 @@
+{
+  "id": "slash_skill",
+  "cost": 1,
+  "tags": [{ "tag": "physical" }],
+  "cooldown": 0,
+  "effects": [
+    {
+      "type": "damage",
+      "attack_kind": "hit",
+      "base_damage": 10,
+      "crit": true,
+      "damage_types": ["physical"],
+      "scale_coef": { "scalar_operation": { "operation": "mult", "value": 5 }, "stat": "melee_damage" }
+    }
+  ],
+  "presentation": {
+    "name": "Slash",
+    "description": "slash the target applying physical damage"
+  }
+}

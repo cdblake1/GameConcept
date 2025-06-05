@@ -1,0 +1,37 @@
+{
+  "apply_status": [
+    {
+      "duration": 1,
+      "id": "stun"
+    }
+  ],
+  "category": "buff",
+  "damage_types": ["physical"],
+  "duration": 1,
+  "id": "test_effect",
+  "leech": 1,
+  "modifiers": [
+    {
+      "type": "damage",
+      "scalar_operation": {
+        "operation": "mult",
+        "value": 1
+      },
+      "damage_type": ["physical"]
+    },
+    {
+      "type": "attack_kind",
+      "attack_kind": ["hit"],
+      "scalar_operation": {
+        "operation": "mult",
+        "value": 1
+      }
+    }
+  ],
+  "stacking": {
+    "type": "stack_default",
+    "stacks_per_application": 1,
+    "max_stacks": 1,
+    "refresh_mode": "reset_time"
+  }
+}

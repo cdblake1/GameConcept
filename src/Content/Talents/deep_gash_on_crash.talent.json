@@ -1,0 +1,47 @@
+{
+  "id": "deep_gash_on_crash_talent",
+  "actions": [
+    {
+      "type": "modify_damage",
+      "attack_kind": "dot",
+      "base_damage": {
+        "operation": "set",
+        "value": 0
+      },
+      "dot_props": {
+        "duration": {
+          "operation": "set",
+          "value": 0
+        }
+      },
+      "skill": "deep_gash"
+    },
+    {
+      "type": "apply_effect",
+      "effect": "deep_gash_on_crash_effect",
+      "from_skill": "deep_gash"
+    },
+    {
+      "type": "damage",
+      "skill": "crash",
+      "damage": {
+        "base_damage": 20,
+        "stack_from_effect": {
+          "consume_stacks": true,
+          "from": "deep_gash_on_crash_effect"
+        },
+        "crit": false,
+        "damage_types": ["physical"],
+        "attack_kind": "hit",
+        "scale_coef": {
+          "scalar_operation": {
+            "operation": "mult",
+            "value": 5
+          },
+          "stat": "melee_damage"
+        },
+        "type": "damage"
+      }
+    }
+  ]
+}

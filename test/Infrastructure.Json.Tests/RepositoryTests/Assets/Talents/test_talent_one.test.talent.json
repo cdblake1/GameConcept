@@ -1,0 +1,84 @@
+{
+  "id": "test_talent_one",
+  "actions": [
+    {
+      "type": "modify_damage",
+      "attack_kind": "dot",
+      "base_damage": {
+        "operation": "add",
+        "value": 1
+      },
+      "crit": true,
+      "damage_types": {
+        "items": ["burn"],
+        "operation": "add",
+        "type": "damage_type"
+      },
+      "dot_props": {
+        "duration": {
+          "turns": {
+            "operation": "add",
+            "value": 1
+          },
+          "type": "turn"
+        },
+        "frequency": {
+          "operation": "add",
+          "value": 1
+        },
+        "stacking": {
+          "consume_stacks": false,
+          "from": "test_effect",
+          "type": "stack_from_effect"
+        },
+        "timing": "start_turn"
+      },
+      "skill": "test_skill"
+    },
+    {
+      "type": "modify_effect",
+      "stacking": {
+        "type": "stack_default",
+        "max_stacks": 1,
+        "stacks_per_application": 1,
+        "refresh_mode": "add_time"
+      },
+      "leech": {
+        "operation": "add",
+        "value": 1
+      },
+      "duration": {
+        "type": "turn",
+        "turns": {
+          "operation": "add",
+          "value": 1
+        }
+      },
+      "id": "test_effect",
+      "modifiers": {
+        "type": "modifier",
+        "items": [
+          {
+            "type": "attack_kind",
+            "attack_kind": ["dot"],
+            "scalar_operation": {
+              "operation": "add",
+              "value": 1
+            }
+          }
+        ],
+        "operation": "add"
+      },
+      "damage_types": {
+        "items": ["bleed"],
+        "operation": "add",
+        "type": "damage_type"
+      }
+    }
+  ],
+  "presentation": {
+    "description": "test_description",
+    "icon": "./test_talent.ico",
+    "name": "Test Talent"
+  }
+}

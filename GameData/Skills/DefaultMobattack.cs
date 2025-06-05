@@ -13,7 +13,7 @@ public class DefaultMobAttack : Skill
 
         foreach (var effect in this.Effects)
         {
-            if (effect is SkillModifier effectModifier)
+            if (effect is SkillModifierOld effectModifier)
             {
                 snapshot += effectModifier.Apply();
             }

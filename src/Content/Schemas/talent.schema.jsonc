@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "talents.schema.json",
+  "title": "Talent Definitions",
+  "type": "object",
+  "required": ["id", "actions", "presentation"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[0-9a-z_]+$" },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "anyOf": [
+          { "$ref": "#/$defs/modify_damage" },
+          {
+            "type": "object",
+            "required": ["type", "effect", "from_skill"],
+            "properties": {
+              "type": { "const": "apply_effect" },
+              "effect": { "type": "string", "pattern": "^[0-9a-z_]+$" },
+              "from_skill": { "type": "string", "pattern": "^[0-9a-z_]+$" }
+            }
+          },
+          { "$ref": "#/$defs/modify_effect" },
+          { "$ref": "#/$defs/modify_skill" },
+          {
+            "type": "object",
+            "required": ["type", "skill", "damage"],
+            "properties": {
+              "type": { "const": "damage" },
+              "skill": { "type": "string", "pattern": "^[0-9a-z_]+$" },
+              "damage": { "$ref": "skill.schema.jsonc#/$defs/damage" }
+            }
+          }
+        ]
+      }
+    },
+    "presentation": { "$ref": "common.schema.jsonc#/$defs/presentation" },
+    "additionalProperties": false
+  },
+  "$defs": {
+    "modify_damage": {
+      "type": "object",
+      "allOf": [
+        {
+          "required": ["attack_kind", "type", "skill"],
+          "properties": {
+            "skill": { "type": "string", "pattern": "^[0-9a-z_]+$" },
+            "type": { "const": "modify_damage" },
+            "attack_kind": { "$ref": "common.schema.jsonc#/$defs/attack_kind" },
+            "crit": { "type": "boolean", "default": false },
+            "damage_types": { "$ref": "common.schema.jsonc#/$defs/damage_type_collection_operation" },
+            "base_damage": { "$ref": "common.schema.jsonc#/$defs/scalar_operation" }
+          }
+        },
+        {
+          "oneOf": [
+            {
+              "required": ["attack_kind"],
+              "properties": {
+                "attack_kind": { "const": "hit" },
+                "dot_props": false
+              }
+            },
+            {
+              "required": ["attack_kind"],
+              "properties": {
+                "attack_kind": { "const": "dot" },
+                "dot_props": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "properties": {
+                        "timing": { "enum": ["start_turn", "end_turn"], "default": "start_turn" },
+                        "duration": { "$ref": "common.schema.jsonc#/$defs/duration_operation" },
+                        "frequency": { "$ref": "common.schema.jsonc#/$defs/scalar_operation" },
+                        "stacking": { "$ref": "common.schema.jsonc#/$defs/stacking" }
+                      }
+                    },
+                    {
+                      "anyOf": [
+                        { "required": ["timing"] },
+                        { "required": ["duration"] },
+                        { "required": ["frequency"] },
+                        { "required": ["stacking"] }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "modify_effect": {
+      "type": "object",
+      "required": ["id", "type"],
+      "properties": {
+        "type": { "const": "modify_effect" },
+        "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "duration": { "$ref": "common.schema.jsonc#/$defs/duration_operation" },
+        "stacking": { "$ref": "common.schema.jsonc#/$defs/stacking" },
+        "modifiers": { "$ref": "common.schema.jsonc#/$defs/modifier_collection_operation" },
+        "leech": { "$ref": "common.schema.jsonc#/$defs/scalar_operation" },
+        "damage_types": { "$ref": "common.schema.jsonc#/$defs/damage_type_collection_operation" },
+        "apply_status": { "$ref": "common.schema.jsonc#/$defs/apply_status_collection_operation" }
+      }
+    },
+    "modify_skill": {
+      "type": "object",
+      "required": ["type", "skill"],
+      "properties": {
+        "skill": { "type": "string", "pattern": "^[0-9a-z_]+$" },
+        "type": { "const": "modify_skill" },
+        "cost": { "$ref": "common.schema.jsonc#/$defs/scalar_operation" },
+        "cooldown": { "$ref": "common.schema.jsonc#/$defs/scalar_operation" },
+        "activation_req": { "$ref": "skill.schema.jsonc#/$defs/activation_req" }
+      }
+    }
+  }
+}

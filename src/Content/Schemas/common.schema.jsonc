@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "common.schema.json",
+  "title": "Common Definitions",
+  "$defs": {
+    "tag": {
+      "type": "object",
+      "properties": {
+        "tag": { "enum": ["physical", "spell", "elemental", "true", "melee", "ranged"] }
+      }
+    },
+    "modifiers": {
+      "type": "object",
+      "allOf": [
+        {
+          "required": ["type", "scalar_operation"],
+          "properties": {
+            "type": { "enum": ["stat", "damage", "skill", "attack_kind"] },
+            "scalar_operation": { "$ref": "#/$defs/scalar_operation" }
+          }
+        },
+        {
+          "oneOf": [
+            {
+              "required": ["stat"],
+              "properties": {
+                "type": { "$const": "stat" },
+                "stat": {
+                  "type": "array",
+                  "items": { "$ref": "#/$defs/stat/properties/id" }
+                }
+              }
+            },
+            {
+              "required": ["damage_type"],
+              "properties": {
+                "type": { "$const": "damage_type" },
+                "damage_type": {
+                  "type": "array",
+                  "items": { "$ref": "#/$defs/damage_type" }
+                }
+              }
+            },
+            {
+              "required": ["skill"],
+              "properties": {
+                "type": { "$const": "skill" },
+                "skill": {
+                  "type": "array",
+                  "items": { "type": "string", "pattern": ["^[a-z0-9_]+$"] }
+                }
+              }
+            },
+            {
+              "required": ["attack_kind"],
+              "properties": {
+                "type": { "$const": "attack_kind" },
+                "attack_kind": {
+                  "type": "array",
+                  "items": { "$ref": "#/$defs/attack_kind" }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "scale_coef": {
+      "type": "object",
+      "required": ["stat", "scalar_operation"],
+      "properties": {
+        "stat": { "$ref": "#/$defs/stat/properties/id" },
+        "scalar_operation": { "$ref": "#/$defs/scalar_operation" }
+      }
+    },
+    "stat": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "enum": ["melee_damage", "spell_damage", "physical_damage", "elemental_damage", "defense", "avoidance", "speed", "ward", "health"]
+        },
+        "amount": "int"
+      }
+    },
+    "damage_type": { "enum": ["melee", "spell", "physical", "elemental", "nature", "bleed", "poison", "burn", "true_damage"] },
+    "scalar_operation": {
+      "type": "object",
+      "required": ["operation", "value"],
+      "properties": {
+        "operation": { "enum": ["add", "mult", "set"] },
+        "value": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "modifier_collection_operation": {
+      "required": ["type", "items", "operation"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "$const": "modifier" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/modifiers" }
+        },
+        "operation": { "enum": ["add", "remove", "set", "clear"] }
+      }
+    },
+    "stat_collection_operation": {
+      "required": ["type", "items", "operation"],
+      "properties": {
+        "type": { "$const": "stat" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "common.schema.jsonc#/$defs/stat" }
+        },
+        "operation": { "enum": ["add", "remove", "set", "clear"] }
+      },
+      "additionalProperties": false
+    },
+    "damage_type_collection_operation": {
+      "required": ["type", "items", "operation"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "$const": "damage_type" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "common.schema.jsonc#/$defs/damage_type" }
+        },
+        "operation": { "enum": ["add", "remove", "set", "clear"] }
+      }
+    },
+    "attack_kind_collection_operation": {
+      "properties": {
+        "type": { "$const": "attack_kind" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "common.schema.jsonc#/$defs/attack_kind" }
+        },
+        "operation": { "enum": ["add", "remove", "set", "clear"] }
+      },
+      "required": ["items", "operation", "type"],
+      "additionalProperties": false
+    },
+    "apply_status_collection_operation": {
+      "required": ["type", "items", "operation"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "$const": "apply_status" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "effect.schema.jsonc#/$defs/apply_status" }
+        },
+        "operation": { "enum": ["add", "remove", "set", "clear"] }
+      }
+    },
+    "attack_kind": { "enum": ["dot", "hit"] },
+    "presentation": {
+      "type": "object",
+      "required": ["name", "description"],
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" }
+      }
+    },
+    "id": { "type": "string", "pattern": "^[0-9a-z_]+$" },
+    "duration": {
+      "oneOf": [{ "type": "integer", "minimum": 1 }, { "const": "permanent" }, { "$ref": "#/$defs/expires_with" }]
+    },
+    "expires_with": {
+      "type": "object",
+      "required": ["source", "expires_with"],
+      "properties": {
+        "source": { "enum": ["skill", "effect"] },
+        "expires_with": { "type": "string", "pattern": "^[a-z0-9_]+$" }
+      },
+      "additionalProperties": false
+    },
+    "stack_from_effect": {
+      "type": "object",
+      "required": ["type", "from", "consume_stacks"],
+      "properties": {
+        "type": { "$const": "stack_from_effect" },
+        "from": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "consume_stacks": { "type": "boolean", "default": false }
+      },
+      "additionalProperties": false
+    },
+    "stack_default": {
+      "type": "object",
+      "required": ["type", "stacks_per_application", "max_stacks", "refresh_mode"],
+      "properties": {
+        "type": { "$const": "stack_default" },
+        "stacks_per_application": { "type": "integer", "minimum": 1, "default": 1 },
+        "max_stacks": { "type": "integer", "minimum": 1, "default": 1 },
+        "refresh_mode": { "enum": ["add_time", "reset_time", "no_refresh"] }
+      },
+      "additionalProperties": false,
+      "default": { "type": "stack_default", "max_stacks": 1, "refresh_mode": "reset_time", "stacks_per_application": 1 }
+    },
+    "stacking": {
+      "type": "object",
+      "required": ["type"],
+      "allOf": [
+        {
+          "required": ["type"],
+          "properties": {
+            "type": { "enum": ["stack_default", "stack_from_effect"] }
+          }
+        },
+        {
+          "oneOf": [{ "$ref": "#/$defs/stack_default" }, { "$ref": "#/$defs/stack_from_effect" }]
+        }
+      ]
+    },
+    "duration_operation": {
+      "type": "object",
+      "required": ["type"],
+      "allOf": [
+        {
+          "properties": {
+            "type": { "enum": ["turn", "permanent", "expires_with"] }
+          }
+        }
+      ],
+      "oneOf": [
+        {
+          "required": ["type", "turns"],
+          "properties": {
+            "type": { "$const": "turn" },
+            "turns": { "$ref": "#/$defs/scalar_operation" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": ["type", "permanent"],
+          "properties": {
+            "type": { "$const": "permanent" },
+            "permanent": { "$const": true }
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": ["type", "expires_with"],
+          "properties": {
+            "type": { "$const": "expires_with" },
+            "expires_with": { "$ref": "#/$defs/expires_with" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

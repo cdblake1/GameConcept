@@ -1,0 +1,30 @@
+{
+  "cooldown": 0,
+  "cost": 1,
+  "effects": [
+    {
+      "type": "damage",
+      "attack_kind": "hit",
+      "base_damage": 3,
+      "crit": true,
+      "damage_types": ["physical"],
+      "scale_coef": {
+        "stat": "melee_damage",
+        "scalar_operation": {
+          "operation": "mult",
+          "value": 1
+        }
+      }
+    },
+    {
+      "type": "apply_effect",
+      "effect": "pierce_effect"
+    }
+  ],
+  "id": "pierce_skill",
+  "tags": [{ "tag": "physical" }],
+  "presentation": {
+    "name": "Pierce",
+    "description": "reduces the targets defense"
+  }
+}

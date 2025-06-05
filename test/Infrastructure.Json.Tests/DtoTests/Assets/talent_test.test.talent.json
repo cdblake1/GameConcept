@@ -1,0 +1,120 @@
+{
+  "id": "test_talent",
+  "actions": [
+    {
+      "type": "modify_damage",
+      "skill": "hit_damage_test",
+      "attack_kind": "hit",
+      "base_damage": {
+        "operation": "add",
+        "value": 1
+      },
+      "crit": true,
+      "damage_types": {
+        "items": ["burn"],
+        "operation": "add",
+        "type": "damage_type"
+      }
+    },
+    {
+      "type": "modify_skill",
+      "cooldown": {
+        "operation": "add",
+        "value": 1
+      },
+      "activation_req": {
+        "count": 1,
+        "id": "status_effect",
+        "scope": "target",
+        "type": "effect_present"
+      },
+      "cost": {
+        "operation": "add",
+        "value": 1
+      },
+      "skill": "status_effect"
+    },
+    {
+      "type": "damage",
+      "damage": {
+        "attack_kind": "hit",
+        "base_damage": 1,
+        "crit": true,
+        "damage_types": ["burn", "elemental"],
+        "scale_coef": {
+          "scalar_operation": {
+            "operation": "add",
+            "value": 1
+          },
+          "stat": "physical_damage"
+        },
+        "stack_from_effect": {
+          "consume_stacks": false,
+          "from": "test_effect",
+          "type": "stack_from_effect"
+        },
+        "type": "damage"
+      },
+      "skill": "hit_damage_test"
+    },
+    {
+      "type": "modify_effect",
+      "apply_status": {
+        "type": "apply_status",
+        "items": [
+          {
+            "duration": "permanent",
+            "id": "stun"
+          }
+        ],
+        "operation": "add"
+      },
+      "damage_types": {
+        "type": "damage_type",
+        "items": ["true_damage"],
+        "operation": "add"
+      },
+      "duration": {
+        "type": "turn",
+        "turns": {
+          "operation": "add",
+          "value": 0
+        }
+      },
+      "id": "test_effect",
+      "leech": {
+        "operation": "mult",
+        "value": 1
+      },
+      "modifiers": {
+        "items": [
+          {
+            "type": "damage",
+            "damage_type": ["bleed"],
+            "scalar_operation": {
+              "operation": "add",
+              "value": 1
+            }
+          }
+        ],
+        "operation": "add",
+        "type": "modifier"
+      },
+      "stacking": {
+        "type": "stack_default",
+        "max_stacks": 1,
+        "stacks_per_application": 1,
+        "refresh_mode": "add_time"
+      }
+    },
+    {
+      "type": "apply_effect",
+      "effect": "test_effect",
+      "from_skill": "hit_damage_test"
+    }
+  ],
+  "presentation": {
+    "name": "test talent",
+    "description": "test talent description"
+  }
+}

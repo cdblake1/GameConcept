@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "class.schema.json",
+  "title": "Class Definitions",
+  "type": "object",
+  "required": ["id", "talents", "skills", "presentation"],
+  "properties": {
+    "id": { "$ref": "common.schema.jsonc#/$defs/id" },
+    "talents": { "$ref": "#/$defs/talent_tree" },
+    "skills": { "$ref": "#/$defs/skills" },
+    "presentation": { "$ref": "common.schema.jsonc#/$defs/presentation" }
+  },
+  "$defs": {
+    "talent_tree": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/talent" }
+    },
+    "talent": {
+      "type": "object",
+      "required": ["talent_tier", "id"],
+      "properties": {
+        "talent_tier": { "$ref": "#/$defs/talent_tier" },
+        "id": "common.schema.jsonc#/$defs/id",
+        "prerequisites": {
+          "type": "array",
+          "items": { "$ref": "common.schema.jsonc#/$defs/id" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "talent_tier": {
+      "enum": ["tier_05", "tier_10", "tier_15", "tier_20", "tier_25", "tier_30", "tier_35", "tier_40", "tier_45", "tier_50"]
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["level", "skill"],
+        "properties": {
+          "level": { "type": "integer", "minimum": 1 },
+          "skill": { "$ref": "common.schema.jsonc#/$defs/id" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

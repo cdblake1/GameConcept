@@ -1,0 +1,35 @@
+{
+  "id": "test_skill_one",
+  "cost": 1,
+  "cooldown": 1,
+  "effects": [
+    {
+      "type": "damage",
+      "crit": true,
+      "attack_kind": "hit",
+      "base_damage": 1,
+      "damage_types": ["nature"],
+      "scale_coef": {
+        "scalar_operation": {
+          "operation": "mult",
+          "value": 1
+        },
+        "stat": "elemental_damage"
+      },
+      "stack_from_effect": {
+        "type": "stack_from_effect",
+        "consume_stacks": false,
+        "from": "test_effect"
+      }
+    },
+    {
+      "type": "apply_effect",
+      "effect": "test_effect"
+    }
+  ],
+  "presentation": {
+    "description": "test skill one description",
+    "name": "test skill one",
+    "icon": "./test_skill_one.png"
+  }
+}

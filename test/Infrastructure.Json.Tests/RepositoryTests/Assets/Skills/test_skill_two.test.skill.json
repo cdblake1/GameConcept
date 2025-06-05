@@ -1,0 +1,43 @@
+{
+  "id": "test_skill_two",
+  "cooldown": 2,
+  "cost": 2,
+  "effects": [
+    {
+      "type": "damage",
+      "attack_kind": "dot",
+      "base_damage": 2,
+      "crit": false,
+      "damage_types": ["nature"],
+      "dot_props": {
+        "duration": "permanent",
+        "frequency": 1,
+        "stacking": {
+          "type": "stack_default",
+          "max_stacks": 1,
+          "stacks_per_application": 1,
+          "refresh_mode": "no_refresh"
+        },
+        "timing": "start_turn"
+      },
+      "scale_coef": {
+        "scalar_operation": {
+          "operation": "set",
+          "value": 2
+        },
+        "stat": "elemental_damage"
+      }
+    }
+  ],
+  "activation_req": {
+    "count": 1,
+    "id": "test_effect",
+    "scope": "target",
+    "type": "effect_present"
+  },
+  "presentation": {
+    "description": "test skill two description",
+    "icon": "./test_skill_two.png",
+    "name": "test skill two"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "effect.schema.json",
+  "title": "Effect Definitions",
+  "type": "object",
+  "required": ["id", "category", "duration"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "category": { "enum": ["buff", "debuff"] },
+    "tags": {
+      "type": "array",
+      "items": { "$ref": "common.schema.jsonc#/$defs/tag" },
+      "uniqueItems": true
+    },
+    "duration": { "$ref": "common.schema.jsonc#/$defs/duration" },
+    "stacking": { "$ref": "common.schema.jsonc#/$defs/stacking" },
+    "modifiers": {
+      "type": "array",
+      "items": {
+        "anyOf": [{ "$ref": "common.schema.jsonc#/$defs/modifiers" }]
+      },
+      "uniqueItems": true
+    },
+    "leech": { "type": "number", "minimum": 1 },
+    "damage_types": {
+      "type": "array",
+      "items": { "$ref": "common.schema.jsonc#/$defs/damage_type" }
+    },
+    "apply_status": { "$ref": "#/$defs/apply_status" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "stun": {
+      "type": "object",
+      "required": ["id", "duration"],
+      "properties": {
+        "id": { "const": "stun" },
+        "duration": { "$ref": "common.schema.jsonc#/$defs/duration" }
+      }
+    },
+    "apply_status": {
+      "anyOf": [{ "$ref": "#/$defs/stun" }]
+    }
+  }
+}

@@ -5,20 +5,20 @@
       "url": "https://json-schema.org/draft/2020-12/schema"
     },
     {
-      "fileMatch": ["/GameData/GameDataDefinitions/skills/*.json", "*/skills/*.json"],
-      "url": "./GameData/GameDataDefinitions/skill.schema.jsonc"
+      "fileMatch": ["/src/Content/Skills/*.json", "*/Skills/*.json", "**/*.skill.json"],
+      "url": "./src/Content/Schemas/skill.schema.jsonc"
     },
     {
-      "fileMatch": ["/GameData/GameDataDefinitions/effects/*.json", "*/effects/*.json"],
-      "url": "./GameData/GameDataDefinitions/effect.schema.jsonc"
+      "fileMatch": ["/src/Content/Effects/*.json", "*/Effects/*.json", "**/*.effect.json"],
+      "url": "./src/Content/Schemas/effect.schema.jsonc"
     },
     {
-      "fileMatch": ["/GameData/GameDataDefinitions/talents/*.json", "*/talents/*.json"],
-      "url": "./GameData/GameDataDefinitions/talent.schema.jsonc"
+      "fileMatch": ["/src/Content/Talents/*.json", "*/Talents/*.json", "**/*.talent.json"],
+      "url": "./src/Content/Schemas/talent.schema.jsonc"
     },
     {
-      "fileMatch": ["/GameData/GameDataDefinitions/classes/*.json", "*/classes/*.json"],
-      "url": "./GameData/GameDataDefinitions/class.schema.jsonc"
+      "fileMatch": ["/src/Content/Classes/*.json", "*/Classes/*.json", "**/*.class.json"],
+      "url": "./src/Content/Schemas/class.schema.jsonc"
     }
   ]
 }
