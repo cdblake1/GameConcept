@@ -27,7 +27,7 @@ public class SaveManager
         }
     }
 
-    public string SaveGame(string name, Player player)
+    public string SaveGame(string name, PlayerOld player)
     {
         // Create a subdirectory for your application
         var saveState = new SaveState

@@ -2,6 +2,7 @@
 
 using GameData;
 using GameData.Save;
+using GameData.src.Player;
 
 public class LoadGameScene
 {

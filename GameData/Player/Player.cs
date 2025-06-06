@@ -3,12 +3,12 @@
 using GameData.Inventory;
 using static GameData.Inventory.EquipmentManager;
 using static GameData.LevelManager;
-using static GameData.Player;
+using static GameData.PlayerOld;
 using static InventoryManager;
 
 namespace GameData;
 
-public class Player : CharacterBase, IStateSerializable<PlayerDto, Player>
+public class PlayerOld : CharacterBase, IStateSerializable<PlayerDto, PlayerOld>
 {
     private static string actorId => "Player";
     public Guid Id { get; private set; }
@@ -29,7 +29,7 @@ public class Player : CharacterBase, IStateSerializable<PlayerDto, Player>
     public override int CurrentHealth { get; set; }
 
     // Constructor for creating a new Player
-    public Player(string name) : base(name, actorId, stats, levelManager)
+    public PlayerOld(string name) : base(name, actorId, stats, levelManager)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -41,7 +41,7 @@ public class Player : CharacterBase, IStateSerializable<PlayerDto, Player>
         CurrentHealth = MaxHealth;
     }
 
-    private Player(PlayerDto dto) : base(dto.Name, dto.ActorId, stats, levelManager)
+    private PlayerOld(PlayerDto dto) : base(dto.Name, dto.ActorId, stats, levelManager)
     {
         Id = Guid.NewGuid();
         Class = dto.Class != null ? Class.Restore(dto.Class.Value) : null;
@@ -77,8 +77,8 @@ public class Player : CharacterBase, IStateSerializable<PlayerDto, Player>
         };
     }
 
-    public static Player Restore(PlayerDto dto)
+    public static PlayerOld Restore(PlayerDto dto)
     {
-        return new Player(dto); ;
+        return new PlayerOld(dto); ;
     }
 }

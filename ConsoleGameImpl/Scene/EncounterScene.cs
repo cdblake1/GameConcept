@@ -1,5 +1,6 @@
 
 using GameData;
+using GameData.src.Player;
 
 namespace ConsoleGameImpl;
 

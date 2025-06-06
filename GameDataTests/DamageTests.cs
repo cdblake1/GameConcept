@@ -28,7 +28,7 @@ namespace GameDataTests
         [Fact]
         public void DamageIsReducedByDefense()
         {
-            var one = new Player("One");
+            var one = new PlayerOld("One");
             var two = TestMob.Create();
 
             var effect = two.AttackSkill[0].Apply(new()

@@ -1,4 +1,5 @@
 #nullable enable
+using GameData.src.StatTemplate;
 using static GameData.Inventory.EquipmentManager;
 
 namespace GameData.Inventory;

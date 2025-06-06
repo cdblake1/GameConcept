@@ -38,6 +38,11 @@
       Link="Assets/Talents/%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="**/Assets/Classes/*.*"
+      CopyToOutputDirectory="PreserveNewest"
+      Link="Assets/Classes/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure.Json\Infrastructure.Json.csproj" />
   </ItemGroup>
 </Project>

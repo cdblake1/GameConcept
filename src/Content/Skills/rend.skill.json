@@ -33,7 +33,10 @@
         "duration": 3,
         "frequency": 1,
         "stacking": {
-          "max_stacks": 1
+          "max_stacks": 1,
+          "refresh_mode": "reset_time",
+          "stacks_per_application": 1,
+          "type": "stack_default"
         },
         "timing": "start_turn"
       }

@@ -1,4 +1,5 @@
 using GameData;
+using GameData.src.Player;
 
 public class StatsScene
 {

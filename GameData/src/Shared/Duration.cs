@@ -1,3 +1,5 @@
+using GameData.src.Shared.Modifiers.Operations;
+
 namespace GameData.src.Shared
 {
     public readonly record struct Duration

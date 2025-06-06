@@ -1,5 +1,6 @@
 using GameData;
 using GameData.Mobs;
+using GameData.src.Player;
 using static CraftingMaterialTemplates;
 
 namespace GameDataTests

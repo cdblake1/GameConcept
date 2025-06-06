@@ -1,4 +1,3 @@
-
 namespace GameData;
 
 public class LevelManager : IStateSerializable<LevelManager.LevelManagerDto, LevelManager>

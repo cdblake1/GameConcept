@@ -1,4 +1,5 @@
 using GameData;
+using GameData.src.Player;
 using static CraftingMaterialTemplates;
 
 namespace GameDataTests

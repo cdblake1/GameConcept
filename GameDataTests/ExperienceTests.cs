@@ -8,7 +8,7 @@ namespace GameDataTests
         public void ExperienceGainsCorrectly()
         {
             // Arrange
-            var character = new Player("TestCharacter");
+            var character = new PlayerOld("TestCharacter");
 
             var initialExperience = character.LevelManager.CurrentExperience;
 
@@ -27,7 +27,7 @@ namespace GameDataTests
         public void ExperienceGainsLevelUp()
         {
             // Arrange
-            var character = new Player("TestCharacter");
+            var character = new PlayerOld("TestCharacter");
 
             var initialExperience = character.LevelManager.CurrentExperience;
 
@@ -53,7 +53,7 @@ namespace GameDataTests
         public void ExperienceStopsAtMaxLevel()
         {
             // Arrange
-            var character = new Player("TestCharacter");
+            var character = new PlayerOld("TestCharacter");
 
             var initialExperience = character.LevelManager.CurrentExperience;
 
@@ -72,7 +72,7 @@ namespace GameDataTests
         public void ExperienceCannotGoBelowMinLevelOrNegative()
         {
             // Arrange
-            var character = new Player("TestCharacter");
+            var character = new PlayerOld("TestCharacter");
 
             var initialExperience = character.LevelManager.CurrentExperience;
 
@@ -93,7 +93,7 @@ namespace GameDataTests
         public void TotalExperienceToNextLevelWorks()
         {
             // Arrange
-            var character = new Player("TestCharacter");
+            var character = new PlayerOld("TestCharacter");
 
             var initialExperience = character.LevelManager.CurrentExperience;
 

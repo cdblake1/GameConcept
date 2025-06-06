@@ -1,4 +1,3 @@
-
 namespace GameData.Mobs;
 
 public class GoblinGruntActor : MobBase

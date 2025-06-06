@@ -2,6 +2,7 @@
 
 using ConsoleGameImpl;
 using GameData;
+using GameData.src.Player;
 
 public class MainGameScene
 {
