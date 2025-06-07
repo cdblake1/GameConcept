@@ -1,12 +1,12 @@
 public class MobDto : IActor
 {
     private readonly string _name;
-    private readonly StatTemplate _baseStats;
+    private readonly StatTemplateOld _baseStats;
 
     public string Name => _name;
-    public StatTemplate BaseStats => _baseStats;
+    public StatTemplateOld BaseStats => _baseStats;
 
-    public MobDto(string name, StatTemplate baseStats)
+    public MobDto(string name, StatTemplateOld baseStats)
     {
         _name = name;
         _baseStats = baseStats;

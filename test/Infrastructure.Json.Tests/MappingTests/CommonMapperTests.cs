@@ -77,10 +77,10 @@ namespace Infrastructure.Json.Tests.MappingTests
         [Fact]
         public void CanMapModiferDto()
         {
-            var statModDto = new ModifierDto(ModifierDto.Kind.stat, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
-            var damageModDto = new ModifierDto(ModifierDto.Kind.damage, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
-            var attackModDto = new ModifierDto(ModifierDto.Kind.attack_kind, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
-            var skillDto = new ModifierDto(ModifierDto.Kind.skill, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
+            var statModDto = new ModifierDto(ModifierDto.ModifierKindDto.stat, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
+            var damageModDto = new ModifierDto(ModifierDto.ModifierKindDto.damage, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
+            var attackModDto = new ModifierDto(ModifierDto.ModifierKindDto.attack_type, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
+            var skillDto = new ModifierDto(ModifierDto.ModifierKindDto.skill, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
 
             var statMod = statModDto.ToDomain();
             var damageMod = damageModDto.ToDomain();
@@ -136,7 +136,7 @@ namespace Infrastructure.Json.Tests.MappingTests
         [Fact]
         public void CanMapModifierCollectionOperationDto()
         {
-            var collOpDto = new ModifierCollectionOperationDto(CollectionOperationDto.add, [new ModifierDto(ModifierDto.Kind.stat, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1))]);
+            var collOpDto = new ModifierCollectionOperationDto(CollectionOperationDto.add, [new ModifierDto(ModifierDto.ModifierKindDto.stat, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1))]);
 
             var collModifierOp = collOpDto.ToDomain();
 

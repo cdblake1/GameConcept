@@ -12,7 +12,7 @@ namespace GameData.src.Shared.Modifier
 
         public int Value { get; }
 
-        public enum OperationKind { Add, Mult, Set }
+        public enum OperationKind { Add, Mult }
 
         public static ScalarOperation Create(OperationKind operation, int value)
         {

@@ -2,19 +2,20 @@
   "id": "deep_gash_on_crash_talent",
   "actions": [
     {
-      "type": "modify_damage",
-      "attack_kind": "dot",
-      "base_damage": {
-        "operation": "set",
-        "value": 0
+      "type": "modify_dot_damage",
+      "min_base_damage": {
+        "override": 0,
+        "scale_added": 0,
+        "scale_empowered": 0,
+        "scale_increased": 0
       },
-      "dot_props": {
-        "duration": {
-          "operation": "set",
-          "value": 0
-        }
+      "max_base_damage": {
+        "override": 0,
+        "scale_added": 0,
+        "scale_empowered": 0,
+        "scale_increased": 0
       },
-      "skill": "deep_gash"
+      "skill_id": "deep_gash_skill"
     },
     {
       "type": "apply_effect",
@@ -22,26 +23,33 @@
       "from_skill": "deep_gash"
     },
     {
-      "type": "damage",
-      "skill": "crash",
+      "type": "add_damage",
+      "skill_id": "crash_skill",
       "damage": {
-        "base_damage": 20,
+        "type": "hit_damage_step",
+        "attack_type": "hit",
+        "weapon_type": "melee",
+        "crit": true,
+        "damage_types": [
+          "physical"
+        ],
+        "min_base_damage": 15,
+        "max_base_damage": 20,
+        "scale_properties": {
+          "scale_added": 100,
+          "scale_increased": 100,
+          "scale_speed": 0
+        },
         "stack_from_effect": {
+          "from": "deep_gash_on_crash_effect",
           "consume_stacks": true,
-          "from": "deep_gash_on_crash_effect"
-        },
-        "crit": false,
-        "damage_types": ["physical"],
-        "attack_kind": "hit",
-        "scale_coef": {
-          "scalar_operation": {
-            "operation": "mult",
-            "value": 5
-          },
-          "stat": "melee_damage"
-        },
-        "type": "damage"
+          "type": "from_effect"
+        }
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Deep Gash is now stored on the target. On next Crash, burst the target for 50% of geep dash total dot damage as physical.",
+    "name": "Crash Bursts Deep Gash"
+  }
 }

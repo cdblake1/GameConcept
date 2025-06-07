@@ -11,9 +11,9 @@ public class LevelManager : IStateSerializable<LevelManager.LevelManagerDto, Lev
 
     public int MaxLevel => maxLevel;
 
-    public StatTemplate StatsPerLevel { get; private set; }
+    public StatTemplateOld StatsPerLevel { get; private set; }
 
-    public StatTemplate Stats => StatsPerLevel * (CurrentLevel - 1);
+    public StatTemplateOld Stats => StatsPerLevel * (CurrentLevel - 1);
 
     public LevelManager(int maxLevel, ExperienceTable experienceTable, int startingLevel = 1)
     {
@@ -63,7 +63,7 @@ public class LevelManager : IStateSerializable<LevelManager.LevelManagerDto, Lev
         public int CurrentLevel { get; init; }
         public int CurrentExperience { get; init; }
         public int MaxLevel { get; init; }
-        public StatTemplate StatsPerLevel { get; init; }
+        public StatTemplateOld StatsPerLevel { get; init; }
     }
 
     public LevelManagerDto Serialize()

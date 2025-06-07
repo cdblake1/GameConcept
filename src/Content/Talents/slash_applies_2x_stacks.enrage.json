@@ -6,5 +6,9 @@
       "effect": "enrage_stack_effect",
       "from_skill": "slash_skill"
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Slash applies 2 Enrage Stacks",
+    "name": "Slash Applies 2 Enrage Stacks"
+  }
 }

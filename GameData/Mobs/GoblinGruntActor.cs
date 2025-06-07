@@ -7,7 +7,7 @@ public class GoblinGruntActor : MobBase
         new DefaultMobAttack(),
     ];
 
-    public static StatTemplate DefaultStats => new StatTemplate
+    public static StatTemplateOld DefaultStats => new StatTemplateOld
     {
         AttackPower = 5,
         Defense = 0,

@@ -2,12 +2,16 @@
   "id": "rend_permanent_talent",
   "actions": [
     {
-      "type": "modify_damage",
-      "skill": "rend_skill",
-      "attack_kind": "dot",
-      "dot_props": {
-        "duration": "permanent"
+      "type": "modify_dot_damage",
+      "skill_id": "rend_skill",
+      "duration": {
+        "type": "permanent",
+        "permanent": true
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Rend is now permanent",
+    "name": "Rend Permanent"
+  }
 }

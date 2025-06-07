@@ -6,5 +6,9 @@
       "effect": "pierce_effect",
       "from_skill": "slash_skill"
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Slash now applies pierce. All modifiers from pierce are retained.",
+    "name": "Slash Applies Pierce"
+  }
 }

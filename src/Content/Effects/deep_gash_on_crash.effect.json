@@ -1,10 +1,12 @@
 {
   "id": "deep_gash_on_crash_effect",
-  "damage_types": ["bleed", "physical"],
   "category": "debuff",
   "duration": "permanent",
-  "stacking": {
+  "stack_strategy": {
+    "type": "default",
     "max_stacks": 1,
+    "stacks_per_application": 1,
     "refresh_mode": "reset_time"
-  }
+  },
+  "modifiers": []
 }

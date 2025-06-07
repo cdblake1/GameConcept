@@ -3,13 +3,13 @@ public abstract class ActorBase : IActor
     public string Name { get; }
     public int MaxHealth => Stats.Health;
     public abstract int CurrentHealth { get; set; }
-    public readonly StatTemplate baseStats;
+    public readonly StatTemplateOld baseStats;
     public readonly List<Effect> Effects = new();
-    public abstract StatTemplate Stats { get; }
+    public abstract StatTemplateOld Stats { get; }
     public int Level => level;
     private readonly int level;
 
-    public StatTemplate BaseStats => this.baseStats;
+    public StatTemplateOld BaseStats => this.baseStats;
 
     protected ActorBase(IActor actor, int level)
     {

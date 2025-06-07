@@ -13,7 +13,7 @@ public class PlayerOld : CharacterBase, IStateSerializable<PlayerDto, PlayerOld>
     private static string actorId => "Player";
     public Guid Id { get; private set; }
 
-    private static StatTemplate stats => new()
+    private static StatTemplateOld stats => new()
     {
         Health = 200,
         AttackPower = 30,

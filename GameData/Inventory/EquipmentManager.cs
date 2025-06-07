@@ -1,5 +1,4 @@
 #nullable enable
-using GameData.src.StatTemplate;
 using static GameData.Inventory.EquipmentManager;
 
 namespace GameData.Inventory;
@@ -51,14 +50,14 @@ public class EquipmentManager : IStateSerializable<EquipmentManagerDto, Equipmen
 
     public IEnumerable<(EquipmentKind Kind, Equipment? Item)> GetAllEquipment() => _slots.Select(kvp => (kvp.Key, kvp.Value));
 
-    public static StatTemplate operator +(EquipmentManager equipment, StatTemplate baseStats)
+    public static StatTemplateOld operator +(EquipmentManager equipment, StatTemplateOld baseStats)
     {
         return equipment.GetAllEquipment()
                         .Where(e => e.Item is not null)
                         .Aggregate(baseStats, (current, e) => current + e.Item!.Stats);
     }
 
-    public static StatTemplate operator +(StatTemplate baseStats, EquipmentManager equipment) =>
+    public static StatTemplateOld operator +(StatTemplateOld baseStats, EquipmentManager equipment) =>
         equipment + baseStats;
 
     public readonly struct EquipmentManagerDto

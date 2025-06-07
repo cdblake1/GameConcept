@@ -3,17 +3,19 @@
   "cost": 1,
   "effects": [
     {
-      "type": "damage",
-      "attack_kind": "hit",
-      "base_damage": 20,
+      "type": "damage_step",
       "crit": true,
-      "damage_types": ["physical"],
-      "scale_coef": {
-        "scalar_operation": {
-          "operation": "mult",
-          "value": 10
-        },
-        "stat": "melee_damage"
+      "attack_type": "hit",
+      "damage_types": [
+        "physical"
+      ],
+      "min_base_damage": 7,
+      "max_base_damage": 10,
+      "weapon_type": "melee",
+      "scale_properties": {
+        "scale_added": 100,
+        "scale_increased": 100,
+        "scale_speed": 100
       }
     },
     {
@@ -22,7 +24,6 @@
     }
   ],
   "id": "crash_skill",
-  "tags": [{ "tag": "physical" }],
   "presentation": {
     "name": "Crash",
     "description": "a hard hitting attack that stuns the target"

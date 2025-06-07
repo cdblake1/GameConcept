@@ -2,13 +2,27 @@
   "id": "blood_communion_passive_talent",
   "actions": [
     {
+      "id": "blood_communion_effect",
       "type": "modify_effect",
-      "duration": "permanent",
-      "leech": {
-        "operation": "set",
-        "value": 10
+      "duration": {
+        "permanent": true,
+        "type": "permanent"
       },
-      "id": "blood_communion_effect"
+      "modifiers": {
+        "type": "modifier",
+        "operation": "set",
+        "items": [
+          {
+            "type": "stat",
+            "stat": "melee_leech_increased",
+            "value": 10
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Blood boon is now passive. Leech from damage provided is set to 10%",
+    "name": "Blood Communion Passive"
+  }
 }

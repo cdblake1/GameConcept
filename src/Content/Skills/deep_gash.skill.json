@@ -2,39 +2,51 @@
   "id": "deep_gash_skill",
   "cooldown": 3,
   "cost": 1,
-  "tags": [{ "tag": "physical" }],
+  "tags": [
+    {
+      "tag": "physical"
+    }
+  ],
   "effects": [
     {
-      "type": "damage",
-      "attack_kind": "hit",
-      "base_damage": 5,
+      "type": "damage_step",
+      "attack_type": "hit",
       "crit": true,
-      "damage_types": ["physical"],
-      "scale_coef": {
-        "scalar_operation": {
-          "operation": "mult",
-          "value": 5
-        },
-        "stat": "melee_damage"
+      "weapon_type": "melee",
+      "damage_types": [
+        "physical"
+      ],
+      "min_base_damage": 3,
+      "max_base_damage": 5,
+      "scale_properties": {
+        "scale_added": 100,
+        "scale_increased": 100,
+        "scale_speed": 0
       }
     },
     {
-      "type": "damage",
-      "attack_kind": "dot",
-      "base_damage": 10,
+      "type": "dot_damage_step",
+      "attack_type": "dot",
+      "weapon_type": "melee",
+      "damage_types": [
+        "bleed",
+        "physical"
+      ],
       "crit": false,
-      "damage_types": ["bleed", "physical"],
-      "dot_props": {
-        "duration": 4,
-        "frequency": 1,
-        "timing": "start_turn"
+      "duration": 4,
+      "frequency": 1,
+      "min_base_damage": 7,
+      "max_base_damage": 10,
+      "scale_properties": {
+        "scale_added": 100,
+        "scale_increased": 100,
+        "scale_speed": 0
       },
-      "scale_coef": {
-        "scalar_operation": {
-          "operation": "mult",
-          "value": 5
-        },
-        "stat": "melee_damage"
+      "stack_strategy": {
+        "type": "stack_default",
+        "max_stacks": 1,
+        "stacks_per_application": 1,
+        "refresh_mode": "reset_time"
       }
     }
   ],

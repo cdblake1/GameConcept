@@ -7,7 +7,7 @@ public static class ItemTemplates
         "Helm of Valor",
         "A sturdy helm that provides excellent protection.",
         GoldCoin.FromAmount(100),
-        new StatTemplate
+        new StatTemplateOld
         {
             AttackPower = 0,
             Defense = 5,
@@ -20,7 +20,7 @@ public static class ItemTemplates
         "Sword of Might",
         "A powerful sword that increases your attack power.",
         GoldCoin.FromAmount(100),
-        new StatTemplate
+        new StatTemplateOld
         {
             AttackPower = 10,
             Defense = 0,
@@ -33,7 +33,7 @@ public static class ItemTemplates
         "Legs of Might",
         "A powerful legs that increases your attack power.",
         GoldCoin.FromAmount(100),
-        new StatTemplate
+        new StatTemplateOld
         {
             AttackPower = 5,
             Defense = 5,
@@ -46,7 +46,7 @@ public static class ItemTemplates
         "Chest of Might",
         "A powerful chest that increases your attack power.",
         GoldCoin.FromAmount(100),
-        new StatTemplate
+        new StatTemplateOld
         {
             AttackPower = 5,
             Defense = 5,

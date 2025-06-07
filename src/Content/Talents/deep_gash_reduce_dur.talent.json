@@ -2,15 +2,20 @@
   "id": "deep_gash_reduced_duration_talent",
   "actions": [
     {
-      "type": "modify_damage",
-      "skill": "deep_gash_skill",
-      "attack_kind": "dot",
-      "dot_props": {
-        "duration": {
-          "operation": "mult",
-          "value": -50
-        }
+      "type": "modify_dot_damage",
+      "skill_id": "deep_gash_skill",
+      "duration": {
+        "turns": {
+          "scale_added": 0,
+          "scale_increased": -100,
+          "scale_empowered": 0
+        },
+        "type": "turn"
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Deep Gash applies damage 100% faster",
+    "name": "Deep Gash Reduced Cooldown"
+  }
 }

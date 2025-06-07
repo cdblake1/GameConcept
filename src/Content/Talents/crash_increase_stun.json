@@ -3,16 +3,11 @@
   "actions": [
     {
       "type": "modify_effect",
-      "id": "crash_stun_effect",
-      "apply_status": {
-        "operation": "set",
-        "value": [
-          {
-            "id": "stun",
-            "duration": 2
-          }
-        ]
-      }
+      "id": "crash_stun_effect"
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Crash Stun duration increased by 1 turn",
+    "name": "Increase Stun Duration"
+  }
 }

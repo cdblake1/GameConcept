@@ -13,11 +13,11 @@ public abstract class CharacterBase : ActorBase
 
     public GoldCoin Gold { get; set; } = GoldCoin.FromAmount(0);
 
-    public override StatTemplate Stats => this.backingStats + this.Equipment;
+    public override StatTemplateOld Stats => this.backingStats + this.Equipment;
 
-    private StatTemplate backingStats => this.baseStats + this.Equipment;
+    private StatTemplateOld backingStats => this.baseStats + this.Equipment;
 
-    protected CharacterBase(string name, string actorId, StatTemplate baseStats, LevelManager levelManager) : base(new MobDto(name, baseStats), 1)
+    protected CharacterBase(string name, string actorId, StatTemplateOld baseStats, LevelManager levelManager) : base(new MobDto(name, baseStats), 1)
     {
         this.LevelManager = levelManager ?? throw new ArgumentNullException(nameof(levelManager));
     }

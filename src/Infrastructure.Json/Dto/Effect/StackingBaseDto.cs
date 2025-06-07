@@ -6,13 +6,13 @@ namespace Infrastructure.Json.Dto.Effect;
 
 [Newtonsoft.Json.JsonConverter(typeof(StackBaseDtoConverter))]
 [JsonDerivedType(typeof(StackDefaultDto), (int)StackKind.stack_default)]
-[JsonDerivedType(typeof(StackFromEffectDto), (int)StackKind.stack_from_effect)]
+[JsonDerivedType(typeof(StackFromEffectDto), (int)StackKind.from_effect)]
 public abstract record StackBaseDto
 {
     [JsonProperty(nameof(type), Required = Required.Always)]
     public abstract StackKind type { get; }
 
-    public enum StackKind { stack_default = 1, stack_from_effect = 2 }
+    public enum StackKind { stack_default = 1, from_effect = 2 }
 }
 
 public sealed record StackDefaultDto : StackBaseDto
@@ -33,7 +33,7 @@ public sealed record StackDefaultDto : StackBaseDto
 
 public sealed record StackFromEffectDto : StackBaseDto
 {
-    public override StackKind type => StackKind.stack_from_effect;
+    public override StackKind type => StackKind.from_effect;
 
     [JsonProperty(nameof(from), Required = Required.Always)]
     public required string from { get; init; }
@@ -70,7 +70,7 @@ internal sealed class StackBaseDtoConverter : Newtonsoft.Json.JsonConverter<Stac
                 ? refreshMode
                 : throw new JsonSerializationException("Invalid or missing 'refresh_mode'.")
             },
-            "stack_from_effect" => new StackFromEffectDto
+            "from_effect" => new StackFromEffectDto
             {
                 from = jo["from"]?.Value<string>()
                 ?? throw new JsonSerializationException("Missing 'from'."),

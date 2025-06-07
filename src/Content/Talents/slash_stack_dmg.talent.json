@@ -6,5 +6,9 @@
       "effect": "slash_stack_effect",
       "from_skill": "slash"
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Subsequent Slash apply a stack. Each stack empowers slash by 10%. Lasts 3 turns",
+    "name": "Slash Empower Stacks"
+  }
 }

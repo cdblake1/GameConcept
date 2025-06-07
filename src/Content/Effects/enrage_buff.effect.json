@@ -1,20 +1,16 @@
 {
   "id": "enrage_buff_effect",
-  "damage_types": ["physical"],
   "modifiers": [
     {
-      "damage_type": ["physical"],
-      "scalar_operation": {
-        "operation": "mult",
-        "value": 5
-      },
-      "type": "damage"
+      "type": "stat",
+      "stat": "physical_damage_empowered",
+      "value": 5
     }
   ],
-  "stacking": {
+  "stack_strategy": {
     "consume_stacks": true,
     "from": "enrage_stack_effect",
-    "type": "stack_from_effect"
+    "type": "from_effect"
   },
   "duration": 3,
   "category": "buff"

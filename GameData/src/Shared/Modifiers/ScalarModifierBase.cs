@@ -1,3 +1,4 @@
+using GameData.src.Shared.Enums;
 using GameData.src.Shared.Modifier;
 
 namespace GameData.src.Shared.Modifiers
@@ -12,8 +13,8 @@ namespace GameData.src.Shared.Modifiers
         }
     }
 
-    public sealed record SkillModifier(ScalarOperation Operation) : ScalarModifierBase(Operation);
-    public sealed record DamageModifer(ScalarOperation Operation) : ScalarModifierBase(Operation);
-    public sealed record AttackModifer(ScalarOperation Operation) : ScalarModifierBase(Operation);
-    public sealed record StatModifier(ScalarOperation Operation) : ScalarModifierBase(Operation);
+    public sealed record SkillModifier(string SkillId, ScalarOperation Operation) : ScalarModifierBase(Operation);
+    public sealed record DamageModifer(DamageType DamageType, ScalarOperation Operation) : ScalarModifierBase(Operation);
+    public sealed record AttackModifer(AttackKind AttackKind, ScalarOperation Operation) : ScalarModifierBase(Operation);
+    public sealed record StatModifier(StatKind StatKind, ScalarOperation Operation) : ScalarModifierBase(Operation);
 }

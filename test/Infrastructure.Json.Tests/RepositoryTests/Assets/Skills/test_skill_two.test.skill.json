@@ -5,10 +5,12 @@
   "effects": [
     {
       "type": "damage",
-      "attack_kind": "dot",
+      "attack_type": "dot",
       "base_damage": 2,
       "crit": false,
-      "damage_types": ["nature"],
+      "damage_types": [
+        "nature"
+      ],
       "dot_props": {
         "duration": "permanent",
         "frequency": 1,

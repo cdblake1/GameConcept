@@ -2,5 +2,5 @@ using GameData.src.Skill;
 
 namespace GameData.src.Mob
 {
-    public record Mob(StatTemplate BaseStats, List<string> Skills, int Level);
+    public record Mob(StatTemplateOld BaseStats, List<string> Skills, int Level);
 }

@@ -2,7 +2,11 @@
   "category": "buff",
   "duration": 3,
   "id": "blood_communion_effect",
-  "tags": [{ "tag": "physical" }],
-  "leech": 50,
-  "damage_types": ["bleed"]
+  "modifiers": [
+    {
+      "type": "stat",
+      "stat": "melee_leech_increased",
+      "value": 50
+    }
+  ]
 }

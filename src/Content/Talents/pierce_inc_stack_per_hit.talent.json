@@ -9,17 +9,17 @@
   "actions": [
     {
       "type": "modify_effect",
-      "id": "pierce_effect",
-      "stacking": {
-        "max_stacks": {
-          "operation": "mult",
-          "value": 2
-        },
-        "stacks_per_application": {
-          "operation": "mult",
-          "value": 100
-        }
+      "effect_id": "pierce_effect",
+      "stack_strategy": {
+        "refresh_mode": "reset_time",
+        "type": "default",
+        "max_stacks": 2,
+        "stacks_per_application": 2
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Pierce now applies 2 stacks and total stacks increased by 100%",
+    "name": "Pierce Increase Stacks"
+  }
 }

@@ -32,7 +32,7 @@ namespace Infrastructure.Json.Tests.MappingTests
                 base_damage = 1,
                 damage_types = [DamageTypeDto.bleed],
                 crit = true,
-                stack_from_effect = new()
+                from_effect = new()
                 {
                     consume_stacks = false,
                     from = "test_effect",
@@ -53,8 +53,8 @@ namespace Infrastructure.Json.Tests.MappingTests
             Assert.Equal(DamageType.Bleed, hitDamageStep.DamageTypes.First());
             Assert.Equal(hdDto.crit, hitDamageStep.Crit);
             Assert.NotNull(hitDamageStep.StackFromEffect);
-            Assert.Equal(hdDto.stack_from_effect.consume_stacks, hitDamageStep.StackFromEffect.ConsumeStacks);
-            Assert.Equal(hdDto.stack_from_effect.from, hitDamageStep.StackFromEffect.FromEffect);
+            Assert.Equal(hdDto.from_effect.consume_stacks, hitDamageStep.StackFromEffect.ConsumeStacks);
+            Assert.Equal(hdDto.from_effect.from, hitDamageStep.StackFromEffect.FromEffect);
             Assert.Equal(hdDto.scale_coef.scalar_operation.value, hitDamageStep.ScaleCoefficient.Operation.Value);
             Assert.Equal(ScalarOperation.OperationKind.Add, hitDamageStep.ScaleCoefficient.Operation.ModifierOperation);
             Assert.Equal(StatKind.MeleeDamage, hitDamageStep.ScaleCoefficient.Stat);
@@ -110,7 +110,7 @@ namespace Infrastructure.Json.Tests.MappingTests
                     base_damage =1 ,
                     crit = true,
                     damage_types = [DamageTypeDto.true_damage],
-                    stack_from_effect = new StackFromEffectDto() {
+                    from_effect = new StackFromEffectDto() {
                         consume_stacks = true,
                         from = "test_effect",
                     },
@@ -153,9 +153,9 @@ namespace Infrastructure.Json.Tests.MappingTests
 
             var firstEffect = skillDto.effects.FirstOrDefault() as HitDamageStepDto;
             Assert.NotNull(firstEffect);
-            Assert.NotNull(firstEffect.stack_from_effect);
-            Assert.Equal(firstEffect.stack_from_effect.consume_stacks, hitDamageStep.StackFromEffect.ConsumeStacks);
-            Assert.Equal(firstEffect.stack_from_effect.from, hitDamageStep.StackFromEffect.FromEffect);
+            Assert.NotNull(firstEffect.from_effect);
+            Assert.Equal(firstEffect.from_effect.consume_stacks, hitDamageStep.StackFromEffect.ConsumeStacks);
+            Assert.Equal(firstEffect.from_effect.from, hitDamageStep.StackFromEffect.FromEffect);
             Assert.Equal(skillDto.id, skillDef.Id);
             Assert.NotNull(skillDef.Presentation);
             Assert.Equal(skillDto.presentation.name, skillDef.Presentation.Name);

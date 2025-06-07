@@ -9,8 +9,15 @@
   "actions": [
     {
       "type": "modify_effect",
-      "id": "pierce_effect",
-      "duration": "permanent"
+      "effect_id": "pierce_effect",
+      "duration": {
+        "type": "permanent",
+        "permanent": true
+      }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Pierce stacks are now permanent.",
+    "name": "Pierce Stacks Permanent"
+  }
 }

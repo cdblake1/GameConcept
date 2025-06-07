@@ -1,24 +1,48 @@
 {
   "json.schemas": [
     {
-      "fileMatch": ["*/*.schema.jsonc"],
+      "fileMatch": [
+        "*/*.schema.jsonc"
+      ],
       "url": "https://json-schema.org/draft/2020-12/schema"
     },
     {
-      "fileMatch": ["/src/Content/Skills/*.json", "*/Skills/*.json", "**/*.skill.json"],
+      "fileMatch": [
+        "/src/Content/Skills/*.json",
+        "*/Skills/*.json",
+        "**/*.skill.json"
+      ],
       "url": "./src/Content/Schemas/skill.schema.jsonc"
     },
     {
-      "fileMatch": ["/src/Content/Effects/*.json", "*/Effects/*.json", "**/*.effect.json"],
+      "fileMatch": [
+        "/src/Content/Effects/*.json",
+        "*/Effects/*.json",
+        "**/*.effect.json"
+      ],
       "url": "./src/Content/Schemas/effect.schema.jsonc"
     },
     {
-      "fileMatch": ["/src/Content/Talents/*.json", "*/Talents/*.json", "**/*.talent.json"],
+      "fileMatch": [
+        "/src/Content/Talents/*.json",
+        "*/Talents/*.json",
+        "**/*.talent.json"
+      ],
       "url": "./src/Content/Schemas/talent.schema.jsonc"
     },
     {
-      "fileMatch": ["/src/Content/Classes/*.json", "*/Classes/*.json", "**/*.class.json"],
+      "fileMatch": [
+        "/src/Content/Classes/*.json",
+        "*/Classes/*.json",
+        "**/*.class.json"
+      ],
       "url": "./src/Content/Schemas/class.schema.jsonc"
     }
-  ]
+  ],
+  "json.validate.enable": true,
+  "json.schemaDownload.enable": true,
+  "json.format.enable": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.defaultFormatter": "vscode.json-language-features"
 }

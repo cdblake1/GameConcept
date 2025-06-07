@@ -6,5 +6,9 @@
       "effect": "deep_gash_inc_bleed_effect",
       "from_skill": "deep_gash"
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Deep Gash now empowers bleed damage by 10%",
+    "name": "Deep Gash Empowered Bleed"
+  }
 }

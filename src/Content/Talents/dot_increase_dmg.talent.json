@@ -2,14 +2,18 @@
   "id": "dot_increase_dmg_talent",
   "actions": [
     {
-      "from_skill": "global",
+      "global": true,
       "type": "apply_effect",
       "effect": "bleed_dmg_increase_stat"
     },
     {
-      "from_skill": "global",
+      "global": true,
       "type": "apply_effect",
       "effect": "hit_dmg_decrease_stat"
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Dot Damage empowered by 50%. Hit Damage depowered by -40%",
+    "name": "Dot Damage Empowered. Hit Damage Depowered"
+  }
 }

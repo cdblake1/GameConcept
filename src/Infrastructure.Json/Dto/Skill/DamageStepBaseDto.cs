@@ -13,8 +13,8 @@ public abstract record DamageStepDto : SkillStepDto
     public override StepKind type => StepKind.damage;
 
     // second discriminator used for polymorphic deserialisation
-    [JsonProperty(nameof(attack_kind), Required = Required.Always)]
-    public abstract AttackKindDto attack_kind { get; }
+    [JsonProperty(nameof(attack_type), Required = Required.Always)]
+    public abstract AttackKindDto attack_type { get; }
 
     [JsonProperty(nameof(damage_types), Required = Required.Always)]
     public required DamageTypeDto[] damage_types { get; init; }
@@ -31,15 +31,15 @@ public abstract record DamageStepDto : SkillStepDto
 
 public sealed record HitDamageStepDto : DamageStepDto
 {
-    public override AttackKindDto attack_kind => AttackKindDto.hit;
+    public override AttackKindDto attack_type => AttackKindDto.hit;
 
-    [JsonProperty(nameof(stack_from_effect))]
-    public StackFromEffectDto? stack_from_effect { get; init; }
+    [JsonProperty(nameof(from_effect))]
+    public StackFromEffectDto? from_effect { get; init; }
 }
 
 public sealed record DotDamageStepDto : DamageStepDto
 {
-    public override AttackKindDto attack_kind => AttackKindDto.dot;
+    public override AttackKindDto attack_type => AttackKindDto.dot;
 
     [JsonProperty(nameof(duration), Required = Required.Always)]
     public required DurationBaseDto duration { get; init; }
@@ -66,11 +66,11 @@ public class DamageStepConverter : JsonConverter<DamageStepDto>
         }
 
         var jsonObject = JObject.Load(reader);
-        var attackKind = jsonObject[nameof(DamageStepDto.attack_kind)]?.ToObject<AttackKindDto>();
+        var attackKind = jsonObject[nameof(DamageStepDto.attack_type)]?.ToObject<AttackKindDto>();
 
         if (attackKind == null)
         {
-            throw new JsonSerializationException("Missing or invalid attack_kind property.");
+            throw new JsonSerializationException("Missing or invalid attack_type property.");
         }
 
         DamageStepDto damageStep;
@@ -82,7 +82,7 @@ public class DamageStepConverter : JsonConverter<DamageStepDto>
                 {
                     damage_types = jsonObject[nameof(DamageStepDto.damage_types)]?.ToObject<DamageTypeDto[]>(serializer) ?? throw new JsonSerializationException("Missing damage_types property."),
                     base_damage = jsonObject[nameof(DamageStepDto.base_damage)]?.ToObject<int>(serializer) ?? throw new JsonSerializationException("Missing base_damage property."),
-                    stack_from_effect = jsonObject[nameof(HitDamageStepDto.stack_from_effect)]?.ToObject<StackFromEffectDto>(serializer),
+                    from_effect = jsonObject[nameof(HitDamageStepDto.from_effect)]?.ToObject<StackFromEffectDto>(serializer),
                     crit = jsonObject[nameof(DamageStepDto.crit)]?.ToObject<bool>(serializer) ?? throw new JsonSerializationException("Missing crit property."),
                     scale_coef = jsonObject[nameof(DamageStepDto.scale_coef)]?.ToObject<ScaleCoefficientDto>(serializer) ?? throw new JsonSerializationException("Missing scale_coef property.")
                 };
@@ -103,7 +103,7 @@ public class DamageStepConverter : JsonConverter<DamageStepDto>
                 break;
 
             default:
-                throw new JsonSerializationException($"Unknown attack_kind: {attackKind}");
+                throw new JsonSerializationException($"Unknown attack_type: {attackKind}");
         }
 
         return damageStep;
@@ -123,8 +123,8 @@ public class DamageStepConverter : JsonConverter<DamageStepDto>
         writer.WritePropertyName(nameof(value.type));
         writer.WriteValue(value.type.ToString());
 
-        writer.WritePropertyName(nameof(value.attack_kind));
-        writer.WriteValue(value.attack_kind.ToString());
+        writer.WritePropertyName(nameof(value.attack_type));
+        writer.WriteValue(value.attack_type.ToString());
 
         writer.WritePropertyName(nameof(value.damage_types));
         serializer.Serialize(writer, value.damage_types);
@@ -136,10 +136,10 @@ public class DamageStepConverter : JsonConverter<DamageStepDto>
         switch (value)
         {
             case HitDamageStepDto hitDamageStep:
-                if (hitDamageStep.stack_from_effect != null)
+                if (hitDamageStep.from_effect != null)
                 {
-                    writer.WritePropertyName(nameof(hitDamageStep.stack_from_effect));
-                    serializer.Serialize(writer, hitDamageStep.stack_from_effect);
+                    writer.WritePropertyName(nameof(hitDamageStep.from_effect));
+                    serializer.Serialize(writer, hitDamageStep.from_effect);
                 }
                 break;
 

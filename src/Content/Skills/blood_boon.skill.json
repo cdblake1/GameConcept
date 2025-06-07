@@ -3,7 +3,6 @@
   "cost": 1,
   "effects": [{ "type": "apply_effect", "effect": "blood_boon_effect" }],
   "id": "blood_boon_skill",
-  "tags": [{ "tag": "physical" }],
   "presentation": {
     "description": "a buff that increases physical damage",
     "name": "Blood Boon"

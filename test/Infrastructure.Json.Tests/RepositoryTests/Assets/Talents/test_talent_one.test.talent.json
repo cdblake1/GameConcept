@@ -3,14 +3,16 @@
   "actions": [
     {
       "type": "modify_damage",
-      "attack_kind": "dot",
+      "attack_type": "dot",
       "base_damage": {
         "operation": "add",
         "value": 1
       },
       "crit": true,
       "damage_types": {
-        "items": ["burn"],
+        "items": [
+          "burn"
+        ],
         "operation": "add",
         "type": "damage_type"
       },
@@ -29,7 +31,7 @@
         "stacking": {
           "consume_stacks": false,
           "from": "test_effect",
-          "type": "stack_from_effect"
+          "type": "from_effect"
         },
         "timing": "start_turn"
       },
@@ -59,8 +61,10 @@
         "type": "modifier",
         "items": [
           {
-            "type": "attack_kind",
-            "attack_kind": ["dot"],
+            "type": "attack_type",
+            "attack_type": [
+              "dot"
+            ],
             "scalar_operation": {
               "operation": "add",
               "value": 1
@@ -70,7 +74,9 @@
         "operation": "add"
       },
       "damage_types": {
-        "items": ["bleed"],
+        "items": [
+          "bleed"
+        ],
         "operation": "add",
         "type": "damage_type"
       }

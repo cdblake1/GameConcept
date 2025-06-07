@@ -9,13 +9,17 @@
   "actions": [
     {
       "type": "modify_effect",
-      "id": "enrage_stack_effect",
-      "stacking": {
-        "max_stacks": {
-          "operation": "add",
-          "value": 2
-        }
+      "effect_id": "enrage_stack_effect",
+      "stack_strategy": {
+        "type": "default",
+        "stacks_per_application": 1,
+        "max_stacks": 6,
+        "refresh_mode": "no_refresh"
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Increase enrage stacks by one.",
+    "name": "Increase Enrage Stacks"
+  }
 }

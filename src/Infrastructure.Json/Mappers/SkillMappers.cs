@@ -48,8 +48,8 @@ namespace Infrastructure.Json.Mappers
         {
             BaseDamage = dto.base_damage,
             DamageTypes = [.. dto.damage_types.Select(d => d.ToDomain())],
-            Kind = dto.attack_kind.ToDomain(),
-            StackFromEffect = dto.stack_from_effect?.ToDomain() as StackFromEffect,
+            Kind = dto.attack_type.ToDomain(),
+            StackFromEffect = dto.from_effect?.ToDomain() as StackFromEffect,
             Crit = dto.crit,
             ScaleCoefficient = dto.scale_coef.ToDomain()
         };
@@ -61,7 +61,7 @@ namespace Infrastructure.Json.Mappers
             DamageTypes = [.. dto.damage_types.Select(d => d.ToDomain())],
             Duration = dto.duration.ToDomain(),
             Frequency = dto.frequency,
-            Kind = dto.attack_kind.ToDomain(),
+            Kind = dto.attack_type.ToDomain(),
             Stacking = dto.stacking?.ToDomain() ?? new StackDefault() { MaxStacks = 1, RefreshMode = StackRefreshMode.ResetTime, StacksPerApplication = 1 },
             Timing = dto.timing.ToDomain(),
             Crit = dto.crit,

@@ -3,46 +3,63 @@
   "$id": "effect.schema.json",
   "title": "Effect Definitions",
   "type": "object",
-  "required": ["id", "category", "duration"],
+  "required": [
+    "id",
+    "category",
+    "duration",
+    "modifier"
+  ],
   "properties": {
     "id": {
       "type": "string",
       "pattern": "^[a-z0-9_]+$"
     },
-    "category": { "enum": ["buff", "debuff"] },
-    "tags": {
-      "type": "array",
-      "items": { "$ref": "common.schema.jsonc#/$defs/tag" },
-      "uniqueItems": true
+    "category": {
+      "enum": [
+        "buff",
+        "debuff"
+      ]
     },
-    "duration": { "$ref": "common.schema.jsonc#/$defs/duration" },
-    "stacking": { "$ref": "common.schema.jsonc#/$defs/stacking" },
+    "duration": {
+      "$ref": "common.schema.jsonc#/$defs/duration"
+    },
+    "stack_strategy": {
+      "$ref": "common.schema.jsonc#/$defs/stack_strategy"
+    },
     "modifiers": {
       "type": "array",
       "items": {
-        "anyOf": [{ "$ref": "common.schema.jsonc#/$defs/modifiers" }]
-      },
-      "uniqueItems": true
-    },
-    "leech": { "type": "number", "minimum": 1 },
-    "damage_types": {
-      "type": "array",
-      "items": { "$ref": "common.schema.jsonc#/$defs/damage_type" }
-    },
-    "apply_status": { "$ref": "#/$defs/apply_status" }
+        "anyOf": [
+          {
+            "$ref": "common.schema.jsonc#/$defs/modifier"
+          }
+        ]
+      }
+    }
   },
   "additionalProperties": false,
   "$defs": {
     "stun": {
       "type": "object",
-      "required": ["id", "duration"],
+      "required": [
+        "id",
+        "duration"
+      ],
       "properties": {
-        "id": { "const": "stun" },
-        "duration": { "$ref": "common.schema.jsonc#/$defs/duration" }
+        "id": {
+          "const": "stun"
+        },
+        "duration": {
+          "$ref": "common.schema.jsonc#/$defs/duration"
+        }
       }
     },
     "apply_status": {
-      "anyOf": [{ "$ref": "#/$defs/stun" }]
+      "anyOf": [
+        {
+          "$ref": "#/$defs/stun"
+        }
+      ]
     }
   }
 }

@@ -2,13 +2,22 @@
   "id": "slash_increase_dmg_talent",
   "actions": [
     {
-      "type": "modify_damage",
-      "skill": "slash_skill",
-      "attack_kind": "hit",
-      "base_damage": {
-        "operation": "mult",
-        "value": 20
+      "type": "modify_hit_damage",
+      "skill_id": "slash_skill",
+      "min_base_damage": {
+        "scale_empowered": 20,
+        "scale_added": 0,
+        "scale_increased": 0
+      },
+      "max_base_damage": {
+        "scale_empowered": 20,
+        "scale_added": 0,
+        "scale_increased": 0
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Slash damage empowered by 20%",
+    "name": "Slash Empowered"
+  }
 }

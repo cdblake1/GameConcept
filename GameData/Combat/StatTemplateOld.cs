@@ -1,4 +1,4 @@
-public record struct StatTemplate : IStateSerializable<StatTemplateDto, StatTemplate>
+public record struct StatTemplateOld : IStateSerializable<StatTemplateDto, StatTemplateOld>
 {
     public required double AttackPower { get; init; }
     public required double Defense { get; init; }
@@ -6,11 +6,11 @@ public record struct StatTemplate : IStateSerializable<StatTemplateDto, StatTemp
 
     public required int Speed { get; init; }
 
-    public StatTemplate()
+    public StatTemplateOld()
     {
     }
 
-    public StatTemplate(StatTemplateDto dto)
+    public StatTemplateOld(StatTemplateDto dto)
     {
         AttackPower = dto.AttackPower;
         Defense = dto.Defense;
@@ -18,9 +18,9 @@ public record struct StatTemplate : IStateSerializable<StatTemplateDto, StatTemp
         Speed = dto.Speed;
     }
 
-    public static StatTemplate operator +(StatTemplate a, StatTemplate b)
+    public static StatTemplateOld operator +(StatTemplateOld a, StatTemplateOld b)
     {
-        return new StatTemplate
+        return new StatTemplateOld
         {
             AttackPower = a.AttackPower + b.AttackPower,
             Defense = a.Defense + b.Defense,
@@ -29,9 +29,9 @@ public record struct StatTemplate : IStateSerializable<StatTemplateDto, StatTemp
         };
     }
 
-    public static StatTemplate operator -(StatTemplate a, StatTemplate b)
+    public static StatTemplateOld operator -(StatTemplateOld a, StatTemplateOld b)
     {
-        return new StatTemplate
+        return new StatTemplateOld
         {
             AttackPower = a.AttackPower - b.AttackPower,
             Defense = a.Defense - b.Defense,
@@ -40,9 +40,9 @@ public record struct StatTemplate : IStateSerializable<StatTemplateDto, StatTemp
         };
     }
 
-    public static StatTemplate operator *(StatTemplate a, int b)
+    public static StatTemplateOld operator *(StatTemplateOld a, int b)
     {
-        return new StatTemplate
+        return new StatTemplateOld
         {
             AttackPower = a.AttackPower * b,
             Defense = a.Defense * b,
@@ -62,9 +62,9 @@ public record struct StatTemplate : IStateSerializable<StatTemplateDto, StatTemp
         };
     }
 
-    public static StatTemplate Restore(StatTemplateDto dto)
+    public static StatTemplateOld Restore(StatTemplateDto dto)
     {
-        return new StatTemplate
+        return new StatTemplateOld
         {
             AttackPower = dto.AttackPower,
             Defense = dto.Defense,

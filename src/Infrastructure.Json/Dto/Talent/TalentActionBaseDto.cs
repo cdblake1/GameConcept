@@ -21,8 +21,8 @@ public abstract record ModifyDamageActionDto : TalentActionBaseDto
 {
     public override Kind type => Kind.modify_damage;
 
-    [JsonProperty(nameof(attack_kind), Required = Required.Always)]
-    public abstract AttackKindDto attack_kind { get; }
+    [JsonProperty(nameof(attack_type), Required = Required.Always)]
+    public abstract AttackKindDto attack_type { get; }
 
     [JsonProperty(nameof(skill), Required = Required.Always)]
     public required string skill { get; init; }
@@ -62,12 +62,12 @@ public sealed record ApplyeffectTalentActionDto : TalentActionBaseDto
 
 public sealed record ModifyHitDamageActionDto : ModifyDamageActionDto
 {
-    public override AttackKindDto attack_kind => AttackKindDto.hit;
+    public override AttackKindDto attack_type => AttackKindDto.hit;
 }
 
 public sealed record ModifyDotDamageActionDto : ModifyDamageActionDto, IValidatableEntity
 {
-    public override AttackKindDto attack_kind => AttackKindDto.dot;
+    public override AttackKindDto attack_type => AttackKindDto.dot;
 
     [JsonProperty(nameof(timing))]
     public DotDamageStepDto.TimingKind? timing { get; init; }
@@ -150,7 +150,7 @@ internal sealed class TalentActionBaseDtoConverter : JsonConverter<TalentActionB
         switch (typeStr)
         {
             case "modify_damage":
-                var attackKind = jo["attack_kind"]?.ToString();
+                var attackKind = jo["attack_type"]?.ToString();
                 if (attackKind == "dot")
                 {
                     return new ModifyDotDamageActionDto

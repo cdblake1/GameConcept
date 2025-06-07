@@ -1,24 +1,18 @@
 {
   "id": "crash_less_cooldown_talent",
-
   "actions": [
-    {
-      "type": "modify_damage",
-      "skill": "crash_skill",
-      "attack_kind": "hit",
-      "base_damage": {
-        "operation": "add",
-        "value": 0
-      }
-    },
     {
       "type": "modify_skill",
       "skill": "crash_skill",
-      "id": "crash_skill",
       "cooldown": {
-        "operation": "add",
-        "value": -1
+        "scale_added": -1,
+        "scale_empowered": 0,
+        "scale_increased": 0
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Crash cooldown reduced by 1 turn",
+    "name": "Reduce Crash Stun Cooldown"
+  }
 }

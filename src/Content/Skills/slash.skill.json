@@ -1,16 +1,28 @@
 {
   "id": "slash_skill",
   "cost": 1,
-  "tags": [{ "tag": "physical" }],
+  "tags": [
+    {
+      "tag": "physical"
+    }
+  ],
   "cooldown": 0,
   "effects": [
     {
-      "type": "damage",
-      "attack_kind": "hit",
-      "base_damage": 10,
+      "type": "damage_step",
+      "attack_type": "hit",
+      "weapon_type": "melee",
+      "damage_types": [
+        "physical"
+      ],
       "crit": true,
-      "damage_types": ["physical"],
-      "scale_coef": { "scalar_operation": { "operation": "mult", "value": 5 }, "stat": "melee_damage" }
+      "min_base_damage": 7,
+      "max_base_damage": 10,
+      "scale_properties": {
+        "scale_added": 100,
+        "scale_increased": 100,
+        "scale_speed": 100
+      }
     }
   ],
   "presentation": {

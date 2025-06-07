@@ -6,9 +6,11 @@
     {
       "type": "damage",
       "crit": true,
-      "attack_kind": "hit",
+      "attack_type": "hit",
       "base_damage": 1,
-      "damage_types": ["nature"],
+      "damage_types": [
+        "nature"
+      ],
       "scale_coef": {
         "scalar_operation": {
           "operation": "mult",
@@ -16,8 +18,8 @@
         },
         "stat": "elemental_damage"
       },
-      "stack_from_effect": {
-        "type": "stack_from_effect",
+      "from_effect": {
+        "type": "from_effect",
         "consume_stacks": false,
         "from": "test_effect"
       }

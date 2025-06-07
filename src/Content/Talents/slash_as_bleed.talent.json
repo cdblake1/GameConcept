@@ -2,32 +2,51 @@
   "id": "slash_as_bleed_talent",
   "actions": [
     {
-      "type": "modify_damage",
-      "skill": "slash_skill",
-      "attack_kind": "hit",
-      "base_damage": {
-        "operation": "mult",
-        "value": -60
+      "type": "modify_hit_damage",
+      "skill_id": "slash_skill",
+      "min_base_damage": {
+        "scale_empowered": -60,
+        "scale_added": 0,
+        "scale_increased": 0
+      },
+      "max_base_damage": {
+        "scale_empowered": -60,
+        "scale_added": 0,
+        "scale_increased": 0
       }
     },
     {
-      "type": "damage",
-      "skill": "slash_skill",
+      "type": "add_damage",
+      "skill_id": "slash_skill",
       "damage": {
-        "type": "damage",
-        "attack_kind": "dot",
-        "base_damage": 5,
+        "type": "dot_damage_step",
+        "attack_type": "dot",
+        "weapon_type": "melee",
+        "damage_types": [
+          "physical",
+          "bleed"
+        ],
         "crit": false,
-        "damage_types": ["bleed", "physical"],
-        "dot_props": {
-          "duration": 5,
-          "frequency": 1,
-          "stacking": {
-            "max_stacks": 1
-          }
+        "duration": 5,
+        "frequency": 1,
+        "min_base_damage": 3,
+        "max_base_damage": 5,
+        "scale_properties": {
+          "scale_added": 100,
+          "scale_increased": 100,
+          "scale_speed": 0
         },
-        "scale_coef": { "stat": "melee_damage", "scalar_operation": { "operation": "mult", "value": 5 } }
+        "stack_strategy": {
+          "type": "default",
+          "max_stacks": 1,
+          "refresh_mode": "reset_time",
+          "stacks_per_application": 1
+        }
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Slash hit damage depowered by 60%. Slash now applies a bleed, that does 3-5 damage over 5 turns",
+    "name": "Slash Bleed"
+  }
 }

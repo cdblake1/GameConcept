@@ -57,7 +57,7 @@ namespace Infrastructure.Json.Tests.MappingTests
                 id = "test_effect",
                 damage_types = [DamageTypeDto.bleed, DamageTypeDto.burn],
                 leech = 1,
-                modifiers = [new ModifierDto(ModifierDto.Kind.stat, new(Dto.Common.Operations.ScalarOperationDto.Operation.add, 1))],
+                modifiers = [new ModifierDto(ModifierDto.ModifierKindDto.stat, new(Dto.Common.Operations.ScalarOperationDto.Operation.add, 1))],
                 stacking = new StackDefaultDto() { max_stacks = 1, refresh_mode = StackDefaultDto.RefreshMode.add_time, stacks_per_application = 1 }
             };
 

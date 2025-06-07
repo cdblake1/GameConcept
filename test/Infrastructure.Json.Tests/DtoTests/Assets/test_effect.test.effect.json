@@ -6,7 +6,9 @@
     }
   ],
   "category": "buff",
-  "damage_types": ["physical"],
+  "damage_types": [
+    "physical"
+  ],
   "duration": 1,
   "id": "test_effect",
   "leech": 1,
@@ -17,11 +19,15 @@
         "operation": "mult",
         "value": 1
       },
-      "damage_type": ["physical"]
+      "damage_type": [
+        "physical"
+      ]
     },
     {
-      "type": "attack_kind",
-      "attack_kind": ["hit"],
+      "type": "attack_type",
+      "attack_type": [
+        "hit"
+      ],
       "scalar_operation": {
         "operation": "mult",
         "value": 1

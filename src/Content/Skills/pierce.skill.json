@@ -3,17 +3,19 @@
   "cost": 1,
   "effects": [
     {
-      "type": "damage",
-      "attack_kind": "hit",
-      "base_damage": 3,
+      "type": "damage_step",
+      "attack_type": "hit",
+      "weapon_type": "melee",
+      "damage_types": [
+        "physical"
+      ],
+      "min_base_damage": 1,
+      "max_base_damage": 3,
       "crit": true,
-      "damage_types": ["physical"],
-      "scale_coef": {
-        "stat": "melee_damage",
-        "scalar_operation": {
-          "operation": "mult",
-          "value": 1
-        }
+      "scale_properties": {
+        "scale_added": 100,
+        "scale_increased": 100,
+        "scale_speed": 0
       }
     },
     {
@@ -22,7 +24,6 @@
     }
   ],
   "id": "pierce_skill",
-  "tags": [{ "tag": "physical" }],
   "presentation": {
     "name": "Pierce",
     "description": "reduces the targets defense"

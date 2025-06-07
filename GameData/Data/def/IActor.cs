@@ -1,5 +1,5 @@
 public interface IActor
 {
     public string Name { get; }
-    public StatTemplate BaseStats { get; }
+    public StatTemplateOld BaseStats { get; }
 }

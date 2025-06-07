@@ -6,7 +6,7 @@ public class StatTests
     [Fact]
     public void StatScaling()
     {
-        var baseStats = new StatTemplate
+        var baseStats = new StatTemplateOld
         {
             AttackPower = 20,
             Defense = 10,

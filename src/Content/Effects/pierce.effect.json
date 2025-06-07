@@ -1,19 +1,17 @@
 {
   "category": "debuff",
-  "damage_types": ["physical"],
   "duration": 3,
   "id": "pierce_effect",
   "modifiers": [
     {
       "type": "stat",
-      "stat": ["defense"],
-      "scalar_operation": {
-        "operation": "mult",
-        "value": -5
-      }
+      "stat": "armor_rating_increased",
+      "value": -5
     }
   ],
-  "stacking": {
+  "stack_strategy": {
+    "type": "default",
+    "stacks_per_application": 1,
     "max_stacks": 3,
     "refresh_mode": "reset_time"
   }

@@ -13,7 +13,7 @@ public class MobFactory
     public void Compose()
     {
         this.Register(typeof(BearActor), () => new BearActor(
-            new(BearActor.NameIdentifier, new StatTemplate()
+            new(BearActor.NameIdentifier, new StatTemplateOld()
             {
                 AttackPower = 10,
                 Defense = 0,
@@ -24,7 +24,7 @@ public class MobFactory
             BearActor.Skills));
 
         this.Register(typeof(BoarActor), () => new BoarActor(
-                    new(BoarActor.NameIdentifier, new StatTemplate()
+                    new(BoarActor.NameIdentifier, new StatTemplateOld()
                     {
                         AttackPower = 10,
                         Defense = 0,
@@ -35,7 +35,7 @@ public class MobFactory
                     BoarActor.Skills));
 
         this.Register(typeof(DenMotherActor), () => new DenMotherActor(
-            new(DenMotherActor.NameIdentifier, new StatTemplate()
+            new(DenMotherActor.NameIdentifier, new StatTemplateOld()
             {
                 AttackPower = 25,
                 Defense = 15,
@@ -47,7 +47,7 @@ public class MobFactory
 
         this.Register(typeof(FlyActor),
             () => new FlyActor(
-            new(FlyActor.NameIdentifier, new StatTemplate()
+            new(FlyActor.NameIdentifier, new StatTemplateOld()
             {
                 AttackPower = 10,
                 Defense = 0,
@@ -58,7 +58,7 @@ public class MobFactory
             FlyActor.Skills));
 
         this.Register(typeof(FrogActor), () => new FrogActor(
-            new(FrogActor.NameIdentifier, new StatTemplate()
+            new(FrogActor.NameIdentifier, new StatTemplateOld()
             {
                 AttackPower = 5,
                 Defense = 0,
@@ -69,7 +69,7 @@ public class MobFactory
             FrogActor.Skills));
 
         this.Register(typeof(GoblinCaptainActor), () => new GoblinCaptainActor(
-             new(GoblinCaptainActor.NameIdentifier, new StatTemplate()
+             new(GoblinCaptainActor.NameIdentifier, new StatTemplateOld()
              {
                  AttackPower = 25,
                  Defense = 15,
@@ -86,7 +86,7 @@ public class MobFactory
         ));
 
         this.Register(typeof(GoblinRangerActor), () => new GoblinRangerActor(
-            new(GoblinRangerActor.NameIdentifier, new StatTemplate()
+            new(GoblinRangerActor.NameIdentifier, new StatTemplateOld()
             {
                 AttackPower = 15,
                 Defense = 0,
@@ -97,7 +97,7 @@ public class MobFactory
             GoblinRangerActor.Skills));
 
         this.Register(typeof(GoblinWarriorActor), () => new GoblinWarriorActor(
-             new(GoblinWarriorActor.NameIdentifier, new StatTemplate()
+             new(GoblinWarriorActor.NameIdentifier, new StatTemplateOld()
              {
                  AttackPower = 10,
                  Defense = 0,
@@ -108,7 +108,7 @@ public class MobFactory
              GoblinWarriorActor.Skills));
 
         this.Register(typeof(OrcActor), () => new OrcActor(
-              new(OrcActor.NameIdentifier, new StatTemplate()
+              new(OrcActor.NameIdentifier, new StatTemplateOld()
               {
                   AttackPower = 15,
                   Defense = 10,
@@ -120,7 +120,7 @@ public class MobFactory
 
         this.Register(typeof(PoisonMiteSwarmActor),
             () => new PoisonMiteSwarmActor(
-            new(PoisonMiteSwarmActor.NameIdentifier, new StatTemplate()
+            new(PoisonMiteSwarmActor.NameIdentifier, new StatTemplateOld()
             {
                 AttackPower = 1,
                 Defense = 0,
@@ -131,7 +131,7 @@ public class MobFactory
             PoisonMiteSwarmActor.Skills));
 
         this.Register(typeof(TrollActor), () => new TrollActor(
-            new(TrollActor.NameIdentifier, new StatTemplate()
+            new(TrollActor.NameIdentifier, new StatTemplateOld()
             {
                 AttackPower = 20,
                 Defense = 10,
@@ -142,7 +142,7 @@ public class MobFactory
             TrollActor.Skills));
 
         this.Register(typeof(WolfActor), () => new WolfActor(
-            new(WolfActor.NameIdentifier, new StatTemplate()
+            new(WolfActor.NameIdentifier, new StatTemplateOld()
             {
                 AttackPower = 15,
                 Defense = 0,

@@ -1,10 +1,9 @@
-using GameData;
-using GameData.src.Player;
+using static GameData.PlayerOld;
 
 public struct SaveState
 {
     public string GameName { get; set; }
     public string Id { get; set; }
 
-    public Player.PlayerDto Player { get; set; }
+    public PlayerDto Player { get; set; }
 }

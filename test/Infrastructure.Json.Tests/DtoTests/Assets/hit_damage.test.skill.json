@@ -4,22 +4,29 @@
   "cost": 1,
   "effects": [
     {
-      "attack_kind": "hit",
+      "attack_type": "hit",
       "base_damage": 1,
       "crit": true,
-      "damage_types": ["physical"],
+      "damage_types": [
+        "physical"
+      ],
       "scale_coef": {
-        "scalar_operation": { "operation": "mult", "value": 1 },
+        "scalar_operation": {
+          "operation": "mult",
+          "value": 1
+        },
         "stat": "melee_damage"
       },
       "type": "damage"
     },
     {
       "type": "damage",
-      "attack_kind": "dot",
+      "attack_type": "dot",
       "base_damage": 10,
       "crit": false,
-      "damage_types": ["bleed"],
+      "damage_types": [
+        "bleed"
+      ],
       "dot_props": {
         "duration": {
           "expires_with": "test_effect",
@@ -27,7 +34,7 @@
         },
         "frequency": 1,
         "stacking": {
-          "type": "stack_from_effect",
+          "type": "from_effect",
           "consume_stacks": true,
           "from": "test_effect"
         },

@@ -1,7 +1,3 @@
-using System.Collections.ObjectModel;
-using System.Reflection.Metadata;
-using GameData;
-using GameData.src.Class;
 using GameData.src.Effect;
 using GameData.src.Effect.Stack;
 using GameData.src.Effect.Status;
@@ -12,11 +8,9 @@ using GameData.src.Shared;
 using GameData.src.Shared.Enums;
 using GameData.src.Shared.Modifier;
 using GameData.src.Shared.Modifiers;
-using GameData.src.Shared.Modifiers.Operations;
 using GameData.src.Skill;
 using GameData.src.Skill.SkillStep;
 using GameData.src.Stat;
-using GameData.src.Talent.TalentActions;
 using GameLogic.Ports;
 using static GameData.src.Skill.SkillStep.DotDamageStep;
 
@@ -56,7 +50,6 @@ namespace GameLogic.Combat
         private readonly CombatEntity mob;
 
         public int playerCurrentHealth;
-
         public bool IsCombatActive => combatActive;
 
         private bool combatActive = false;
@@ -72,325 +65,479 @@ namespace GameLogic.Combat
             this.skillRepository = skillRepository;
             this.effectRepository = effectRepository;
             this.talentRepository = talentRepository;
-            this.player = this.InitializePlayer(player);
-            this.mob = this.InitializeMob(mob);
+            // this.player = this.InitializePlayer(player);
+            // this.mob = this.InitializeMob(mob);
         }
 
-        public TurnResult ProcessCombat(CombatCommand command)
+        // public TurnResult ProcessCombat(CombatCommand command)
+        // {
+        //     var events = new List<CombatEvent>();
+
+        //     if (!intialized)
+        //     {
+        //         this.combatActive = true;
+        //         this.intialized = true;
+        //         events.Add(new CombatStartEvent());
+        //     }
+
+        //     if (!this.combatActive)
+        //     {
+        //         events.Add(new CombatEndEvent());
+        //         return new TurnResult(events);
+        //     }
+
+        //     this.turnQueue.Enqueue(player, player.Stats.Speed);
+        //     this.turnQueue.Enqueue(mob, mob.Stats.Speed);
+
+        //     do
+        //     {
+        //         var entity = this.turnQueue.Dequeue();
+
+        //         if (entity.Identifier == player.Identifier)
+        //         {
+        //             switch (command)
+        //             {
+        //                 case UseSkillCommand s:
+        //                     {
+        //                         if (!entity.Skills.TryGetValue(s.SkillId, out var skill))
+        //                         {
+        //                             throw new InvalidOperationException($"Skill with ID '{s.SkillId}' not found.");
+        //                         }
+
+        //                         if (mob.Identifier != s.TargetId)
+        //                         {
+        //                             throw new InvalidOperationException("identifier does not match any combat entity");
+        //                         }
+
+        //                         foreach (var combatEvent in ApplyDamage(SelectSkill(entity), entity, player, events))
+        //                         {
+        //                             events.Add(combatEvent);
+        //                         }
+        //                     }
+
+        //                     break;
+        //                 case FleeCommand:
+        //                     {
+        //                         events.Add(new PlayerFledEvent(true));
+        //                         combatActive = false;
+        //                     }
+        //                     break;
+        //             }
+        //         }
+        //         else
+        //         {
+        //             foreach (var combatEvent in ApplyDamage(SelectSkill(entity), entity, player, events))
+        //             {
+        //                 events.Add(combatEvent);
+        //             }
+        //         }
+
+        //         foreach (var combatEvent in this.CalculateCombatState(events))
+        //         {
+        //             events.Add(combatEvent);
+        //         }
+
+        //     } while (this.turnQueue.Count > 0 && combatActive);
+
+        //     return new TurnResult(events);
+        // }
+
+        // public static List<CombatEvent> PreCombatTurn(CombatEntity entity, List<CombatEvent> events)
+        // {
+        //     return events;
+        // }
+
+        // public List<CombatEvent> PostCombatTurn(CombatEntity entity, List<CombatEvent> events)
+        // {
+        //     return events;
+        // }
+
+        // public static List<CombatEvent> ApplyDamage(SkillCombatDefinition skill,
+        //     CombatEntity source,
+        //     CombatEntity target,
+        //     List<CombatEvent> events)
+        // {
+        //     var hitDamage = skill.Skill.Effects.OfType<HitDamageStep>();
+        //     foreach (var hit in hitDamage)
+        //     {
+        //         var snapshot = new HitDamageSnapshot(hit);
+
+        //         snapshot.Damage += snapshot.ScaleCoefficient.Stat switch
+        //         {
+        //             StatKind.PhysicalDamage => snapshot.ScaleCoefficient.Operation.ApplyScalarModifier((int)source.Stats.AttackPower),
+        //             StatKind.MeleeDamage => snapshot.ScaleCoefficient.Operation.ApplyScalarModifier((int)source.Stats.AttackPower),
+        //             _ => 0
+        //         };
+
+        //         foreach (var damageType in snapshot.DamageTypes)
+        //         {
+        //             snapshot.Damage += damageType switch
+        //             {
+        //                 DamageType.Melee => (int)source.Stats.AttackPower,
+        //                 DamageType.Physical => (int)source.Stats.AttackPower,
+        //                 DamageType.Bleed => (int)source.Stats.AttackPower,
+        //                 _ => 0
+        //             };
+        //         }
+
+        //         if (snapshot.StackFromEffect is not null)
+        //         {
+        //             var effects = source.ActiveEffects.Where(ae => ae.Identifier == snapshot.StackFromEffect.FromEffect).ToList();
+        //             if (effects.Count > 0)
+        //             {
+        //                 snapshot.Damage *= effects.Count;
+        //             }
+        //         }
+
+        //         foreach (var action in skill.Skill.Effects)
+        //         {
+        //             if (action != skill.Skill.Id)
+        //             {
+        //                 continue;
+        //             }
+
+        //             if (action.BaseDamage is not null)
+        //             {
+        //                 snapshot.Damage = action.BaseDamage.ApplyScalarModifier(snapshot.Damage);
+        //             }
+
+        //             snapshot.CanCrit = action.Crit ?? snapshot.CanCrit;
+
+        //             if (action.DamageTypes is not null)
+        //             {
+        //                 snapshot.DamageTypes = action.DamageTypes.Operation.ApplyCollectionModifier(snapshot.DamageTypes);
+        //             }
+        //         }
+
+        //         events.Add(new DamageApplied(source.Identifier, target.Identifier, skill.Skill.Id, hit.BaseDamage));
+        //     }
+
+        //     // var dotDamage = skill.Skill.Effects.OfType<DotDamageStep>();
+        //     // foreach (var dot in dotDamage)
+        //     // {
+        //     //     var snapshot = CombatDotDamageSnapshot.FromStep(dot);
+        //     //     foreach (var action in skill.DotActions)
+        //     //     {
+        //     //         if (action.SkillId != skill.Skill.Id)
+        //     //         {
+        //     //             continue;
+        //     //         }
+
+        //     //         if (action.BaseDamage is not null)
+        //     //         {
+        //     //             snapshot.BaseDamage = action.BaseDamage.ApplyScalarModifier(snapshot.BaseDamage);
+        //     //         }
+
+        //     //         if (action.Frequency is not null)
+        //     //         {
+        //     //             snapshot.Frequency = action.Frequency.ApplyScalarModifier(snapshot.Frequency);
+        //     //         }
+
+        //     //         if (action.Duration is not null)
+        //     //         {
+        //     //             snapshot.Duration = action.Duration.ApplyDurationModifier(snapshot.Duration);
+        //     //         }
+
+        //     //         if (action.StackStrategy is not null)
+        //     //         {
+        //     //             snapshot.Stacking = action.StackStrategy;
+        //     //         }
+
+        //     //         if (action.Timing is TimingKind t)
+        //     //         {
+        //     //             snapshot.Timing = t;
+        //     //         }
+
+        //     //         if (action.DamageTypes is not null)
+        //     //         {
+        //     //             snapshot.DamageTypes = action.DamageTypes.Operation.ApplyCollectionModifier(snapshot.DamageTypes);
+        //     //         }
+
+        //     //         snapshot.Crit = action.Crit ?? snapshot.Crit;
+
+        //     //     }
+
+        //     //     events.Add(new DamageApplied(source.Identifier, target.Identifier, skill.Skill.Id, dot.BaseDamage));
+        //     // }
+
+        //     return events;
+        // }
+
+        // public static SkillCombatDefinition SelectSkill(CombatEntity entity)
+        // {
+        //     var random = new Random();
+        //     var skillIndex = random.Next(entity.Skills.Count);
+        //     return entity.Skills.Values.ElementAt(skillIndex);
+        // }
+
+        // public List<CombatEvent> CalculateCombatState(List<CombatEvent> events)
+        // {
+        //     if (!combatActive)
+        //     {
+        //         return events;
+        //     }
+
+        //     if (player.CurrentHealth <= 0)
+        //     {
+        //         events.Add(new PlayerDiedEvent());
+        //         events.Add(new CombatEndEvent());
+
+        //         this.combatActive = false;
+        //     }
+
+        //     if (mob.CurrentHealth <= 0)
+        //     {
+        //         events.Add(new MobDiedEvent(mob.Identifier));
+        //         this.combatActive = false;
+        //     }
+
+        //     return events;
+        // }
+
+        // private CombatEntity InitializePlayer(Player player)
+        // {
+        //     var activeSkills = new Dictionary<string, SkillCombatDefinition>();
+        //     foreach (var entry in player.ClassDefinition.SkillEntry)
+        //     {
+        //         if (entry.Level <= player.Level)
+        //         {
+        //             activeSkills[entry.Id] = new(this.skillRepository.Get(entry.Id));
+        //         }
+        //     }
+
+        //     var combatEntity = new CombatEntity(nameof(player), player.BaseStats, activeSkills, player.Level);
+
+        //     var actions = player.Talents.Select(t => t.Actions);
+
+        //     foreach (var action in actions)
+        //     {
+        //         if (action is ApplyEffectAction ae)
+        //         {
+        //             if (combatEntity.Skills.TryGetValue(ae.FromSkill, out var skill))
+        //             {
+        //                 skill.Effects[ae.Effect] = this.effectRepository.Get(ae.Effect);
+        //             }
+        //         }
+        //         else if (action is ModifyHitDamageAction hd)
+        //         {
+        //             if (combatEntity.Skills.TryGetValue(hd.Skill, out var skill))
+        //             {
+        //                 skill.HitActions.Add(hd);
+        //             }
+        //         }
+        //         else if (action is ModifyDotDamageAction dd)
+        //         {
+        //             if (combatEntity.Skills.TryGetValue(dd.SkillId, out var skill))
+        //             {
+        //                 skill.DotActions.Add(dd);
+        //             }
+        //         }
+        //     }
+
+        //     return combatEntity;
+        // }
+
+        // private CombatEntity InitializeMob(Mob mob)
+        // {
+        //     var skills = new Dictionary<string, SkillCombatDefinition>();
+        //     foreach (var skillId in mob.Skills)
+        //     {
+        //         skills[skillId] = new(this.skillRepository.Get(skillId));
+        //     }
+
+        //     return new CombatEntity(nameof(mob), mob.BaseStats, skills, mob.Level);
+        // }
+
+
+        /// Calculates hit damage in the following order:
+        /// 1. Source Stat Scaling
+        /// 2. Additive Scalars
+        ///    - Modify Hit Scaling
+        ///    - Modify Skill Scaling
+        ///    - Modify Effect Scaling
+        /// 3. Multiplicative Scalars
+        ///    - Modify Hit Scaling
+        ///    - Modify Skill Scaling
+        ///    - Modify Effect Scaling
+        ///    - Target Effect Scaling
+        /// 4. Target Scaling and Reductions
+        ///    - Target Additive Effect Scaling
+        ///    - Target Multiplicative Effect Scaling
+        ///    - Target Stat Defenses
+        private int CalculateHitDamage(SkillCombatDefinition skill, CombatEntity source, CombatEntity target)
         {
-            var events = new List<CombatEvent>();
+            var hitStep = skill.Skill.Effects.OfType<HitDamageStep>();
 
-            if (!intialized)
+            foreach (var step in hitStep)
             {
-                this.combatActive = true;
-                this.intialized = true;
-                events.Add(new CombatStartEvent());
-            }
+                var multiplicateModifier = 0f;
+                var additiveModifier = 0;
 
-            if (!this.combatActive)
-            {
-                events.Add(new CombatEndEvent());
-                return new TurnResult(events);
-            }
-
-            this.turnQueue.Enqueue(player, player.BaseStats.Speed);
-            this.turnQueue.Enqueue(mob, mob.BaseStats.Speed);
-
-            do
-            {
-                var entity = this.turnQueue.Dequeue();
-
-                if (entity.Identifier == player.Identifier)
+                var snapshot = new HitDamageSnapshot(step);
                 {
-                    switch (command)
+                    // Process Stat Scaling
+                    if (snapshot.ScaleCoefficient.Stat is StatKind.PhysicalDamage or StatKind.MeleeDamage)
                     {
-                        case UseSkillCommand s:
+                        if (snapshot.ScaleCoefficient.Operation.ModifierOperation == ScalarOperation.OperationKind.Add)
+                        {
+                            additiveModifier += snapshot.ScaleCoefficient.Operation.Value;
+                        }
+                        else if (snapshot.ScaleCoefficient.Operation.ModifierOperation == ScalarOperation.OperationKind.Mult)
+                        {
+                            multiplicateModifier += snapshot.ScaleCoefficient.Operation.Value;
+                        }
+                    }
+                }
+
+                //Process Modifiers
+                foreach (var mod in source.Modifiers)
+                {
+                    {
+                        if (mod is ModifyHitDamageAction action && action.Skill == skill.Skill.Id)
+                        {
+                            if (action.BaseDamage?.ModifierOperation is ScalarOperation.OperationKind.Add)
                             {
-                                if (!entity.Skills.TryGetValue(s.SkillId, out var skill))
-                                {
-                                    throw new InvalidOperationException($"Skill with ID '{s.SkillId}' not found.");
-                                }
-
-                                if (mob.Identifier != s.TargetId)
-                                {
-                                    throw new InvalidOperationException("identifier does not match any combat entity");
-                                }
-
-                                foreach (var combatEvent in ApplyDamage(SelectSkill(entity), entity, player, events))
-                                {
-                                    events.Add(combatEvent);
-                                }
+                                additiveModifier += action.BaseDamage.Value;
                             }
-
-                            break;
-                        case FleeCommand:
+                            else if (action.BaseDamage?.ModifierOperation is ScalarOperation.OperationKind.Mult)
                             {
-                                events.Add(new PlayerFledEvent(true));
-                                combatActive = false;
+                                multiplicateModifier += action.BaseDamage.Value;
                             }
-                            break;
-                    }
-                }
-                else
-                {
-                    foreach (var combatEvent in ApplyDamage(SelectSkill(entity), entity, player, events))
-                    {
-                        events.Add(combatEvent);
+                        }
                     }
                 }
 
-                foreach (var combatEvent in this.CalculateCombatState(events))
-                {
-                    events.Add(combatEvent);
-                }
+                //Process Effects
+                var (addScaling, multScaling) = ProcessEffectHitScaling(snapshot, skill.Skill.Id, source.ActiveEffects);
+                additiveModifier += addScaling;
+                multiplicateModifier += multScaling;
 
-            } while (this.turnQueue.Count > 0 && combatActive);
+                var (ar, mr) = ProcessEffectHitScaling(snapshot, skill.Skill.Id, target.ActiveEffects);
+                additiveModifier -= ar;
+                multiplicateModifier -= mr;
 
-            return new TurnResult(events);
-        }
-
-        public List<CombatEvent> PreCombatTurn(CombatEntity entity, List<CombatEvent> events)
-        {
-            return events;
-        }
-
-        public List<CombatEvent> PostCombatTurn(CombatEntity entity, List<CombatEvent> events)
-        {
-            return events;
-        }
-
-        public static List<CombatEvent> ApplyDamage(SkillCombatDefinition skill,
-            CombatEntity source,
-            CombatEntity target,
-            List<CombatEvent> events)
-        {
-            var hitDamage = skill.Skill.Effects.OfType<HitDamageStep>();
-            foreach (var hit in hitDamage)
-            {
-                var snapshot = new DamageSnapshot(hit);
-
-                snapshot.Damage += snapshot.ScaleCoefficient.Stat switch
-                {
-                    StatKind.PhysicalDamage => snapshot.ScaleCoefficient.Operation.ApplyScalarModifier((int)source.BaseStats.AttackPower),
-                    StatKind.MeleeDamage => snapshot.ScaleCoefficient.Operation.ApplyScalarModifier((int)source.BaseStats.AttackPower),
-                    _ => 0
-                };
-
-                foreach (var damageType in snapshot.DamageTypes)
-                {
-                    snapshot.Damage += damageType switch
-                    {
-                        DamageType.Melee => (int)source.BaseStats.AttackPower,
-                        DamageType.Physical => (int)source.BaseStats.AttackPower,
-                        DamageType.Bleed => (int)source.BaseStats.AttackPower,
-                        _ => 0
-                    };
-                }
-
-                if (snapshot.StackFromEffect is not null)
-                {
-                    var effects = source.ActiveEffects.Where(ae => ae.Identifier == snapshot.StackFromEffect.FromEffect).ToList();
-                    if (effects.Count > 0)
-                    {
-                        snapshot.Damage *= effects.Count;
-                    }
-                }
-
-                foreach (var action in skill.HitActions)
-                {
-                    if (action.Skill != skill.Skill.Id)
-                    {
-                        continue;
-                    }
-
-                    if (action.BaseDamage is not null)
-                    {
-                        snapshot.Damage = action.BaseDamage.ApplyScalarModifier(snapshot.Damage);
-                    }
-
-                    snapshot.CanCrit = action.Crit ?? snapshot.CanCrit;
-
-                    if (action.DamageTypes is not null)
-                    {
-                        snapshot.DamageTypes = action.DamageTypes.Operation.ApplyCollectionModifier(snapshot.DamageTypes);
-                    }
-                }
-
-                events.Add(new DamageApplied(source.Identifier, target.Identifier, skill.Skill.Id, hit.BaseDamage));
+                snapshot.Damage += additiveModifier;
+                snapshot.Damage = (int)(snapshot.Damage * (1 + multiplicateModifier));
             }
 
-            // var dotDamage = skill.Skill.Effects.OfType<DotDamageStep>();
-            // foreach (var dot in dotDamage)
-            // {
-            //     var snapshot = CombatDotDamageSnapshot.FromStep(dot);
-            //     foreach (var action in skill.DotActions)
-            //     {
-            //         if (action.SkillId != skill.Skill.Id)
-            //         {
-            //             continue;
-            //         }
-
-            //         if (action.BaseDamage is not null)
-            //         {
-            //             snapshot.BaseDamage = action.BaseDamage.ApplyScalarModifier(snapshot.BaseDamage);
-            //         }
-
-            //         if (action.Frequency is not null)
-            //         {
-            //             snapshot.Frequency = action.Frequency.ApplyScalarModifier(snapshot.Frequency);
-            //         }
-
-            //         if (action.Duration is not null)
-            //         {
-            //             snapshot.Duration = action.Duration.ApplyDurationModifier(snapshot.Duration);
-            //         }
-
-            //         if (action.StackStrategy is not null)
-            //         {
-            //             snapshot.Stacking = action.StackStrategy;
-            //         }
-
-            //         if (action.Timing is TimingKind t)
-            //         {
-            //             snapshot.Timing = t;
-            //         }
-
-            //         if (action.DamageTypes is not null)
-            //         {
-            //             snapshot.DamageTypes = action.DamageTypes.Operation.ApplyCollectionModifier(snapshot.DamageTypes);
-            //         }
-
-            //         snapshot.Crit = action.Crit ?? snapshot.Crit;
-
-            //     }
-
-            //     events.Add(new DamageApplied(source.Identifier, target.Identifier, skill.Skill.Id, dot.BaseDamage));
-            // }
-
-            return events;
+            return 0;
         }
 
-        public static SkillCombatDefinition SelectSkill(CombatEntity entity)
+        private static (int additive, float multiplicative) ProcessEffectHitScaling(HitDamageSnapshot snapshot, string skillId, List<EffectSnapshot> effects)
         {
-            var random = new Random();
-            var skillIndex = random.Next(entity.Skills.Count);
-            return entity.Skills.Values.ElementAt(skillIndex);
-        }
-
-        public List<CombatEvent> CalculateCombatState(List<CombatEvent> events)
-        {
-            if (!combatActive)
+            var additive = 0;
+            var multiplicative = 0f;
+            foreach (var effect in effects)
             {
-                return events;
-            }
-
-            if (player.CurrentHealth <= 0)
-            {
-                events.Add(new PlayerDiedEvent());
-                events.Add(new CombatEndEvent());
-
-                this.combatActive = false;
-            }
-
-            if (mob.CurrentHealth <= 0)
-            {
-                events.Add(new MobDiedEvent(mob.Identifier));
-                this.combatActive = false;
-            }
-
-            return events;
-        }
-
-        private CombatEntity InitializePlayer(Player player)
-        {
-            var activeSkills = new Dictionary<string, SkillCombatDefinition>();
-            foreach (var entry in player.ClassDefinition.SkillEntry)
-            {
-                if (entry.Level <= player.Level)
+                foreach (var modifier in effect.Modifiers)
                 {
-                    activeSkills[entry.Id] = new(this.skillRepository.Get(entry.Id));
-                }
-            }
-
-            var combatEntity = new CombatEntity(nameof(player), player.BaseStats, activeSkills, player.Level);
-
-            var actions = player.Talents.Select(t => t.Actions);
-
-            foreach (var action in actions)
-            {
-                if (action is ApplyEffectAction ae)
-                {
-                    if (combatEntity.Skills.TryGetValue(ae.FromSkill, out var skill))
                     {
-                        skill.Effects[ae.Effect] = this.effectRepository.Get(ae.Effect);
-                    }
-                }
-                else if (action is ModifyHitDamageAction hd)
-                {
-                    if (combatEntity.Skills.TryGetValue(hd.Skill, out var skill))
-                    {
-                        skill.HitActions.Add(hd);
-                    }
-                }
-                else if (action is ModifyDotDamageAction dd)
-                {
-                    if (combatEntity.Skills.TryGetValue(dd.SkillId, out var skill))
-                    {
-                        skill.DotActions.Add(dd);
+                        if (modifier is AttackModifer am)
+                        {
+                            if (am.Operation.ModifierOperation == ScalarOperation.OperationKind.Add)
+                            {
+                                additive += am.Operation.Value;
+                            }
+                            else if (am.Operation.ModifierOperation == ScalarOperation.OperationKind.Mult)
+                            {
+                                multiplicative += am.Operation.Value;
+                            }
+                        }
+
+                        if (modifier is DamageModifer dm && snapshot.DamageTypes.Contains(dm.DamageType))
+                        {
+                            if (dm.Operation.ModifierOperation == ScalarOperation.OperationKind.Add)
+                            {
+                                additive += dm.Operation.Value;
+                            }
+                            else if (dm.Operation.ModifierOperation == ScalarOperation.OperationKind.Mult)
+                            {
+                                multiplicative += dm.Operation.Value;
+                            }
+                        }
+
+                        if (modifier is SkillModifier sm && skillId == sm.SkillId)
+                        {
+                            if (sm.Operation.ModifierOperation == ScalarOperation.OperationKind.Add)
+                            {
+                                additive += sm.Operation.Value;
+                            }
+                            else if (sm.Operation.ModifierOperation == ScalarOperation.OperationKind.Mult)
+                            {
+                                multiplicative += sm.Operation.Value;
+                            }
+                        }
                     }
                 }
             }
 
-            return combatEntity;
+            return (additive, multiplicative);
         }
 
-        private CombatEntity InitializeMob(Mob mob)
+        private DotEffectSnapshot ApplyDotEffectSnapshot(SkillDefinition definition, CombatEntity source, CombatEntity target)
         {
-            var skills = new Dictionary<string, SkillCombatDefinition>();
-            foreach (var skillId in mob.Skills)
+            var dotSteps = definition.Effects.OfType<DotDamageStep>();
+            foreach (var dotStep in dotSteps)
             {
-                skills[skillId] = new(this.skillRepository.Get(skillId));
-            }
+                var snapshot = new DotEffectSnapshot(dotStep);
 
-            return new CombatEntity(nameof(mob), mob.BaseStats, skills, mob.Level);
+            }
+        }
+
+        private int CalculateDotDamage(DotEffectSnapshot snapshot, CombatEntity source, CombatEntity target)
+        {
+            return 0;
+        }
+
+        private int ApplyEffect(SkillDefinition skill, CombatEntity source, CombatEntity target)
+        {
+            return 0;
         }
 
         public class CombatEntity
         {
+            public bool IsPlayer { get; }
             public string Identifier { get; }
             private int currentHealth;
             public int MaxHealth { get; }
+
             public int CurrentHealth
             {
                 get => currentHealth;
                 set => currentHealth = Math.Max(0, value);
             }
 
-            public List<EffectSnapshot> ActiveEffects = [];
+            public IReadOnlyList<ITalentAction> Modifiers { get; }
 
+            public List<EffectSnapshot> ActiveEffects = [];
             public Dictionary<string, SkillCombatDefinition> Skills { get; }
-            public StatTemplate BaseStats { get; }
+
+            public StatSnapshot Stats { get; }
+
             int Level { get; }
 
             public CombatEntity(string identifier,
-                StatTemplate baseStats,
+                StatSnapshot stats,
                 Dictionary<string, SkillCombatDefinition> skills,
-                int level)
+                IReadOnlyList<ITalentAction> modifiers,
+                int level,
+                bool isPlayer = false)
             {
-                this.BaseStats = baseStats;
+                this.Stats = stats;
                 this.Skills = skills;
                 this.Level = level;
                 this.Identifier = identifier;
+                this.Modifiers = modifiers;
             }
         }
 
         public class SkillCombatDefinition
         {
-            public List<ModifySkillAction> skillActions { get; } = [];
-            public List<ModifyEffectAction> activeEffectModifiers { get; } = [];
-            public Dictionary<string, EffectDefinition> Effects { get; } = [];
-            public List<ModifyDotDamageAction> DotActions { get; } = [];
-            public List<ModifyHitDamageAction> HitActions { get; } = [];
+            // public List<ModifySkillAction> skillActions { get; } = [];
+            // public List<ModifyEffectAction> activeEffectModifiers { get; } = [];
+            public Dictionary<string, ISkillStep> Effects { get; } = [];
+            // public List<ModifyDotDamageAction> DotActions { get; } = [];
+            // public List<ModifyHitDamageAction> HitActions { get; } = [];
             public SkillDefinition Skill { get; }
 
             public SkillCombatDefinition(SkillDefinition skill)
@@ -399,10 +546,61 @@ namespace GameLogic.Combat
             }
         }
 
-        public struct DamageSnapshot(HitDamageStep d)
+        public struct StatSnapshot()
         {
-            public AttackKind Kind { get; set; } = d.Kind;
+            public int MeleeDamage;
+            public int SpellDamage;
+            public int PhysicalDamage;
+            public int ElementalDamage;
+            public int Defense;
+            public int Avoidance;
+            public int Speed;
+            public int Ward;
+            public int Health;
 
+            public StatSnapshot(StatTemplate stats) : this()
+            {
+                if (stats.Stats.TryGetValue(StatKind.MeleeDamage, out var md))
+                {
+                    MeleeDamage = md;
+                }
+                if (stats.Stats.TryGetValue(StatKind.SpellDamage, out var sd))
+                {
+                    SpellDamage = sd;
+                }
+                if (stats.Stats.TryGetValue(StatKind.PhysicalDamage, out var pd))
+                {
+                    PhysicalDamage = pd;
+                }
+                if (stats.Stats.TryGetValue(StatKind.ElementalDamage, out var ed))
+                {
+                    ElementalDamage = ed;
+                }
+                if (stats.Stats.TryGetValue(StatKind.Defense, out var def))
+                {
+                    Defense = def;
+                }
+                if (stats.Stats.TryGetValue(StatKind.Avoidance, out var av))
+                {
+                    Avoidance = av;
+                }
+                if (stats.Stats.TryGetValue(StatKind.Speed, out var sp))
+                {
+                    Speed = sp;
+                }
+                if (stats.Stats.TryGetValue(StatKind.Ward, out var wa))
+                {
+                    Ward = wa;
+                }
+                if (stats.Stats.TryGetValue(StatKind.Health, out var hp))
+                {
+                    Health = hp;
+                }
+            }
+        }
+
+        public struct HitDamageSnapshot(HitDamageStep d)
+        {
             public List<DamageType> DamageTypes { get; set; } = [.. d.DamageTypes];
 
             public int Damage { get; set; } = d.BaseDamage;
@@ -414,97 +612,24 @@ namespace GameLogic.Combat
             public StackFromEffect? StackFromEffect { get; set; } = d.StackFromEffect;
         }
 
-        public struct CombatDotDamageSnapshot(DotDamageStep damage)
+        public struct DotEffectSnapshot(DotDamageStep d)
         {
-            public AttackKind Kind { get; set; } = damage.Kind;
+            public List<DamageType> DamageTypes { get; set; } = [.. d.DamageTypes];
 
-            public List<DamageType> DamageTypes { get; set; } = [.. damage.DamageTypes];
+            public int Damage { get; set; } = d.BaseDamage;
 
-            public int BaseDamage { get; set; } = damage.BaseDamage;
+            public ScaleCoefficient ScaleCoefficient { get; set; } = d.ScaleCoefficient;
 
-            public ScaleCoefficient ScaleCoefficient { get; set; } = damage.ScaleCoefficient;
+            public Duration Duration { get; set; } = d.Duration;
 
-            public Duration Duration { get; set; } = damage.Duration;
+            public int Frequency { get; set; } = d.Frequency;
 
-            public int Frequency { get; set; } = damage.Frequency;
+            public TimingKind Timing { get; set; } = d.Timing;
 
-            public TimingKind Timing { get; set; } = damage.Timing;
+            public IStackStrategy StackingStrategy { get; set; } = d.Stacking;
 
-            public IStackStrategy Stacking { get; set; } = damage.Stacking;
-
-            public bool Crit { get; set; } = damage.Crit;
-
-            public static CombatDotDamageSnapshot operator +(CombatDotDamageSnapshot a, CombatDotDamageSnapshot b)
-            {
-                return new CombatDotDamageSnapshot
-                {
-                    Kind = a.Kind,
-                    DamageTypes = [.. a.DamageTypes, .. b.DamageTypes],
-                    BaseDamage = a.BaseDamage + b.BaseDamage,
-                    ScaleCoefficient = b.ScaleCoefficient,
-                    Duration = b.Duration,
-                    Frequency = a.Frequency + b.Frequency,
-                    Stacking = b.Stacking,
-                    Timing = b.Timing
-                };
-            }
-
-            public static CombatDotDamageSnapshot FromStep(DotDamageStep step)
-            {
-                return new CombatDotDamageSnapshot()
-                {
-                    BaseDamage = step.BaseDamage,
-                    DamageTypes = [.. step.DamageTypes],
-                    Duration = step.Duration,
-                    Frequency = step.Frequency,
-                    Kind = AttackKind.Dot,
-                    ScaleCoefficient = step.ScaleCoefficient,
-                    Stacking = step.Stacking,
-                    Timing = step.Timing
-                };
-            }
+            public bool CanCrit { get; set; } = d.Crit;
         }
-
-        // public struct CombatHitDamageSnapshot(HitDamageStep damage)
-        // {
-        //     public AttackKind Kind { get; set; } = damage.Kind;
-
-        //     public List<DamageType> DamageTypes { get; set; } = [.. damage.DamageTypes];
-
-        //     public required int BaseDamage { get; set; } = damage.BaseDamage;
-
-        //     public required bool Crit { get; set; } = damage.Crit;
-
-        //     public required ScaleCoefficient ScaleCoefficient { get; set; } = damage.ScaleCoefficient;
-
-        //     public StackFromEffect? StackFromEffect { get; set; } = damage.StackFromEffect;
-
-        //     public static CombatHitDamageSnapshot operator +(CombatHitDamageSnapshot a, CombatHitDamageSnapshot b)
-        //     {
-        //         return new CombatHitDamageSnapshot
-        //         {
-        //             Kind = a.Kind,
-        //             DamageTypes = a.DamageTypes.Concat(b.DamageTypes).ToList(),
-        //             BaseDamage = a.BaseDamage + b.BaseDamage,
-        //             Crit = a.Crit || b.Crit,
-        //             ScaleCoefficient = b.ScaleCoefficient,
-        //             StackFromEffect = a.StackFromEffect ?? b.StackFromEffect
-        //         };
-        //     }
-
-        //     public static CombatHitDamageSnapshot FromStep(HitDamageStep hit)
-        //     {
-        //         return new CombatHitDamageSnapshot()
-        //         {
-        //             BaseDamage = hit.BaseDamage,
-        //             Crit = hit.Crit,
-        //             ScaleCoefficient = hit.ScaleCoefficient,
-        //             DamageTypes = [.. hit.DamageTypes],
-        //             Kind = hit.Kind,
-        //             StackFromEffect = hit.StackFromEffect
-        //         };
-        //     }
-        // }
 
         public struct EffectSnapshot(EffectDefinition effect)
         {

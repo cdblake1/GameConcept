@@ -8,14 +8,22 @@
   ],
   "actions": [
     {
-      "type": "modify_damage",
-      "skill": "rend_skill",
-      "application": "add",
-      "attack_kind": "dot",
-      "base_damage": {
-        "operation": "mult",
-        "value": 20
-      }
+      "type": "modify_dot_damage",
+      "min_base_damage": {
+        "scale_empowered": 20,
+        "scale_added": 0,
+        "scale_increased": 0
+      },
+      "max_base_damage": {
+        "scale_added": 0,
+        "scale_empowered": 20,
+        "scale_increased": 0
+      },
+      "skill_id": "rend_skill"
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Rend bleed damage empowered by 20%",
+    "name": "Rend Empowered Damage"
+  }
 }

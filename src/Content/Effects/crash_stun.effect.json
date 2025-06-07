@@ -1,12 +1,5 @@
 {
   "category": "debuff",
-  "damage_types": ["physical"],
   "duration": 1,
-  "id": "crash_stun",
-  "apply_status": [
-    {
-      "id": "stun",
-      "duration": 1
-    }
-  ]
+  "id": "crash_stun"
 }

@@ -4,14 +4,16 @@
     {
       "type": "modify_damage",
       "skill": "hit_damage_test",
-      "attack_kind": "hit",
+      "attack_type": "hit",
       "base_damage": {
         "operation": "add",
         "value": 1
       },
       "crit": true,
       "damage_types": {
-        "items": ["burn"],
+        "items": [
+          "burn"
+        ],
         "operation": "add",
         "type": "damage_type"
       }
@@ -37,10 +39,13 @@
     {
       "type": "damage",
       "damage": {
-        "attack_kind": "hit",
+        "attack_type": "hit",
         "base_damage": 1,
         "crit": true,
-        "damage_types": ["burn", "elemental"],
+        "damage_types": [
+          "burn",
+          "elemental"
+        ],
         "scale_coef": {
           "scalar_operation": {
             "operation": "add",
@@ -48,10 +53,10 @@
           },
           "stat": "physical_damage"
         },
-        "stack_from_effect": {
+        "from_effect": {
           "consume_stacks": false,
           "from": "test_effect",
-          "type": "stack_from_effect"
+          "type": "from_effect"
         },
         "type": "damage"
       },
@@ -71,7 +76,9 @@
       },
       "damage_types": {
         "type": "damage_type",
-        "items": ["true_damage"],
+        "items": [
+          "true_damage"
+        ],
         "operation": "add"
       },
       "duration": {
@@ -90,7 +97,9 @@
         "items": [
           {
             "type": "damage",
-            "damage_type": ["bleed"],
+            "damage_type": [
+              "bleed"
+            ],
             "scalar_operation": {
               "operation": "add",
               "value": 1

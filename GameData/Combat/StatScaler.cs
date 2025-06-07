@@ -2,8 +2,8 @@ public static class StatScaler
 {
     private static readonly Random _rand = new();
 
-    public static StatTemplate Scale(
-        StatTemplate baseStats,
+    public static StatTemplateOld Scale(
+        StatTemplateOld baseStats,
         int level,
         int maxLevel = 100,
         GrowthModel model = GrowthModel.Linear,
@@ -43,7 +43,7 @@ public static class StatScaler
             health *= eliteMultiplier;
         }
 
-        return new StatTemplate
+        return new StatTemplateOld
         {
             AttackPower = attack,
             Defense = defense,

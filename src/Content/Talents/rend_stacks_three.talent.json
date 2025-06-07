@@ -2,21 +2,12 @@
   "id": "rend_stack_talent",
   "actions": [
     {
-      "type": "modify_damage",
-      "skill": "rend_skill",
-      "attack_kind": "dot",
-      "dot_props": {
-        "stacking": {
-          "max_stacks": {
-            "operation": "set",
-            "value": 3
-          },
-          "stacks_per_application": {
-            "operation": "set",
-            "value": 1
-          },
-          "refresh_mode": "reset_time"
-        }
+      "type": "modify_dot_damage",
+      "skill_id": "rend_skill",
+      "stack_strategy": {
+        "scale_added": 2,
+        "scale_empowered": 0,
+        "scale_increased": 0
       }
     }
   ]

@@ -7,7 +7,7 @@ public abstract class MobBase : ActorBase
 
     public override int CurrentHealth { get; set; }
 
-    public override StatTemplate Stats => this.baseStats;
+    public override StatTemplateOld Stats => this.baseStats;
 
     protected MobBase(IActor actor, LootTable LootTable, IReadOnlyList<Skill> skills, int level) : base(actor, level)
     {

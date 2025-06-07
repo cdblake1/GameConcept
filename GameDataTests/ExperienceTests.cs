@@ -112,13 +112,13 @@ namespace GameDataTests
     {
         public string Name { get; }
         public string Description { get; }
-        public StatTemplate BaseStats { get; }
+        public StatTemplateOld BaseStats { get; }
 
         public List<Talent> Talents => throw new NotImplementedException();
 
         public List<(int requiredLevel, Skill Skill)> SkillList => throw new NotImplementedException();
 
-        public MockClass(string name, string description, StatTemplate baseStats)
+        public MockClass(string name, string description, StatTemplateOld baseStats)
         {
             Name = name;
             Description = description;
@@ -127,7 +127,7 @@ namespace GameDataTests
 
         public static MockClass Create()
         {
-            return new MockClass("MockClass", "This is a mock class for testing.", new StatTemplate
+            return new MockClass("MockClass", "This is a mock class for testing.", new StatTemplateOld
             {
                 Health = 100,
                 AttackPower = 10,

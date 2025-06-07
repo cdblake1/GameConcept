@@ -3,33 +3,29 @@
   "cost": 1,
   "effects": [
     {
-      "type": "damage",
-      "base_damage": 10,
-      "attack_kind": "hit",
+      "type": "damage_step",
+      "attack_type": "hit",
+      "weapon_type": "melee",
+      "damage_types": [
+        "physical"
+      ],
+      "min_base_damage": 7,
+      "max_base_damage": 10,
       "crit": true,
-      "damage_types": ["physical"],
-      "scale_coef": { "scalar_operation": { "operation": "mult", "value": 5 }, "stat": "melee_damage" }
+      "scale_properties": {
+        "scale_added": 100,
+        "scale_increased": 100,
+        "scale_speed": 50
+      }
     },
     {
-      "consume_stacks": true,
-      "from": "enrage_stack_effect",
-      "scaling": {
-        "type": "damage",
-        "damage_type": ["physical"],
-        "scalar_operation": {
-          "operation": "mult",
-          "value": 5
-        }
-      },
-      "duration": 3,
-      "id": "enrage_buff_effect",
-      "type": "stack_scaling"
+      "type": "apply_effect",
+      "effect": "enrage_buff_effect"
     }
   ],
   "id": "enrage_skill",
-  "tags": [{ "tag": "physical" }],
   "activation_req": {
-    "type": "stack_scaling",
+    "type": "effect_present",
     "count": 3,
     "id": "enrage_stack_effect",
     "scope": "target"

@@ -4,12 +4,9 @@
   "id": "blood_boon_effect",
   "modifiers": [
     {
-      "type": "damage",
-      "damage_type": ["physical"],
-      "scalar_operation": {
-        "operation": "mult",
-        "value": 20
-      }
+      "type": "stat",
+      "stat": "physical_damage_empowered",
+      "value": 20
     }
   ]
 }

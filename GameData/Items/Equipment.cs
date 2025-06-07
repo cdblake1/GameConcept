@@ -1,4 +1,4 @@
-using static StatTemplate;
+using static StatTemplateOld;
 
 namespace GameData;
 
@@ -6,14 +6,14 @@ public class Equipment : IItem, IStateSerializable<EquipmentDto, Equipment>
 {
     public string Name { get; init; }
     public string Description { get; init; }
-    public StatTemplate Stats { get; init; }
+    public StatTemplateOld Stats { get; init; }
     public EquipmentKind Kind { get; init; }
 
     public GoldCoin Amount { get; init; }
 
     public ItemRarity Rarity { get; set; }
 
-    public Equipment(string name, string description, GoldCoin amount, StatTemplate stats, EquipmentKind kind, ItemRarity rarity)
+    public Equipment(string name, string description, GoldCoin amount, StatTemplateOld stats, EquipmentKind kind, ItemRarity rarity)
     {
         Name = name;
         Description = description;
@@ -46,7 +46,7 @@ public class Equipment : IItem, IStateSerializable<EquipmentDto, Equipment>
             dto.Name,
             dto.Description,
             GoldCoin.FromAmount(dto.Amount),
-            StatTemplate.Restore(dto.Stats),
+            StatTemplateOld.Restore(dto.Stats),
             dto.Kind,
             dto.Rarity);
     }

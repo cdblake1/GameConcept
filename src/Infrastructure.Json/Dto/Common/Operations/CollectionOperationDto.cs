@@ -23,7 +23,7 @@ namespace Infrastructure.Json.Dto.Common.Operations
             this.items = items;
         }
 
-        public enum Kind { damage_type, attack_kind, stat, modifier, id, apply_status }
+        public enum Kind { damage_type, attack_type, stat, modifier, id, apply_status }
     }
 
     public enum CollectionOperationDto { add, set, remove, clear }
@@ -44,7 +44,7 @@ namespace Infrastructure.Json.Dto.Common.Operations
 
     public sealed record AttackCollectionOperationDto : CollectionOperationBaseDto<AttackKindDto>
     {
-        public AttackCollectionOperationDto(CollectionOperationDto operation, AttackKindDto[] items) : base(Kind.attack_kind, operation, items)
+        public AttackCollectionOperationDto(CollectionOperationDto operation, AttackKindDto[] items) : base(Kind.attack_type, operation, items)
         {
         }
     }

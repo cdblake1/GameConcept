@@ -5,17 +5,26 @@
       "type": "modify_skill",
       "skill": "blood_boon_skill",
       "cooldown": {
-        "operation": "mult",
-        "value": 50
+        "scale_increased": 50,
+        "scale_added": 0,
+        "scale_empowered": 0
       }
     },
     {
       "type": "modify_effect",
       "id": "blood_boon_effect",
       "duration": {
-        "operation": "mult",
-        "value": 100
+        "type": "turn",
+        "turns": {
+          "scale_increased": 100,
+          "scale_added": 0,
+          "scale_empowered": 0
+        }
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Blood boon lasts 100% longer, cooldown is increased by 50%",
+    "name": "Increase Blood Boon Duration"
+  }
 }

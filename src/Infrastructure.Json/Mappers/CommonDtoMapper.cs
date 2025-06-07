@@ -3,10 +3,10 @@ using GameData.src.Effect.Stack;
 using GameData.src.Shared;
 using GameData.src.Shared.Enums;
 using GameData.src.Shared.Modifier;
-using GameData.src.Shared.Modifiers;
-using GameData.src.Shared.Modifiers.Operations;
+using GameData.src.Shared.modifier;
+using GameData.src.Shared.modifier.Operations;
 using Infrastructure.Json.Dto.Common;
-using Infrastructure.Json.Dto.Common.Modifiers;
+using Infrastructure.Json.Dto.Common.modifier;
 using Infrastructure.Json.Dto.Common.Operations;
 using Infrastructure.Json.Dto.Effect;
 
@@ -65,15 +65,17 @@ namespace Infrastructure.Json.Mappers
             };
         }
 
-        public static ScalarModifierBase ToDomain(this ModifierDto dto)
-        => dto.type switch
-        {
-            ModifierDto.Kind.stat => new StatModifier(dto.scalar_operation.ToDomain()),
-            ModifierDto.Kind.attack_kind => new AttackModifer(dto.scalar_operation.ToDomain()),
-            ModifierDto.Kind.damage => new DamageModifer(dto.scalar_operation.ToDomain()),
-            ModifierDto.Kind.skill => new SkillModifier(dto.scalar_operation.ToDomain()),
-            _ => throw new InvalidOperationException($"Modifier kind not implemented: {dto.type}")
-        };
+        public static StatModifier ToDomain(this StatModifierDto dto)
+        => new StatModifier(dto.stat.ToDomain(), dto.operation.ToDomain());
+
+        public static AttackModifer ToDomain(this AttackModifierDto dto)
+        => new AttackModifer(dto.attack_type.ToDomain(), dto.operation.ToDomain());
+
+        public static SkillModifier ToDomain(this SkillModifierDto dto)
+        => new SkillModifier(dto.skill_id, dto.operation.ToDomain());
+
+        public static DamageModifer ToDomain(this DamageModifierDto dto)
+        => new DamageModifer(dto.damage_type.ToDomain(), dto.operation.ToDomain());
 
         public static ScalarOperation ToDomain(this ScalarOperationDto dto)
         {
@@ -85,18 +87,17 @@ namespace Infrastructure.Json.Mappers
                 _ => throw new InvalidOperationException("Invalid scalar modifier operation")
             };
         }
-
-        public static StatKindCollectionModifier ToDomain(this StatCollectionOperationDto dto)
-            => new(new([.. dto.items.Select(i => i.ToDomain())], dto.operation.ToDomain()));
-
-        public static AttackKindCollectionModifier ToDomain(this AttackCollectionOperationDto dto)
-            => new(new([.. dto.items.Select(i => i.ToDomain())], dto.operation.ToDomain()));
-
-        public static DamageTypeCollectionModifier ToDomain(this DamageTypeCollectionOperationDto dto)
-            => new(new([.. dto.items.Select(i => i.ToDomain())], dto.operation.ToDomain()));
-
-        public static ModifierCollectionModifier ToDomain(this ModifierCollectionOperationDto dto)
-            => new(new([.. dto.items.Select(i => i.ToDomain())], dto.operation.ToDomain()));
+        public static ScalarModifierBase ToDomain(this ModifierDto dto)
+        {
+            return dto switch
+            {
+                StatModifierDto stat => stat.ToDomain(),
+                AttackModifierDto attack => attack.ToDomain(),
+                SkillModifierDto skill => skill.ToDomain(),
+                DamageModifierDto damage => damage.ToDomain(),
+                _ => throw new InvalidOperationException($"Unknown modifier type: {dto.type}")
+            };
+        }
 
         public static StatusCollectionModifier ToDomain(this StatusCollectionOperationDto dto)
         => new(new([.. dto.items.Select(i => i.ToDomain())], dto.operation.ToDomain()));
