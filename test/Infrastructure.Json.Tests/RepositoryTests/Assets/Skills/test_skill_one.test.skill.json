@@ -21,12 +21,12 @@
       "from_effect": {
         "type": "from_effect",
         "consume_stacks": false,
-        "from": "test_effect"
+        "id": "test_effect"
       }
     },
     {
       "type": "apply_effect",
-      "effect": "test_effect"
+      "id": "test_effect"
     }
   ],
   "presentation": {

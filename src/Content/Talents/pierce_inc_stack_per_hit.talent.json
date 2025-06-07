@@ -11,10 +11,12 @@
       "type": "modify_effect",
       "effect_id": "pierce_effect",
       "stack_strategy": {
-        "refresh_mode": "reset_time",
-        "type": "default",
-        "max_stacks": 2,
-        "stacks_per_application": 2
+        "max_stacks": {
+          "scale_added": 1
+        },
+        "stacks_per_application": {
+          "scale_added": 1
+        }
       }
     }
   ],

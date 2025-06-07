@@ -1,5 +1,5 @@
 {
-  "id": "hit_damage_test",
+  "effect_id": "hit_damage_test",
   "cooldown": 0,
   "cost": 1,
   "effects": [
@@ -30,13 +30,13 @@
       "dot_props": {
         "duration": {
           "expires_with": "test_effect",
-          "source": "effect"
+          "source": "effect_id"
         },
         "frequency": 1,
         "stacking": {
           "type": "from_effect",
           "consume_stacks": true,
-          "from": "test_effect"
+          "effect_id": "test_effect"
         },
         "timing": "end_turn"
       },
@@ -50,7 +50,7 @@
     },
     {
       "type": "apply_effect",
-      "effect": "to_effect"
+      "effect_id": "to_effect"
     }
   ],
   "presentation": {
@@ -60,7 +60,7 @@
   },
   "activation_req": {
     "count": 1,
-    "id": "test_effect",
+    "effect_id": "test_effect",
     "scope": "target",
     "type": "effect_present"
   }

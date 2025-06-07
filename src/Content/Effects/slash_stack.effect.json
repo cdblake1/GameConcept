@@ -11,11 +11,8 @@
     {
       "type": "skill",
       "skill_id": "slash_skill",
-      "scale_properties": {
-        "scale_empowered": 10,
-        "scale_added": 0,
-        "scale_increased": 0,
-        "scale_speed": 0
+      "operation": {
+        "scale_empowered": 10
       }
     }
   ],

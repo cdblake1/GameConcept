@@ -9,7 +9,7 @@
   ],
   "effects": [
     {
-      "type": "damage_step",
+      "type": "hit_damage_step",
       "attack_type": "hit",
       "crit": true,
       "weapon_type": "melee",
@@ -43,7 +43,7 @@
         "scale_speed": 0
       },
       "stack_strategy": {
-        "type": "stack_default",
+        "type": "default",
         "max_stacks": 1,
         "stacks_per_application": 1,
         "refresh_mode": "reset_time"

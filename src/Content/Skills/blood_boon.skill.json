@@ -1,7 +1,12 @@
 {
   "cooldown": 4,
   "cost": 1,
-  "effects": [{ "type": "apply_effect", "effect": "blood_boon_effect" }],
+  "effects": [
+    {
+      "type": "apply_effect",
+      "effect": "blood_boon_effect"
+    }
+  ],
   "id": "blood_boon_skill",
   "presentation": {
     "description": "a buff that increases physical damage",

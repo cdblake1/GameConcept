@@ -3,7 +3,7 @@
   "actions": [
     {
       "type": "modify_effect",
-      "id": "crash_stun_effect"
+      "effect_id": "crash_stun_effect"
     }
   ],
   "presentation": {

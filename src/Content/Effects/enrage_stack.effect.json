@@ -1,11 +1,5 @@
 {
   "category": "debuff",
   "id": "enrage_stack",
-  "stack_strategy": {
-    "type": "default",
-    "max_stacks": 5,
-    "stacks_per_application": 1,
-    "refresh_mode": "reset_time"
-  },
   "duration": "permanent"
 }

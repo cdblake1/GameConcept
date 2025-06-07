@@ -3,7 +3,7 @@
   "actions": [
     {
       "type": "apply_effect",
-      "effect": "pierce_effect",
+      "effect_id": "pierce_effect",
       "from_skill": "slash_skill"
     }
   ],

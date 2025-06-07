@@ -9,7 +9,7 @@
   ],
   "stack_strategy": {
     "consume_stacks": true,
-    "from": "enrage_stack_effect",
+    "effect_id": "enrage_stack_effect",
     "type": "from_effect"
   },
   "duration": 3,

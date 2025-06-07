@@ -1,7 +1,12 @@
 {
   "cooldown": 6,
   "cost": 1,
-  "effects": [{ "type": "apply_effect", "effect": "blood_communion_effect" }],
+  "effects": [
+    {
+      "type": "apply_effect",
+      "effect": "blood_communion_effect"
+    }
+  ],
   "id": "blood_communion_skill",
   "presentation": {
     "description": "a buff that heals you for physical damage dealt",

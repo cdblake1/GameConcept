@@ -2,7 +2,7 @@
   "id": "blood_communion_passive_talent",
   "actions": [
     {
-      "id": "blood_communion_effect",
+      "effect_id": "blood_communion_effect",
       "type": "modify_effect",
       "duration": {
         "permanent": true,

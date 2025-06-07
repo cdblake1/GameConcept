@@ -30,7 +30,7 @@
         },
         "stacking": {
           "consume_stacks": false,
-          "from": "test_effect",
+          "effect_id": "test_effect",
           "type": "from_effect"
         },
         "timing": "start_turn"

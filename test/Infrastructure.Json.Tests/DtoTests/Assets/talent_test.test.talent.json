@@ -1,5 +1,5 @@
 {
-  "id": "test_talent",
+  "effect_id": "test_talent",
   "actions": [
     {
       "type": "modify_damage",
@@ -26,7 +26,7 @@
       },
       "activation_req": {
         "count": 1,
-        "id": "status_effect",
+        "effect_id": "status_effect",
         "scope": "target",
         "type": "effect_present"
       },
@@ -55,7 +55,7 @@
         },
         "from_effect": {
           "consume_stacks": false,
-          "from": "test_effect",
+          "effect_id": "test_effect",
           "type": "from_effect"
         },
         "type": "damage"
@@ -69,7 +69,7 @@
         "items": [
           {
             "duration": "permanent",
-            "id": "stun"
+            "effect_id": "stun"
           }
         ],
         "operation": "add"
@@ -88,7 +88,7 @@
           "value": 0
         }
       },
-      "id": "test_effect",
+      "effect_id": "test_effect",
       "leech": {
         "operation": "mult",
         "value": 1
@@ -118,7 +118,7 @@
     },
     {
       "type": "apply_effect",
-      "effect": "test_effect",
+      "effect_id": "test_effect",
       "from_skill": "hit_damage_test"
     }
   ],

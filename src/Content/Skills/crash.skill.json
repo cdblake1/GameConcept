@@ -3,7 +3,7 @@
   "cost": 1,
   "effects": [
     {
-      "type": "damage_step",
+      "type": "hit_damage_step",
       "crit": true,
       "attack_type": "hit",
       "damage_types": [

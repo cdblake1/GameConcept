@@ -28,15 +28,14 @@
             "type": "object",
             "required": [
               "type",
-              "effect"
+              "effect_id"
             ],
             "properties": {
               "type": {
                 "const": "apply_effect"
               },
-              "effect": {
-                "type": "string",
-                "pattern": "^[0-9a-z_]+$"
+              "effect_id": {
+                "$ref": "common.schema.jsonc#/$defs/id"
               },
               "from_skill": {
                 "type": "string",
@@ -122,7 +121,7 @@
           "$ref": "common.schema.jsonc#/$defs/scalar_operation"
         },
         "stack_strategy": {
-          "$ref": "common.schema.jsonc#/$defs/scalar_operation"
+          "$ref": "common.schema.jsonc#/$defs/stack_default_operation"
         }
       },
       "additionalProperties": false
@@ -173,7 +172,7 @@
           "$ref": "common.schema.jsonc#/$defs/duration_operation"
         },
         "stack_strategy": {
-          "$ref": "common.schema.jsonc#/$defs/stack_strategy"
+          "$ref": "common.schema.jsonc#/$defs/stack_default_operation"
         },
         "modifiers": {
           "$ref": "common.schema.jsonc#/$defs/modifier_collection_operation"

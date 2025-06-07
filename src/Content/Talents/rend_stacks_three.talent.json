@@ -5,10 +5,14 @@
       "type": "modify_dot_damage",
       "skill_id": "rend_skill",
       "stack_strategy": {
-        "scale_added": 2,
-        "scale_empowered": 0,
-        "scale_increased": 0
+        "max_stacks": {
+          "scale_added": 2
+        }
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Rend can now stack up to 3",
+    "name": "Rend 3 Stacks"
+  }
 }

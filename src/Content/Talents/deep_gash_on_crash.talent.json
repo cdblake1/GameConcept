@@ -19,7 +19,7 @@
     },
     {
       "type": "apply_effect",
-      "effect": "deep_gash_on_crash_effect",
+      "effect_id": "deep_gash_on_crash_effect",
       "from_skill": "deep_gash"
     },
     {
@@ -41,7 +41,7 @@
           "scale_speed": 0
         },
         "stack_from_effect": {
-          "from": "deep_gash_on_crash_effect",
+          "effect_id": "deep_gash_on_crash_effect",
           "consume_stacks": true,
           "type": "from_effect"
         }

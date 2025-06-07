@@ -3,7 +3,7 @@
   "cost": 1,
   "effects": [
     {
-      "type": "damage_step",
+      "type": "hit_damage_step",
       "attack_type": "hit",
       "weapon_type": "melee",
       "damage_types": [
@@ -27,7 +27,7 @@
   "activation_req": {
     "type": "effect_present",
     "count": 3,
-    "id": "enrage_stack_effect",
+    "effect_id": "enrage_stack_effect",
     "scope": "target"
   },
   "presentation": {

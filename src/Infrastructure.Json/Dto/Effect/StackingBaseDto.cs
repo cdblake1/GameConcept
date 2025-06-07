@@ -72,7 +72,7 @@ internal sealed class StackBaseDtoConverter : Newtonsoft.Json.JsonConverter<Stac
             },
             "from_effect" => new StackFromEffectDto
             {
-                from = jo["from"]?.Value<string>()
+                from = jo["effect_id"]?.Value<string>()
                 ?? throw new JsonSerializationException("Missing 'from'."),
                 consume_stacks = jo["consume_stacks"]?.Value<bool>()
                 ?? throw new JsonSerializationException("Missing 'consume_stacks'.")

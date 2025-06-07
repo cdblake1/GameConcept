@@ -218,7 +218,7 @@
       "required": [
         "type",
         "count",
-        "id"
+        "effect_id"
       ],
       "properties": {
         "type": {
@@ -226,7 +226,7 @@
             "effect_present"
           ]
         },
-        "id": {
+        "effect_id": {
           "type": "string",
           "pattern": "^[a-z0-9_:#]+$"
         },

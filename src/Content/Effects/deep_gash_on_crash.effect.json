@@ -7,6 +7,5 @@
     "max_stacks": 1,
     "stacks_per_application": 1,
     "refresh_mode": "reset_time"
-  },
-  "modifiers": []
+  }
 }

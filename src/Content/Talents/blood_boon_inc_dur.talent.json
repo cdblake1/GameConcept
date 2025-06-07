@@ -12,7 +12,7 @@
     },
     {
       "type": "modify_effect",
-      "id": "blood_boon_effect",
+      "effect_id": "blood_boon_effect",
       "duration": {
         "type": "turn",
         "turns": {

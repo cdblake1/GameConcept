@@ -3,7 +3,7 @@
   "actions": [
     {
       "type": "apply_effect",
-      "effect": "slash_stack_effect",
+      "effect_id": "slash_stack_effect",
       "from_skill": "slash"
     }
   ],

@@ -3,13 +3,13 @@
   "applies_to": [
     {
       "type": "skill",
-      "id": "blood_communion_skill"
+      "effect_id": "blood_communion_skill"
     }
   ],
   "actions": [
     {
       "type": "modify_effect",
-      "id": "blood_communion_effect",
+      "effect_id": "blood_communion_effect",
       "modifiers": {
         "operation": "add",
         "items": [
@@ -31,5 +31,9 @@
         "scale_increased": 0
       }
     }
-  ]
+  ],
+  "presentation": {
+    "description": "Blood communion leech effect is empowered by 20%. Cooldown is reduced by 2 turns",
+    "name": "Blood Communion Empowered Healing"
+  }
 }

@@ -4,12 +4,12 @@
     {
       "global": true,
       "type": "apply_effect",
-      "effect": "bleed_dmg_increase_stat"
+      "effect_id": "bleed_dmg_increase_stat"
     },
     {
       "global": true,
       "type": "apply_effect",
-      "effect": "hit_dmg_decrease_stat"
+      "effect_id": "hit_dmg_decrease_stat"
     }
   ],
   "presentation": {

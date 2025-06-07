@@ -27,7 +27,7 @@
   "applies_to": [
     {
       "type": "skill",
-      "id": "enrage_skill"
+      "effect_id": "enrage_skill"
     }
   ],
   "presentation": {

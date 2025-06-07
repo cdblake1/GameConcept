@@ -3,21 +3,6 @@
   "$id": "common.schema.json",
   "title": "Common Definitions",
   "$defs": {
-    "tag": {
-      "type": "object",
-      "properties": {
-        "tag": {
-          "enum": [
-            "physical",
-            "spell",
-            "elemental",
-            "true",
-            "melee",
-            "ranged"
-          ]
-        }
-      }
-    },
     "modifier": {
       "type": "object",
       "required": [
@@ -57,21 +42,6 @@
           }
         }
       ]
-    },
-    "scale_coef": {
-      "type": "object",
-      "required": [
-        "stat",
-        "scalar_operation"
-      ],
-      "properties": {
-        "stat": {
-          "$ref": "#/$defs/stat/properties/id"
-        },
-        "scalar_operation": {
-          "$ref": "#/$defs/scalar_operation"
-        }
-      }
     },
     "stat": {
       "enum": [
@@ -164,9 +134,7 @@
       "required": [
         "type",
         "skill_id",
-        "skill_added",
-        "skill_increased",
-        "skill_empowered"
+        "operation"
       ],
       "properties": {
         "type": {
@@ -175,14 +143,8 @@
         "skill_id": {
           "$ref": "#/$defs/id"
         },
-        "skill_added": {
-          "type": "integer"
-        },
-        "skill_increased": {
-          "type": "integer"
-        },
-        "skill_empowered": {
-          "type": "integer"
+        "operation": {
+          "$ref": "#/$defs/scalar_operation"
         }
       }
     },
@@ -203,10 +165,27 @@
     },
     "scalar_operation": {
       "type": "object",
-      "required": [
-        "scale_increased",
-        "scale_added",
-        "scale_empowered"
+      "anyOf": [
+        {
+          "required": [
+            "scale_increased"
+          ]
+        },
+        {
+          "required": [
+            "scale_added"
+          ]
+        },
+        {
+          "required": [
+            "scale_empowered"
+          ]
+        },
+        {
+          "required": [
+            "override"
+          ]
+        }
       ],
       "properties": {
         "scale_increased": {
@@ -405,12 +384,11 @@
         "source": {
           "enum": [
             "skill",
-            "effect"
+            "effect_id"
           ]
         },
         "expires_with": {
-          "type": "string",
-          "pattern": "^[a-z0-9_]+$"
+          "$ref": "#/$defs/id"
         }
       },
       "additionalProperties": false
@@ -419,16 +397,15 @@
       "type": "object",
       "required": [
         "type",
-        "from",
+        "effect_id",
         "consume_stacks"
       ],
       "properties": {
         "type": {
           "const": "from_effect"
         },
-        "from": {
-          "type": "string",
-          "pattern": "^[a-z0-9_]+$"
+        "effect_id": {
+          "$ref": "#/$defs/id"
         },
         "consume_stacks": {
           "type": "boolean",
@@ -475,6 +452,31 @@
         "stacks_per_application": 1
       }
     },
+    "stack_default_operation": {
+      "type": "object",
+      "anyOf": [
+        {
+          "required": [
+            "stacks_per_application"
+          ]
+        },
+        {
+          "required": [
+            "max_stacks"
+          ]
+        }
+      ],
+      "properties": {
+        "stacks_per_application": {
+          "$ref": "#/$defs/scalar_operation"
+        },
+        "max_stacks": {
+          "$ref": "#/$defs/scalar_operation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "stack_from_effect_operation": {},
     "duration_operation": {
       "type": "object",
       "required": [

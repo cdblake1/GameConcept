@@ -9,7 +9,7 @@
   "cooldown": 0,
   "effects": [
     {
-      "type": "damage_step",
+      "type": "hit_damage_step",
       "attack_type": "hit",
       "weapon_type": "melee",
       "damage_types": [
