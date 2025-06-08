@@ -1,22 +1,12 @@
-namespace GameData.src.Shared.Modifier
+namespace GameData.src.Shared.Modifiers.Operations
 {
     public sealed record ScalarOperation
     {
-        private ScalarOperation(OperationKind operation, int value)
-        {
-            ModifierOperation = operation;
-            Value = value;
-        }
+        public float ScaleIncreased { get; init; } = 0;
+        public float ScaleAdded { get; init; } = 0;
 
-        public OperationKind ModifierOperation { get; }
+        public float ScaleEmpowered { get; init; } = 0;
 
-        public int Value { get; }
-
-        public enum OperationKind { Add, Mult }
-
-        public static ScalarOperation Create(OperationKind operation, int value)
-        {
-            return new ScalarOperation(operation, value);
-        }
+        public float? OverrideValue { get; init; }
     }
 }

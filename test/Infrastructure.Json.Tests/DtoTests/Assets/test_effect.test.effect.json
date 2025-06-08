@@ -1,43 +1,28 @@
 {
-  "apply_status": [
-    {
-      "duration": 1,
-      "id": "stun"
-    }
-  ],
   "category": "buff",
-  "damage_types": [
-    "physical"
-  ],
   "duration": 1,
   "id": "test_effect",
-  "leech": 1,
   "modifiers": [
     {
-      "type": "damage",
-      "scalar_operation": {
-        "operation": "mult",
-        "value": 1
-      },
-      "damage_type": [
-        "physical"
-      ]
+      "stat": "melee_leech_added",
+      "type": "stat",
+      "value": 1
     },
     {
-      "type": "attack_type",
-      "attack_type": [
-        "hit"
-      ],
-      "scalar_operation": {
-        "operation": "mult",
-        "value": 1
-      }
+      "stat": "physical_damage_empowered",
+      "value": 1,
+      "type": "stat"
+    },
+    {
+      "type": "stat",
+      "stat": "hit_damage_increased",
+      "value": 1
     }
   ],
-  "stacking": {
-    "type": "stack_default",
-    "stacks_per_application": 1,
+  "stack_strategy": {
+    "type": "default",
     "max_stacks": 1,
+    "stacks_per_application": 1,
     "refresh_mode": "reset_time"
   }
 }

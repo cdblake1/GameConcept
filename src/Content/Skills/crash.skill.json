@@ -20,7 +20,7 @@
     },
     {
       "type": "apply_effect",
-      "effect": "crash_stun_effect"
+      "effect_id": "crash_stun_effect"
     }
   ],
   "id": "crash_skill",

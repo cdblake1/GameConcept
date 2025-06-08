@@ -4,29 +4,29 @@
   "cooldown": 1,
   "effects": [
     {
-      "type": "damage",
+      "type": "hit_damage_step",
+      "weapon_type": "range",
       "crit": true,
       "attack_type": "hit",
-      "base_damage": 1,
+      "min_base_damage": 1,
+      "max_base_damage": 1,
       "damage_types": [
         "nature"
       ],
-      "scale_coef": {
-        "scalar_operation": {
-          "operation": "mult",
-          "value": 1
-        },
-        "stat": "elemental_damage"
+      "scale_properties": {
+        "scale_added": 1,
+        "scale_increased": 1,
+        "scale_speed": 0
       },
-      "from_effect": {
+      "stack_from_effect": {
         "type": "from_effect",
         "consume_stacks": false,
-        "id": "test_effect"
+        "effect_id": "test_effect"
       }
     },
     {
       "type": "apply_effect",
-      "id": "test_effect"
+      "effect_id": "test_effect"
     }
   ],
   "presentation": {

@@ -4,16 +4,10 @@
     {
       "type": "modify_dot_damage",
       "min_base_damage": {
-        "override": 0,
-        "scale_added": 0,
-        "scale_empowered": 0,
-        "scale_increased": 0
+        "override_value": 0
       },
       "max_base_damage": {
-        "override": 0,
-        "scale_added": 0,
-        "scale_empowered": 0,
-        "scale_increased": 0
+        "override_value": 0
       },
       "skill_id": "deep_gash_skill"
     },
@@ -23,9 +17,9 @@
       "from_skill": "deep_gash"
     },
     {
-      "type": "add_damage",
+      "type": "add_hit_damage",
       "skill_id": "crash_skill",
-      "damage": {
+      "hit_damage": {
         "type": "hit_damage_step",
         "attack_type": "hit",
         "weapon_type": "melee",

@@ -4,13 +4,13 @@
   "title": "Class Definitions",
   "type": "object",
   "required": [
-    "effect_id",
+    "id",
     "talents",
     "skills",
     "presentation"
   ],
   "properties": {
-    "effect_id": {
+    "id": {
       "$ref": "common.schema.jsonc#/$defs/id"
     },
     "talents": {
@@ -34,13 +34,13 @@
       "type": "object",
       "required": [
         "talent_tier",
-        "effect_id"
+        "id"
       ],
       "properties": {
         "talent_tier": {
           "$ref": "#/$defs/talent_tier"
         },
-        "effect_id": "common.schema.jsonc#/$defs/id",
+        "id": "common.schema.jsonc#/$defs/id",
         "prerequisites": {
           "type": "array",
           "items": {

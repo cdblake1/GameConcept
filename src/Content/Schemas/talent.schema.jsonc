@@ -59,35 +59,49 @@
             "required": [
               "type",
               "skill_id",
-              "damage"
+              "hit_damage"
             ],
             "properties": {
               "type": {
-                "const": "add_damage"
+                "const": "add_hit_damage"
               },
               "skill_id": {
                 "$ref": "common.schema.jsonc#/$defs/id"
               },
-              "damage": {
-                "anyOf": [
-                  {
-                    "$ref": "skill.schema.jsonc#/$defs/hit_damage_step"
-                  },
-                  {
-                    "$ref": "skill.schema.jsonc#/$defs/dot_damage_step"
-                  }
-                ]
+              "hit_damage": {
+                "$ref": "skill.schema.jsonc#/$defs/hit_damage_step"
               }
-            }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "type",
+              "skill_id",
+              "dot_damage"
+            ],
+            "properties": {
+              "type": {
+                "const": "add_dot_damage"
+              },
+              "skill_id": {
+                "$ref": "common.schema.jsonc#/$defs/id"
+              },
+              "dot_damage": {
+                "$ref": "skill.schema.jsonc#/$defs/dot_damage_step"
+              }
+            },
+            "additionalProperties": false
           }
         ]
       }
     },
     "presentation": {
       "$ref": "common.schema.jsonc#/$defs/presentation"
-    },
-    "additionalProperties": false
+    }
   },
+  "additionalProperties": false,
   "$defs": {
     "modify_dot_damage": {
       "type": "object",
@@ -177,12 +191,6 @@
         "modifiers": {
           "$ref": "common.schema.jsonc#/$defs/modifier_collection_operation"
         },
-        "leech": {
-          "$ref": "common.schema.jsonc#/$defs/scalar_operation"
-        },
-        "damage_types": {
-          "$ref": "common.schema.jsonc#/$defs/damage_type_collection_operation"
-        },
         "apply_status": {
           "$ref": "common.schema.jsonc#/$defs/apply_status_collection_operation"
         }
@@ -193,10 +201,10 @@
       "type": "object",
       "required": [
         "type",
-        "skill"
+        "skill_id"
       ],
       "properties": {
-        "skill": {
+        "skill_id": {
           "type": "string",
           "pattern": "^[0-9a-z_]+$"
         },

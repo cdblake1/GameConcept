@@ -1,5 +1,3 @@
-using GameData.src.Shared.Modifier;
-
 namespace GameData.src.Shared.Modifiers.Operations
 {
     public sealed record DurationOperation

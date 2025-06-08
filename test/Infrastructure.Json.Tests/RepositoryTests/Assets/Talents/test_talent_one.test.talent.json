@@ -2,11 +2,12 @@
   "id": "test_talent_one",
   "actions": [
     {
-      "type": "modify_damage",
-      "attack_type": "dot",
-      "base_damage": {
-        "operation": "add",
-        "value": 1
+      "type": "modify_dot_damage",
+      "max_base_damage": {
+        "scale_added": 1
+      },
+      "min_base_damage": {
+        "scale_added": 1
       },
       "crit": true,
       "damage_types": {
@@ -16,69 +17,58 @@
         "operation": "add",
         "type": "damage_type"
       },
-      "dot_props": {
-        "duration": {
-          "turns": {
-            "operation": "add",
-            "value": 1
-          },
-          "type": "turn"
-        },
-        "frequency": {
-          "operation": "add",
-          "value": 1
-        },
-        "stacking": {
-          "consume_stacks": false,
-          "effect_id": "test_effect",
-          "type": "from_effect"
-        },
-        "timing": "start_turn"
+      "duration": {
+        "permanent": true
       },
-      "skill": "test_skill"
+      "frequency": {
+        "scale_added": 1
+      },
+      "stack_strategy": {
+        "max_stacks": {
+          "scale_added": 1
+        },
+        "stacks_per_application": {
+          "scale_added": 1
+        }
+      },
+      "skill_id": "test_skill"
     },
     {
       "type": "modify_effect",
-      "stacking": {
-        "type": "stack_default",
-        "max_stacks": 1,
-        "stacks_per_application": 1,
-        "refresh_mode": "add_time"
-      },
-      "leech": {
-        "operation": "add",
-        "value": 1
-      },
-      "duration": {
-        "type": "turn",
-        "turns": {
-          "operation": "add",
-          "value": 1
+      "effect_id": "test_effect",
+      "stack_strategy": {
+        "max_stacks": {
+          "scale_added": 1
+        },
+        "stacks_per_application": {
+          "scale_added": 1
         }
       },
-      "id": "test_effect",
+      "duration": {
+        "turns": {
+          "scale_added": 1
+        }
+      },
       "modifiers": {
         "type": "modifier",
+        "operation": "remove",
         "items": [
           {
-            "type": "attack_type",
-            "attack_type": [
-              "dot"
-            ],
-            "scalar_operation": {
-              "operation": "add",
-              "value": 1
-            }
+            "type": "stat",
+            "stat": "range_leech_added",
+            "value": 1
           }
-        ],
-        "operation": "add"
+        ]
+      }
+    },
+    {
+      "type": "modify_skill",
+      "skill_id": "test_skill",
+      "cooldown": {
+        "scale_added": 1
       },
-      "damage_types": {
-        "items": [
-          "bleed"
-        ],
-        "operation": "add",
-        "type": "damage_type"
+      "cost": {
+        "scale_added": 1
       }
     }
   ],

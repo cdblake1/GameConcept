@@ -1,11 +1,5 @@
 {
   "id": "enrage_increase_stacks_talent",
-  "applies_to": [
-    {
-      "type": "skill",
-      "id": "enrage"
-    }
-  ],
   "actions": [
     {
       "type": "modify_effect",

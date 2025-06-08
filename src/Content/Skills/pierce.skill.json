@@ -20,7 +20,7 @@
     },
     {
       "type": "apply_effect",
-      "effect": "pierce_effect"
+      "effect_id": "pierce_effect"
     }
   ],
   "id": "pierce_skill",

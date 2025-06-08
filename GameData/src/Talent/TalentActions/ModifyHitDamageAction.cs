@@ -1,19 +1,15 @@
-using GameData.src.Shared.Enums;
-using GameData.src.Shared.Modifier;
+using GameData.src.Effect.Talent;
 using GameData.src.Shared.Modifiers;
+using GameData.src.Shared.Modifiers.Operations;
 
-namespace GameData.src.Effect.Talent
+namespace GameData.src.Talent.TalentActions
 {
     public record ModifyHitDamageAction : ITalentAction
     {
-        public AttackKind AttackKind { get; } = AttackKind.Hit;
-
-        public required string Skill { get; init; }
-
-        public bool? Crit { get; init; }
-
+        public required string SkillId { get; init; }
         public DamageTypeCollectionModifier? DamageTypes { get; init; }
-
-        public ScalarOperation? BaseDamage { get; init; }
+        public ScalarOperation? MinBaseDamage { get; init; }
+        public ScalarOperation? MaxBaseDamage { get; init; }
+        public bool? Crit { get; init; }
     }
 }

@@ -42,16 +42,16 @@ namespace Infrastructure.Json.Dto.Common.Operations
         }
     }
 
-    public sealed record AttackCollectionOperationDto : CollectionOperationBaseDto<AttackKindDto>
+    public sealed record AttackCollectionOperationDto : CollectionOperationBaseDto<AttackTypeDto>
     {
-        public AttackCollectionOperationDto(CollectionOperationDto operation, AttackKindDto[] items) : base(Kind.attack_type, operation, items)
+        public AttackCollectionOperationDto(CollectionOperationDto operation, AttackTypeDto[] items) : base(Kind.attack_type, operation, items)
         {
         }
     }
 
-    public sealed record ModifierCollectionOperationDto : CollectionOperationBaseDto<ModifierDto>
+    public sealed record ModifierCollectionOperationDto : CollectionOperationBaseDto<IModifierDto>
     {
-        public ModifierCollectionOperationDto(CollectionOperationDto operation, ModifierDto[] items) : base(Kind.modifier, operation, items)
+        public ModifierCollectionOperationDto(CollectionOperationDto operation, IModifierDto[] items) : base(Kind.modifier, operation, items)
         {
         }
     }

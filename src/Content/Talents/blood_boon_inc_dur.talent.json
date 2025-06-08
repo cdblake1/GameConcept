@@ -3,7 +3,7 @@
   "actions": [
     {
       "type": "modify_skill",
-      "skill": "blood_boon_skill",
+      "skill_id": "blood_boon_skill",
       "cooldown": {
         "scale_increased": 50,
         "scale_added": 0,

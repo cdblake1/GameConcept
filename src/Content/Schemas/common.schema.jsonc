@@ -26,7 +26,7 @@
             }
           },
           "then": {
-            "$ref": "#/$defs/stat_scalar_operation"
+            "$ref": "#/$defs/stat_scalar_modifier"
           }
         },
         {
@@ -38,7 +38,7 @@
             }
           },
           "then": {
-            "$ref": "#/$defs/skill_scalar_operation"
+            "$ref": "#/$defs/skill_scalar_modifier"
           }
         }
       ]
@@ -129,7 +129,7 @@
         "hit"
       ]
     },
-    "skill_scalar_operation": {
+    "skill_scalar_modifier": {
       "type": "object",
       "required": [
         "type",
@@ -148,7 +148,7 @@
         }
       }
     },
-    "stat_scalar_operation": {
+    "stat_scalar_modifier": {
       "type": "object",
       "required": [
         "stat",
@@ -183,7 +183,7 @@
         },
         {
           "required": [
-            "override"
+            "override_value"
           ]
         }
       ],
@@ -197,7 +197,7 @@
         "scale_empowered": {
           "type": "integer"
         },
-        "override": {
+        "override_value": {
           "type": "integer"
         }
       },
@@ -384,7 +384,7 @@
         "source": {
           "enum": [
             "skill",
-            "effect_id"
+            "effect"
           ]
         },
         "expires_with": {
@@ -479,26 +479,9 @@
     "stack_from_effect_operation": {},
     "duration_operation": {
       "type": "object",
-      "required": [
-        "type"
-      ],
-      "allOf": [
-        {
-          "properties": {
-            "type": {
-              "enum": [
-                "turn",
-                "permanent",
-                "expires_with"
-              ]
-            }
-          }
-        }
-      ],
       "oneOf": [
         {
           "required": [
-            "type",
             "turns"
           ],
           "properties": {
@@ -513,7 +496,6 @@
         },
         {
           "required": [
-            "type",
             "permanent"
           ],
           "properties": {
@@ -528,7 +510,6 @@
         },
         {
           "required": [
-            "type",
             "expires_with"
           ],
           "properties": {

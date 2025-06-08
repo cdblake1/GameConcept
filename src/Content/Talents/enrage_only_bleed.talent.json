@@ -4,13 +4,6 @@
     {
       "type": "modify_effect",
       "effect_id": "enrage_buff_effect",
-      "damage_types": {
-        "operation": "set",
-        "items": [
-          "bleed"
-        ],
-        "type": "damage_type"
-      },
       "modifiers": {
         "operation": "set",
         "items": [
@@ -22,12 +15,6 @@
         ],
         "type": "modifier"
       }
-    }
-  ],
-  "applies_to": [
-    {
-      "type": "skill",
-      "effect_id": "enrage_skill"
     }
   ],
   "presentation": {

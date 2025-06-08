@@ -1,16 +1,19 @@
 using GameData.src.Effect.Stack;
-using GameData.src.Effect.Talent;
 using GameData.src.Shared.Enums;
-using GameData.src.Shared.Modifier;
+using GameData.src.Shared.Modifiers;
 using GameData.src.Shared.Modifiers.Operations;
-using GameData.src.Skill.SkillStep;
+using GameData.src.Skill;
 using GameData.src.Talent.TalentActions;
 using Infrastructure.Json.Dto.Common;
+using Infrastructure.Json.Dto.Common.Modifiers;
 using Infrastructure.Json.Dto.Common.Operations;
 using Infrastructure.Json.Dto.Effect;
+using Infrastructure.Json.Dto.Skill;
+using Infrastructure.Json.Dto.Skill.SkillStep;
 using Infrastructure.Json.Dto.Talent;
 using Infrastructure.Json.Mappers;
 using Xunit;
+using Xunit.Sdk;
 
 namespace Infrastructure.Json.Tests.MappingTests
 {
@@ -19,147 +22,247 @@ namespace Infrastructure.Json.Tests.MappingTests
         [Fact]
         public void CanMapModifyHitActionDto()
         {
-            var dto = new ModifyHitDamageActionDto()
+            var dto = new ModifyHitDamageActionDto("test_skill")
             {
-                skill = "test_skill",
-                base_damage = new(Dto.Common.Operations.ScalarOperationDto.Operation.add, 1),
                 crit = true,
-                damage_types = new(Dto.Common.Operations.CollectionOperationDto.add, [DamageTypeDto.bleed, DamageTypeDto.burn])
+                damage_types = new DamageTypeCollectionOperationDto(CollectionOperationDto.add, [DamageTypeDto.bleed]),
+                max_base_damage = new(1, 1, 1, 1),
+                min_base_damage = new(1, 1, 1, 1),
             };
 
-            var modifyHitAction = dto.ToDomain() as ModifyHitDamageAction;
+            var modifyHitAction = dto.ToDomain();
 
             // Assert
             Assert.NotNull(modifyHitAction);
-            Assert.Equal("test_skill", modifyHitAction.Skill);
-            Assert.NotNull(modifyHitAction.BaseDamage);
-            Assert.Equal(ScalarOperation.OperationKind.Add, modifyHitAction.BaseDamage.ModifierOperation);
-            Assert.Equal(1, modifyHitAction.BaseDamage.Value);
-            Assert.True(modifyHitAction.Crit);
+            Assert.Equal("test_skill", modifyHitAction.SkillId);
+            Assert.NotNull(modifyHitAction.MinBaseDamage);
+            Assert.NotNull(modifyHitAction.MaxBaseDamage);
             Assert.NotNull(modifyHitAction.DamageTypes);
-            Assert.Contains(DamageType.Bleed, modifyHitAction.DamageTypes.Operation.Items);
-            Assert.Contains(DamageType.Burn, modifyHitAction.DamageTypes.Operation.Items);
+            Assert.NotNull(modifyHitAction.Crit);
+
+            Assert.True(modifyHitAction.Crit);
+            Assert.Equal(dto.max_base_damage.override_value, modifyHitAction.MaxBaseDamage.OverrideValue);
+            Assert.Equal(dto.max_base_damage.scale_added, modifyHitAction.MaxBaseDamage.ScaleAdded);
+            Assert.Equal(dto.max_base_damage.scale_empowered, modifyHitAction.MaxBaseDamage.ScaleEmpowered);
+            Assert.Equal(dto.max_base_damage.scale_increased, modifyHitAction.MaxBaseDamage.ScaleIncreased);
         }
 
         [Fact]
         public void CanMapModifyDotDamageDto()
         {
-            var dto = new ModifyDotDamageActionDto()
+            var dto = new ModifyDotDamageActionDto("test_skill")
             {
-                base_damage = new(ScalarOperationDto.Operation.mult, 1),
-                skill = "test_skill",
                 crit = false,
-                damage_types = new(CollectionOperationDto.add, [DamageTypeDto.elemental, DamageTypeDto.physical]),
-                duration = new DurationOperationDto(new(ScalarOperationDto.Operation.mult, 1), null, null),
-                frequency = new(ScalarOperationDto.Operation.add, 1),
-                stacking = new StackDefaultDto() { max_stacks = 1, refresh_mode = StackDefaultDto.RefreshMode.add_time, stacks_per_application = 1 },
-                timing = Dto.Skill.DotDamageStepDto.TimingKind.start_turn,
+                damage_types = new DamageTypeCollectionOperationDto(CollectionOperationDto.add, [DamageTypeDto.bleed]),
+                duration = new DurationOperationDto()
+                {
+                    turns = new(1, 1, 1, 1)
+                },
+                frequency = new(1, 1, 1, 1),
+                max_base_damage = new(1, 1, 1, 1),
+                min_base_damage = new(1, 1, 1, 1),
+                stack_strategy = new(new(1, 1, 1, 1), new(1, 1, 1, 1))
             };
 
-            var modifyDotDamageAction = dto.ToDomain() as ModifyDotDamageAction;
+            var mdda = dto.ToDomain();
             // Assert
-            Assert.NotNull(modifyDotDamageAction);
+            Assert.NotNull(mdda);
+            Assert.NotNull(mdda.Crit);
+            Assert.NotNull(mdda.DamageTypes);
+            Assert.NotNull(mdda.Duration);
+            Assert.NotNull(mdda.Frequency);
+            Assert.NotNull(mdda.MaxBaseDamage);
+            Assert.NotNull(mdda.MinBaseDamage);
+            Assert.NotNull(mdda.StackStrategy);
 
-            Assert.NotNull(modifyDotDamageAction.DamageTypes);
-            Assert.Equal(CollectionOperationKind.Add, modifyDotDamageAction.DamageTypes.Operation.Operation);
+            Assert.False(mdda.Crit);
+            Assert.Single(mdda.DamageTypes.Operation.Items);
+            Assert.Equal(CollectionOperationKind.Add, mdda.DamageTypes.Operation.Operation);
 
-            Assert.NotNull(modifyDotDamageAction.Timing);
-            Assert.Equal(DotDamageStep.TimingKind.StartTurn, modifyDotDamageAction.Timing.Value);
-            Assert.Equal(1, modifyDotDamageAction.Frequency?.Value);
+            Assert.Equal(1, mdda.Frequency.ScaleAdded);
 
-            Assert.NotNull(modifyDotDamageAction.Duration);
-            Assert.Equal(ScalarOperation.OperationKind.Mult, modifyDotDamageAction.Duration.Turns?.ModifierOperation);
-            Assert.Equal(1, modifyDotDamageAction.Duration.Turns?.Value);
+            Assert.Equal(1, mdda.MaxBaseDamage.ScaleAdded);
 
-            Assert.NotNull(modifyDotDamageAction.Crit);
-            Assert.False(modifyDotDamageAction.Crit);
+            Assert.Equal(1, mdda.MinBaseDamage.ScaleAdded);
 
-            Assert.Equal(dto.skill, modifyDotDamageAction.SkillId);
-
-            var stackDto = dto.stacking as StackDefaultDto;
-            var stackDefault = modifyDotDamageAction.StackStrategy as StackDefault;
-
-            Assert.NotNull(stackDto);
-            Assert.NotNull(stackDefault);
-
-            Assert.Equal(stackDto.max_stacks, stackDefault.MaxStacks);
-            Assert.Equal(StackRefreshMode.AddTime, stackDefault.RefreshMode);
-            Assert.Equal(stackDto.stacks_per_application, stackDefault.StacksPerApplication);
-
-
-            Assert.NotNull(modifyDotDamageAction.DamageTypes);
-            Assert.Collection(modifyDotDamageAction.DamageTypes.Operation.Items,
-                item => Assert.Equal(DamageType.Elemental, item),
-                item => Assert.Equal(DamageType.Physical, item));
+            Assert.Equal(1, mdda.StackStrategy.Maxstacks?.OverrideValue);
+            Assert.Equal(1, mdda.StackStrategy.Maxstacks?.ScaleAdded);
+            Assert.Equal(1, mdda.StackStrategy.Maxstacks?.ScaleEmpowered);
+            Assert.Equal(1, mdda.StackStrategy.Maxstacks?.ScaleIncreased);
+            Assert.Equal(1, mdda.StackStrategy.StacksPerApplication?.OverrideValue);
+            Assert.Equal(1, mdda.StackStrategy.StacksPerApplication?.ScaleAdded);
+            Assert.Equal(1, mdda.StackStrategy.StacksPerApplication?.ScaleEmpowered);
+            Assert.Equal(1, mdda.StackStrategy.StacksPerApplication?.ScaleIncreased);
         }
 
         [Fact]
         public void CanMapModifySkillActionDto()
         {
-            var dto = new ModifySkillActionDto()
+            var dto = new ModifySkillActionDto("test_skill")
             {
-                activation_req = new Dto.Skill.ActivationRequirementDto()
+                activation_requirement = new()
                 {
                     count = 1,
-                    type = Dto.Skill.ActivationRequirementDto.ActivationKind.hp_pct_below
+                    type = Dto.Skill.ActivationRequirementDto.ActivationKind.effect_present,
+                    effect_id = "test_effect"
                 },
-                cooldown = new(ScalarOperationDto.Operation.add, 1),
-                cost = new(ScalarOperationDto.Operation.add, 1),
-                skill = "skill_test",
+                cooldown = new(1, 1, 1, 1),
+                cost = new(1, 1, 1, 1),
             };
 
-            var skillAction = dto.ToDomain() as ModifySkillAction;
+            var skillAction = dto.ToDomain();
 
-            Assert.NotNull(skillAction);
+            Assert.NotNull(skillAction.ActivationRequirement);
+            Assert.NotNull(skillAction.Cooldown);
+            Assert.NotNull(skillAction.Cost);
 
-            Assert.Equal(dto.cooldown.value, skillAction.Cooldown?.Value);
-            Assert.Equal(ScalarOperation.OperationKind.Add, skillAction.Cooldown?.ModifierOperation);
-            Assert.Equal(dto.cost.value, skillAction.Cost?.Value);
-            Assert.Equal(ScalarOperation.OperationKind.Add, skillAction.Cost?.ModifierOperation);
+            Assert.Equal(1, skillAction.ActivationRequirement.Count);
+            Assert.Equal(ActivationRequirementType.EffectPresent, skillAction.ActivationRequirement.ActivationKind);
+            Assert.Equal(dto.activation_requirement.effect_id, skillAction.ActivationRequirement.EffectId);
 
-            Assert.Equal(dto.activation_req.count, skillAction.ActivationRequirement?.Count);
-            Assert.Equal(ActivationRequirement.Kind.HpBelowPercentage, skillAction.ActivationRequirement?.ActivationKind);
+            Assert.Equal(dto.cooldown.scale_added, skillAction.Cooldown.ScaleAdded);
+            Assert.Equal(dto.cooldown.scale_empowered, skillAction.Cooldown.ScaleEmpowered);
+            Assert.Equal(dto.cooldown.scale_increased, skillAction.Cooldown.ScaleIncreased);
+            Assert.Equal(dto.cooldown.override_value, skillAction.Cooldown.OverrideValue);
 
-            Assert.Equal(dto.skill, skillAction.Skill);
+            Assert.Equal(dto.cost.scale_added, skillAction.Cost.ScaleAdded);
+            Assert.Equal(dto.cost.scale_empowered, skillAction.Cost.ScaleEmpowered);
+            Assert.Equal(dto.cost.scale_increased, skillAction.Cost.ScaleIncreased);
+            Assert.Equal(dto.cost.override_value, skillAction.Cost.OverrideValue);
         }
 
         [Fact]
         public void CanMapModifyEffectDto()
         {
-            var dto = new ModifyEffectActionDto()
+            var dto = new ModifyEffectActionDto("test_effect")
             {
-                id = "test_effect",
-                damage_types = new DamageTypeCollectionOperationDto(CollectionOperationDto.add, [DamageTypeDto.bleed]),
-                duration = new DurationOperationDto(new(ScalarOperationDto.Operation.add, 1), null, null),
-                leech = new ScalarOperationDto(ScalarOperationDto.Operation.add, 1),
-                stacking = new StackFromEffectDto() { consume_stacks = true, from = "test_effect" }
+                duration = new DurationOperationDto()
+                {
+                    turns = new ScalarOperationDto(1, 1, 1, 1)
+                },
+                modifiers = new ModifierCollectionOperationDto(CollectionOperationDto.add, [new StatModifierDto(StatDto.physical_damage_added, 1)])
             };
 
-            var modifyEffect = dto.ToDomain() as ModifyEffectAction;
+            var me = dto.ToDomain();
 
-            Assert.NotNull(modifyEffect);
-            Assert.Equal(dto.id, modifyEffect.Id);
-            Assert.Equal(dto.damage_types.items.Length, modifyEffect.DamageTypes?.Operation?.Items.Count);
-            Assert.NotNull(modifyEffect.DamageTypes);
-            Assert.Collection(modifyEffect.DamageTypes.Operation.Items,
-                item => Assert.Equal(DamageType.Bleed, item));
+            // Basic null checks
+            Assert.NotNull(me);
+            Assert.NotNull(me.Duration);
+            Assert.NotNull(me.Modifiers);
+            Assert.NotNull(me.Duration.Turns);
 
-            Assert.NotNull(modifyEffect.Duration);
-            Assert.Equal(ScalarOperation.OperationKind.Add, modifyEffect.Duration.Turns?.ModifierOperation);
-            Assert.Equal(1, modifyEffect.Duration.Turns?.Value);
+            // Verify EffectId
+            Assert.Equal("test_effect", me.EffectId);
 
-            Assert.NotNull(modifyEffect.Leech);
-            Assert.Equal(ScalarOperation.OperationKind.Add, modifyEffect.Leech.ModifierOperation);
-            Assert.Equal(1, modifyEffect.Leech.Value);
+            // Verify Duration properties
+            Assert.Equal(1, me.Duration.Turns.OverrideValue);
+            Assert.Equal(1, me.Duration.Turns.ScaleAdded);
+            Assert.Equal(1, me.Duration.Turns.ScaleEmpowered);
+            Assert.Equal(1, me.Duration.Turns.ScaleIncreased);
 
-            var stackFromEffectDto = dto.stacking as StackFromEffectDto;
-            var stackFromEffect = modifyEffect.Stacking as StackFromEffect;
+            // Verify Modifiers
+            Assert.Single(me.Modifiers.Operation.Items);
+            Assert.Equal(CollectionOperationKind.Add, me.Modifiers.Operation.Operation);
 
-            Assert.NotNull(stackFromEffectDto);
-            Assert.NotNull(stackFromEffect);
+            // Verify StatModifier
+            var statMod = me.Modifiers.Operation.Items[0] as StatModifier;
+            Assert.NotNull(statMod);
+            Assert.Equal(StatKind.PhysicalDamageAdded, statMod.StatKind);
+            Assert.Equal(1, statMod.Value);
+        }
 
-            Assert.Equal(stackFromEffectDto.consume_stacks, stackFromEffect.ConsumeStacks);
-            Assert.Equal(stackFromEffectDto.from, stackFromEffect.FromEffect);
+        [Fact]
+        public void CanMapApplyEffectActionDto()
+        {
+            var aeDto = new ApplyEffectActionDto("test_effect")
+            {
+                from_skill = "asdf"
+            };
+
+            var aeDto2 = new ApplyEffectActionDto("test_effect_2")
+            {
+                global = true
+            };
+
+            var ae = aeDto.ToDomain();
+            var ae2 = aeDto2.ToDomain();
+
+            Assert.Equal(aeDto.effect_id, ae.EffectId);
+            Assert.Equal(aeDto2.effect_id, ae2.EffectId);
+
+            Assert.Equal(aeDto.global, ae.Global);
+            Assert.Equal(aeDto2.global, ae2.Global);
+
+            Assert.Equal(aeDto.from_skill, ae.FromSkill);
+            Assert.Equal(aeDto2.from_skill, ae2.FromSkill);
+
+        }
+
+        [Fact]
+        public void CanMapAddHitDamageActionDto()
+        {
+            var dto = new AddHitDamageActionDto("test_skill", new HitDamageStepDto(
+                damage_types: [DamageTypeDto.bleed],
+                weapon_type: WeaponTypeDto.melee,
+                min_base_damage: 1,
+                max_base_damage: 1,
+                crit: true,
+                scale_properties: new(1, 1, 1)
+            ));
+
+            var ah = dto.ToDomain();
+
+            Assert.Equal(DamageType.Bleed, ah.HitDamage.DamageTypes[0]);
+            Assert.Equal(WeaponType.Melee, ah.HitDamage.WeaponType);
+            Assert.Equal(dto.hit_damage.min_base_damage, ah.HitDamage.MinBaseDamage);
+            Assert.True(ah.HitDamage.Crit);
+            Assert.Equal(dto.hit_damage.scale_properties.scale_added, ah.HitDamage.ScaleProperties.ScaleAdded);
+            Assert.Equal(dto.hit_damage.scale_properties.scale_increased, ah.HitDamage.ScaleProperties.ScaleIncreased);
+            Assert.Equal(dto.hit_damage.scale_properties.scale_speed, ah.HitDamage.ScaleProperties.ScaleSpeed);
+        }
+
+        [Fact]
+        public void CanMapAddDotDamageActionDto()
+        {
+            var dto = new AddDotDamageActionDto("test_skill", new(
+                damage_types: [DamageTypeDto.burn],
+                weapon_type: WeaponTypeDto.melee,
+                min_base_damage: 1,
+                max_base_damage: 1,
+                crit: false,
+                duration: new PermanentDurationDto() { permanent = true },
+                frequency: 1,
+                stack_strategy: new StackDefaultDto()
+                {
+                    max_stacks = 1,
+                    refresh_mode = StackStrategyRefreshMode.add_time,
+                    stacks_per_application = 1
+                },
+                scale_properties: new SkillScalePropertiesDto(1, 1, 1)
+            ));
+
+            var dotAction = dto.ToDomain();
+
+            Assert.NotNull(dotAction);
+
+            Assert.Equal(dto.skill_id, dotAction.SkillId);
+            Assert.Equal(DamageType.Burn, dotAction.DotDamage.DamageTypes[0]);
+            Assert.Equal(WeaponType.Melee, dotAction.DotDamage.WeaponType);
+            Assert.Equal(dto.dot_damage.min_base_damage, dotAction.DotDamage.MinBaseDamage);
+            Assert.Equal(dto.dot_damage.max_base_damage, dotAction.DotDamage.MaxBaseDamage);
+            Assert.Equal(dto.dot_damage.crit, dotAction.DotDamage.Crit);
+            Assert.True(dotAction.DotDamage.Duration.Type == GameData.src.Shared.Duration.Kind.Permanent);
+            Assert.Equal(dto.dot_damage.frequency, dotAction.DotDamage.Frequency);
+
+            var stackStrategy = dotAction.DotDamage.StackStrategy as StackDefault;
+            Assert.NotNull(stackStrategy);
+            Assert.Equal(1, stackStrategy.MaxStacks);
+            Assert.Equal(1, stackStrategy.StacksPerApplication);
+            Assert.Equal(StackRefreshMode.AddTime, stackStrategy.RefreshMode);
+
+            Assert.Equal(1, dotAction.DotDamage.ScaleProperties.ScaleAdded);
+            Assert.Equal(1, dotAction.DotDamage.ScaleProperties.ScaleIncreased);
+            Assert.Equal(1, dotAction.DotDamage.ScaleProperties.ScaleSpeed);
         }
 
         [Fact]
@@ -168,8 +271,14 @@ namespace Infrastructure.Json.Tests.MappingTests
             var dto = new TalentDto()
             {
                 actions = [
-                    new ModifyEffectActionDto() { id = "test_effect", damage_types = new(CollectionOperationDto.add, [DamageTypeDto.elemental, DamageTypeDto.burn]), duration = new DurationOperationDto(null, true, null) },
-                    new ModifyDotDamageActionDto() {skill = "test_skill", base_damage = new(ScalarOperationDto.Operation.add, 1), crit = true, damage_types = new(CollectionOperationDto.add, [DamageTypeDto.melee, DamageTypeDto.nature])}
+                    new ModifyEffectActionDto("test_effect") {
+                        duration = new DurationOperationDto()
+                        {
+                            turns = new(1,1,1,1)
+                        },
+                        modifiers = new ModifierCollectionOperationDto(CollectionOperationDto.add, []),
+                        stack_strategy = new StackDefaultModifierDto(new(1,1,1,1), null)
+                    }
                 ],
                 id = "test_talent",
                 presentation = new()
@@ -182,37 +291,28 @@ namespace Infrastructure.Json.Tests.MappingTests
             var talent = dto.ToDomain();
 
             Assert.Equal(dto.actions.Length, talent.Actions.Count);
+
             Assert.NotNull(talent.Actions);
-            Assert.Collection(talent.Actions,
-                action =>
-                {
-                    var modifyEffectAction = action as ModifyEffectAction;
-                    Assert.NotNull(modifyEffectAction);
-                    Assert.Equal("test_effect", modifyEffectAction.Id);
-                    Assert.NotNull(modifyEffectAction.DamageTypes);
-                    Assert.Collection(modifyEffectAction.DamageTypes.Operation.Items,
-                        item => Assert.Equal(DamageType.Elemental, item),
-                        item => Assert.Equal(DamageType.Burn, item));
-                    Assert.NotNull(modifyEffectAction.Duration);
-                    Assert.True(modifyEffectAction.Duration.Permanent);
-                },
-                action =>
-                {
-                    var modifyDotDamageAction = action as ModifyDotDamageAction;
-                    Assert.NotNull(modifyDotDamageAction);
-                    Assert.Equal("test_skill", modifyDotDamageAction.SkillId);
-                    Assert.NotNull(modifyDotDamageAction.BaseDamage);
-                    Assert.Equal(ScalarOperation.OperationKind.Add, modifyDotDamageAction.BaseDamage.ModifierOperation);
-                    Assert.Equal(1, modifyDotDamageAction.BaseDamage.Value);
-                    Assert.True(modifyDotDamageAction.Crit);
-                    Assert.NotNull(modifyDotDamageAction.DamageTypes);
-                    Assert.Collection(modifyDotDamageAction.DamageTypes.Operation.Items,
-                        item => Assert.Equal(DamageType.Melee, item),
-                        item => Assert.Equal(DamageType.Nature, item));
-                });
+            Assert.Single(talent.Actions);
+
+            var action = talent.Actions[0] as ModifyEffectAction;
+
+            Assert.NotNull(action);
+            Assert.NotNull(action.Duration);
+            Assert.NotNull(action.Modifiers);
+            Assert.NotNull(action.StackStrategy);
+            Assert.Equal("test_effect", action.EffectId);
+
+            Assert.Equal(1, action.Duration.Turns?.OverrideValue);
+            Assert.Equal(1, action.Duration.Turns?.ScaleAdded);
+            Assert.Equal(1, action.Duration.Turns?.ScaleEmpowered);
+            Assert.Equal(1, action.Duration.Turns?.ScaleIncreased);
+
+            Assert.Empty(action.Modifiers.Operation.Items);
+            Assert.Equal(CollectionOperationKind.Add, action.Modifiers.Operation.Operation);
 
             Assert.Equal(dto.id, talent.Id);
-            Assert.NotNull(talent.Presentation);
+
             Assert.Equal(dto.presentation.description, talent.Presentation.Description);
             Assert.Equal(dto.presentation.name, talent.Presentation.Name);
         }

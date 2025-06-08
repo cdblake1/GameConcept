@@ -10,20 +10,12 @@ namespace GameData.src.Effect
     {
         public required string Id { get; init; }
 
-        public required Kind Category { get; init; }
+        public required EffectCategory Category { get; init; }
 
         public required Duration Duration { get; init; }
 
-        public required IStackStrategy Stacking { get; init; }
+        public required IStackStrategy StackStrategy { get; init; }
 
-        public required IReadOnlyList<ScalarModifierBase> Modifiers { get; init; }
-
-        public required int Leech { get; init; }
-
-        public required IReadOnlyList<DamageType> DamageTypes { get; init; }
-
-        public required IReadOnlyList<IStatus> ApplyStatus { get; init; }
-
-        public enum Kind { Buff, Debuff }
+        public required IReadOnlyList<IModifier> Modifiers { get; init; }
     }
 }

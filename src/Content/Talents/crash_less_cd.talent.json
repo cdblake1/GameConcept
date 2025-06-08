@@ -3,7 +3,7 @@
   "actions": [
     {
       "type": "modify_skill",
-      "skill": "crash_skill",
+      "skill_id": "crash_skill",
       "cooldown": {
         "scale_added": -1,
         "scale_empowered": 0,

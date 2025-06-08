@@ -1,51 +1,48 @@
 {
-  "effect_id": "hit_damage_test",
+  "id": "hit_damage_test",
   "cooldown": 0,
   "cost": 1,
   "effects": [
     {
-      "attack_type": "hit",
-      "base_damage": 1,
-      "crit": true,
+      "type": "hit_damage_step",
       "damage_types": [
         "physical"
       ],
-      "scale_coef": {
-        "scalar_operation": {
-          "operation": "mult",
-          "value": 1
-        },
-        "stat": "melee_damage"
-      },
-      "type": "damage"
+      "attack_type": "hit",
+      "weapon_type": "melee",
+      "crit": true,
+      "min_base_damage": 1,
+      "max_base_damage": 1,
+      "scale_properties": {
+        "scale_added": 100,
+        "scale_increased": 100,
+        "scale_speed": 100
+      }
     },
     {
-      "type": "damage",
-      "attack_type": "dot",
-      "base_damage": 10,
-      "crit": false,
+      "type": "dot_damage_step",
       "damage_types": [
         "bleed"
       ],
-      "dot_props": {
-        "duration": {
-          "expires_with": "test_effect",
-          "source": "effect_id"
-        },
-        "frequency": 1,
-        "stacking": {
-          "type": "from_effect",
-          "consume_stacks": true,
-          "effect_id": "test_effect"
-        },
-        "timing": "end_turn"
+      "attack_type": "dot",
+      "weapon_type": "range",
+      "crit": false,
+      "duration": {
+        "expires_with": "test_effect",
+        "source": "effect"
       },
-      "scale_coef": {
-        "scalar_operation": {
-          "operation": "set",
-          "value": 10
-        },
-        "stat": "spell_damage"
+      "frequency": 1,
+      "min_base_damage": 10,
+      "max_base_damage": 10,
+      "scale_properties": {
+        "scale_added": 200,
+        "scale_increased": 200,
+        "scale_speed": 0
+      },
+      "stack_strategy": {
+        "type": "from_effect",
+        "consume_stacks": true,
+        "effect_id": "test_effect"
       }
     },
     {

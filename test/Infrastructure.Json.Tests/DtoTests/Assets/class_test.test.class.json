@@ -12,7 +12,9 @@
   ],
   "talents": [
     {
-      "prerequisites": ["test_talent"],
+      "prerequisites": [
+        "test_talent"
+      ],
       "talent_tier": "tier_05",
       "id": "test_talent"
     }

@@ -1,6 +1,6 @@
 namespace GameData.src.Shared.Enums
 {
-    public enum AttackKind
+    public enum AttackType
     {
         Hit, Dot
     }

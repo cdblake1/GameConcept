@@ -1,7 +1,9 @@
 using GameData.src.Effect.Stack;
+using GameData.src.Shared;
 using GameData.src.Skill;
 using GameData.src.Skill.SkillStep;
 using Infrastructure.Json.Dto.Skill;
+using Infrastructure.Json.Dto.Skill.SkillStep;
 
 namespace Infrastructure.Json.Mappers
 {
@@ -26,7 +28,7 @@ namespace Infrastructure.Json.Mappers
             {
                 ActivationKind = dto.type.ToDomain(),
                 Count = dto.count,
-                FromEffect = dto.id
+                EffectId = dto.effect_id
             };
         }
 
@@ -41,46 +43,44 @@ namespace Infrastructure.Json.Mappers
             };
         }
 
-        public static ApplyEffectStep ToDomain(this ApplyEffectStepDto dto)
-        => new() { Effect = dto.effect };
         public static HitDamageStep ToDomain(this HitDamageStepDto dto)
-        => new()
-        {
-            BaseDamage = dto.base_damage,
-            DamageTypes = [.. dto.damage_types.Select(d => d.ToDomain())],
-            Kind = dto.attack_type.ToDomain(),
-            StackFromEffect = dto.from_effect?.ToDomain() as StackFromEffect,
-            Crit = dto.crit,
-            ScaleCoefficient = dto.scale_coef.ToDomain()
-        };
+        => new(
+            AttackType: dto.attack_type.ToDomain(),
+            DamageTypes: [.. dto.damage_types.Select(d => d.ToDomain())],
+            WeaponType: dto.weapon_type.ToDomain(),
+            MinBaseDamage: dto.min_base_damage,
+            MaxBaseDamage: dto.max_base_damage,
+            Crit: dto.crit,
+            ScaleProperties: dto.scale_properties.ToDomain(),
+            StackFromEffect: dto.stack_from_effect?.ToDomain()
+        );
 
         public static DotDamageStep ToDomain(this DotDamageStepDto dto)
-        => new()
-        {
-            BaseDamage = dto.base_damage,
-            DamageTypes = [.. dto.damage_types.Select(d => d.ToDomain())],
-            Duration = dto.duration.ToDomain(),
-            Frequency = dto.frequency,
-            Kind = dto.attack_type.ToDomain(),
-            Stacking = dto.stacking?.ToDomain() ?? new StackDefault() { MaxStacks = 1, RefreshMode = StackRefreshMode.ResetTime, StacksPerApplication = 1 },
-            Timing = dto.timing.ToDomain(),
-            Crit = dto.crit,
-            ScaleCoefficient = dto.scale_coef.ToDomain()
-        };
+        => new(
+            AttackType: dto.attack_type.ToDomain(),
+            DamageTypes: [.. dto.damage_types.Select(d => d.ToDomain())],
+            WeaponType: dto.weapon_type.ToDomain(),
+            MinBaseDamage: dto.min_base_damage,
+            MaxBaseDamage: dto.max_base_damage,
+            Crit: dto.crit,
+            Duration: dto.duration.ToDomain(),
+            Frequency: dto.frequency,
+            StackStrategy: dto.stack_strategy.ToDomain(),
+            ScaleProperties: dto.scale_properties.ToDomain()
+        );
 
-        public static ActivationRequirement.Kind ToDomain(this ActivationRequirementDto.ActivationKind dto) => dto switch
+        public static ApplyEffectStep ToDomain(this ApplyEffectStepDto dto)
+        => new(dto.effect_id);
+
+        public static SkillScaleProperties ToDomain(this SkillScalePropertiesDto dto)
+        => new(dto.scale_added, dto.scale_increased, dto.scale_speed);
+
+
+        public static ActivationRequirementType ToDomain(this ActivationRequirementDto.ActivationKind dto) => dto switch
         {
-            ActivationRequirementDto.ActivationKind.effect_present => ActivationRequirement.Kind.EffectPresent,
-            ActivationRequirementDto.ActivationKind.hp_pct_below => ActivationRequirement.Kind.HpBelowPercentage,
+            ActivationRequirementDto.ActivationKind.effect_present => ActivationRequirementType.EffectPresent,
+            ActivationRequirementDto.ActivationKind.hp_pct_below => ActivationRequirementType.HpBelowPercentage,
             _ => throw new InvalidOperationException($"Activation Kind not implemented: {dto}")
-        };
-
-        public static DotDamageStep.TimingKind ToDomain(this DotDamageStepDto.TimingKind dto)
-        => dto switch
-        {
-            DotDamageStepDto.TimingKind.start_turn => DotDamageStep.TimingKind.StartTurn,
-            DotDamageStepDto.TimingKind.end_turn => DotDamageStep.TimingKind.EndTurn,
-            _ => throw new InvalidOperationException($"timing kind not implemented {dto}")
         };
     }
 }

@@ -1,5 +1,6 @@
 using Infrastructure.Json.Dto.Common;
 using Infrastructure.Json.Dto.Skill;
+using Infrastructure.Json.Dto.Skill.SkillStep;
 using Newtonsoft.Json;
 
 namespace Infrastructure.Json.Tests.DtoTests

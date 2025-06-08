@@ -4,36 +4,33 @@
   "cost": 2,
   "effects": [
     {
-      "type": "damage",
+      "type": "dot_damage_step",
       "attack_type": "dot",
-      "base_damage": 2,
+      "weapon_type": "spell",
+      "min_base_damage": 1,
+      "max_base_damage": 1,
+      "duration": "permanent",
+      "frequency": 1,
+      "scale_properties": {
+        "scale_added": 1,
+        "scale_increased": 1,
+        "scale_speed": 0
+      },
       "crit": false,
       "damage_types": [
         "nature"
       ],
-      "dot_props": {
-        "duration": "permanent",
-        "frequency": 1,
-        "stacking": {
-          "type": "stack_default",
-          "max_stacks": 1,
-          "stacks_per_application": 1,
-          "refresh_mode": "no_refresh"
-        },
-        "timing": "start_turn"
-      },
-      "scale_coef": {
-        "scalar_operation": {
-          "operation": "set",
-          "value": 2
-        },
-        "stat": "elemental_damage"
+      "stack_strategy": {
+        "type": "default",
+        "max_stacks": 1,
+        "refresh_mode": "add_time",
+        "stacks_per_application": 1
       }
     }
   ],
   "activation_req": {
     "count": 1,
-    "id": "test_effect",
+    "effect_id": "test_effect",
     "scope": "target",
     "type": "effect_present"
   },

@@ -1,11 +1,14 @@
-public record ActivationRequirement
+namespace GameData.src.Skill
 {
-    public required Kind ActivationKind { get; init; }
+    public record ActivationRequirement
+    {
+        public required ActivationRequirementType ActivationKind { get; init; }
 
-    public required int Count { get; init; }
+        public required int Count { get; init; }
 
-    public string? FromEffect { get; init; }
+        public string? EffectId { get; init; }
+    }
 
-    public enum Kind
+    public enum ActivationRequirementType
     { EffectPresent, HpBelowPercentage }
 }

@@ -1,11 +1,5 @@
 {
   "id": "rend_increase_dmg_talent",
-  "applies_to": [
-    {
-      "type": "skill",
-      "id": "rend_skill"
-    }
-  ],
   "actions": [
     {
       "type": "modify_dot_damage",

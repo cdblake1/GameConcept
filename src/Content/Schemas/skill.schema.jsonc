@@ -201,13 +201,13 @@
       "type": "object",
       "required": [
         "type",
-        "effect"
+        "effect_id"
       ],
       "properties": {
         "type": {
           "const": "apply_effect"
         },
-        "effect": {
+        "effect_id": {
           "$ref": "effect.schema.jsonc#/properties/id"
         }
       },

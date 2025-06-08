@@ -1,6 +1,5 @@
 using GameData.src.Class;
 using Infrastructure.Json.Dto.Class;
-using Infrastructure.Json.Dto.Talent;
 using Infrastructure.Json.Mappers;
 
 namespace Infrastructure.Json.Tests.MappingTests

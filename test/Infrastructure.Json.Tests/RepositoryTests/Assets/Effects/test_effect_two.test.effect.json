@@ -1,16 +1,12 @@
 {
   "id": "test_effect_two",
   "category": "buff",
-  "damage_types": ["physical"],
   "duration": "permanent",
   "modifiers": [
     {
-      "damage_type": ["physical"],
-      "scalar_operation": {
-        "operation": "mult",
-        "value": 2
-      },
-      "type": "damage"
+      "stat": "physical_damage_added",
+      "value": 1,
+      "type": "stat"
     }
   ]
 }

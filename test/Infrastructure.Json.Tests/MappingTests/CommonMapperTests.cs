@@ -1,7 +1,5 @@
 using GameData.src.Shared;
 using GameData.src.Shared.Enums;
-using GameData.src.Shared.Modifier;
-using GameData.src.Shared.Modifiers;
 using GameData.src.Shared.Modifiers.Operations;
 using Infrastructure.Json.Dto.Common;
 using Infrastructure.Json.Dto.Common.Modifiers;
@@ -47,9 +45,18 @@ namespace Infrastructure.Json.Tests.MappingTests
         [Fact]
         public void CanMapDurationOperationDto()
         {
-            var turnsDto = new DurationOperationDto(new ScalarOperationDto(ScalarOperationDto.Operation.add, 1), null, null);
-            var permDto = new DurationOperationDto(null, true, null);
-            var expireswithDto = new DurationOperationDto(null, null, new() { expires_with = "test_effect", source = ExpiresWithDto.ExpiresWithSourceEnum.effect });
+            var turnsDto = new DurationOperationDto()
+            {
+                turns = new(1, 1, 1, 1)
+            };
+            var permDto = new DurationOperationDto()
+            {
+                permanent = true
+            };
+            var expireswithDto = new DurationOperationDto()
+            {
+                expires_with = new() { expires_with = "test_effect", source = ExpiresWithDto.ExpiresWithSourceEnum.effect }
+            };
 
             var tDurOp = turnsDto.ToDomain();
             var pDurOp = permDto.ToDomain();
@@ -67,7 +74,7 @@ namespace Infrastructure.Json.Tests.MappingTests
             Assert.Equal(Duration.Kind.Permanent, pDurOp.Kind);
             Assert.Equal(Duration.Kind.ExpiresWith, eDurOp.Kind);
 
-            Assert.Equal(turnsDto.turns.value, tDurOp.Turns.Value);
+            Assert.Equal(turnsDto.turns.scale_added, tDurOp.Turns.ScaleAdded);
             Assert.Equal(true, pDurOp.Permanent);
             Assert.Equal(Duration.ExpiresWith.Category.Effect, eDurOp.ExpiresWith.Value.Source);
             Assert.Equal(expireswithDto.expires_with.expires_with, eDurOp.ExpiresWith.Value.Id);
@@ -77,49 +84,20 @@ namespace Infrastructure.Json.Tests.MappingTests
         [Fact]
         public void CanMapModiferDto()
         {
-            var statModDto = new ModifierDto(ModifierDto.ModifierKindDto.stat, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
-            var damageModDto = new ModifierDto(ModifierDto.ModifierKindDto.damage, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
-            var attackModDto = new ModifierDto(ModifierDto.ModifierKindDto.attack_type, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
-            var skillDto = new ModifierDto(ModifierDto.ModifierKindDto.skill, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1));
+            var statModDto = new StatModifierDto(StatDto.armor_rating_added, 1);
+            var skillModDto = new SkillModifierDto("test_skill", new(1, 0, 0, 0));
 
             var statMod = statModDto.ToDomain();
-            var damageMod = damageModDto.ToDomain();
-            var attackMod = attackModDto.ToDomain();
-            var skillMod = skillDto.ToDomain();
+            var skillMod = skillModDto.ToDomain();
 
-            Assert.Equal(statModDto.scalar_operation.value, statMod.Operation.Value);
-            Assert.Equal(ScalarOperation.OperationKind.Add, statMod.Operation.ModifierOperation);
+            Assert.Equal(StatKind.ArmorRatingAdded, statMod.StatKind);
+            Assert.Equal(statModDto.value, statMod.Value);
 
-            Assert.Equal(damageModDto.scalar_operation.value, damageMod.Operation.Value);
-            Assert.Equal(ScalarOperation.OperationKind.Add, damageMod.Operation.ModifierOperation);
-
-            Assert.Equal(attackModDto.scalar_operation.value, attackMod.Operation.Value);
-            Assert.Equal(ScalarOperation.OperationKind.Add, attackMod.Operation.ModifierOperation);
-
-            Assert.Equal(skillDto.scalar_operation.value, skillMod.Operation.Value);
-            Assert.Equal(ScalarOperation.OperationKind.Add, skillMod.Operation.ModifierOperation);
-        }
-
-        [Fact]
-        public void CanMapStatCollectionOperationDto()
-        {
-            var statCollDto = new StatCollectionOperationDto(CollectionOperationDto.add, [StatDto.defense, StatDto.defense]);
-
-            var statKindCollMod = statCollDto.ToDomain();
-
-            Assert.Equal(statCollDto.items.Length, statKindCollMod.Operation.Items.Count);
-            Assert.Equal(CollectionOperationKind.Add, statKindCollMod.Operation.Operation);
-        }
-
-        [Fact]
-        public void CanMapAttackKindCollectionOperationDto()
-        {
-            var attackCollDto = new AttackCollectionOperationDto(CollectionOperationDto.add, [AttackKindDto.dot, AttackKindDto.hit]);
-
-            var attackKindCollMod = attackCollDto.ToDomain();
-
-            Assert.Equal(attackCollDto.items.Length, attackKindCollMod.Operation.Items.Count);
-            Assert.Equal(CollectionOperationKind.Add, attackKindCollMod.Operation.Operation);
+            Assert.Equal("test_skill", skillMod.SkillId);
+            Assert.Equal(1, skillMod.Operation.ScaleAdded);
+            Assert.Equal(0, skillMod.Operation.ScaleIncreased);
+            Assert.Equal(0, skillMod.Operation.ScaleEmpowered);
+            Assert.Equal(0, skillMod.Operation.OverrideValue);
         }
 
         [Fact]
@@ -136,7 +114,9 @@ namespace Infrastructure.Json.Tests.MappingTests
         [Fact]
         public void CanMapModifierCollectionOperationDto()
         {
-            var collOpDto = new ModifierCollectionOperationDto(CollectionOperationDto.add, [new ModifierDto(ModifierDto.ModifierKindDto.stat, new ScalarOperationDto(ScalarOperationDto.Operation.add, 1))]);
+            var collOpDto = new ModifierCollectionOperationDto(
+                CollectionOperationDto.add,
+                [new StatModifierDto(StatDto.physical_damage_added, 1)]);
 
             var collModifierOp = collOpDto.ToDomain();
 

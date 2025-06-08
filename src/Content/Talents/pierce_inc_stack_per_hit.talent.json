@@ -1,11 +1,5 @@
 {
   "id": "pierce_inc_stack_per_hit_talent",
-  "applies_to": [
-    {
-      "type": "skill",
-      "id": "pierce_skill"
-    }
-  ],
   "actions": [
     {
       "type": "modify_effect",

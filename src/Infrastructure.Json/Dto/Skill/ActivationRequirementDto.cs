@@ -10,8 +10,8 @@ namespace Infrastructure.Json.Dto.Skill
         [JsonProperty(nameof(count), Required = Required.Always)]
         public required int count { get; init; }
 
-        [JsonProperty(nameof(id))]
-        public string? id;
+        [JsonProperty(nameof(effect_id))]
+        public string? effect_id;
 
         public enum ActivationKind { effect_present, hp_pct_below }
     }

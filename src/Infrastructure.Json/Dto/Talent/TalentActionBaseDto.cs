@@ -1,217 +1,199 @@
 using GameData.src.Shared.Modifiers;
 using GameData.src.Skill.SkillStep;
-using Infrastructure.Json.Dto.Common;
 using Infrastructure.Json.Dto.Common.Modifiers;
 using Infrastructure.Json.Dto.Common.Operations;
-using Infrastructure.Json.Dto.Effect;
 using Infrastructure.Json.Dto.Skill;
+using Infrastructure.Json.Dto.Skill.SkillStep;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using JsonConverter = Newtonsoft.Json.JsonConverter;
 
 namespace Infrastructure.Json.Dto.Talent;
 
 [JsonConverter(typeof(TalentActionBaseDtoConverter))]
-public abstract record TalentActionBaseDto
+public interface ITalentActionDto { }
+public enum TalentActionTypeDto
 {
-    public abstract Kind type { get; }
-    public enum Kind { modify_damage, modify_effect, modify_skill, apply_effect, damage }
+    modify_hit_damage,
+    modify_dot_damage,
+    modify_effect,
+    modify_skill,
+    apply_effect,
+    add_hit_damage,
+    add_dot_damage
 }
 
-public abstract record ModifyDamageActionDto : TalentActionBaseDto
+public sealed record ModifyHitDamageActionDto(
+    [JsonProperty] string skill_id
+) : ITalentActionDto
 {
-    public override Kind type => Kind.modify_damage;
+    [JsonProperty]
+    public DamageTypeCollectionOperationDto? damage_types { get; init; }
 
-    [JsonProperty(nameof(attack_type), Required = Required.Always)]
-    public abstract AttackKindDto attack_type { get; }
+    [JsonProperty]
+    public ScalarOperationDto? min_base_damage { get; init; }
 
-    [JsonProperty(nameof(skill), Required = Required.Always)]
-    public required string skill { get; init; }
+    [JsonProperty]
+    public ScalarOperationDto? max_base_damage { get; init; }
 
-    [JsonProperty(nameof(crit))]
+    [JsonProperty]
+    public bool? crit { get; init; }
+};
+
+public sealed record ModifyDotDamageActionDto(
+    [JsonProperty] string skill_id
+) : ITalentActionDto
+{
+    [JsonProperty]
+    public DamageTypeCollectionOperationDto? damage_types { get; init; }
+
+    [JsonProperty]
+    public ScalarOperationDto? min_base_damage { get; init; }
+
+    [JsonProperty]
+    public ScalarOperationDto? max_base_damage { get; init; }
+
+    [JsonProperty]
     public bool? crit { get; init; }
 
-    [JsonProperty(nameof(damage_types))]
-    public DamageTypeCollectionOperationDto? damage_types { get; init; }
-
-    [JsonProperty(nameof(base_damage))]
-    public ScalarOperationDto? base_damage { get; init; }
-}
-
-public sealed record DamageTalentActionDto : TalentActionBaseDto
-{
-    public override Kind type => Kind.damage;
-
-    [JsonProperty(nameof(skill))]
-    public required string skill { get; init; }
-
-    [JsonProperty(nameof(damage))]
-    public required DamageStepDto damage { get; init; }
-}
-
-
-public sealed record ApplyeffectTalentActionDto : TalentActionBaseDto
-{
-    public override Kind type => Kind.apply_effect;
-
-    [JsonProperty(nameof(from_skill))]
-    public required string from_skill { get; init; }
-
-    [JsonProperty(nameof(effect))]
-    public required string effect { get; init; }
-}
-
-public sealed record ModifyHitDamageActionDto : ModifyDamageActionDto
-{
-    public override AttackKindDto attack_type => AttackKindDto.hit;
-}
-
-public sealed record ModifyDotDamageActionDto : ModifyDamageActionDto, IValidatableEntity
-{
-    public override AttackKindDto attack_type => AttackKindDto.dot;
-
-    [JsonProperty(nameof(timing))]
-    public DotDamageStepDto.TimingKind? timing { get; init; }
-
-    [JsonProperty(nameof(duration))]
+    [JsonProperty]
     public DurationOperationDto? duration { get; init; }
 
-    [JsonProperty(nameof(frequency))]
+    [JsonProperty]
     public ScalarOperationDto? frequency { get; init; }
 
-    [JsonProperty(nameof(stacking))]
-    public StackBaseDto? stacking { get; init; }
-
-    public bool Validate()
-    {
-        return stacking != null
-            || frequency != null
-            || duration != null
-            || timing != null
-            || crit != null
-            || base_damage != null
-            || (damage_types != null && damage_types.items.Length > 0);
-    }
+    [JsonProperty]
+    public StackDefaultModifierDto? stack_strategy { get; init; }
 }
 
-public sealed record ModifyEffectActionDto : TalentActionBaseDto
+public sealed record ModifyEffectActionDto(
+    [JsonProperty] string effect_id
+) : ITalentActionDto
 {
-    public override Kind type => Kind.modify_effect;
-
-    [JsonProperty(nameof(id), Required = Required.Always)]
-    public required string id { get; init; }
-
-    [JsonProperty(nameof(duration))]
+    [JsonProperty]
     public DurationOperationDto? duration { get; init; }
 
-    [JsonProperty(nameof(stacking))]
-    public StackBaseDto? stacking { get; init; }
+    [JsonProperty]
+    public StackDefaultModifierDto? stack_strategy { get; init; }
 
-    [JsonProperty(nameof(leech))]
-    public ScalarOperationDto? leech { get; init; }
-
-    [JsonProperty(nameof(damage_types))]
-    public DamageTypeCollectionOperationDto? damage_types { get; init; }
-
-    [JsonProperty(nameof(apply_status))]
-    public StatusCollectionOperationDto? apply_status { get; init; }
-
-    [JsonProperty(nameof(modifiers))]
+    [JsonProperty]
     public ModifierCollectionOperationDto? modifiers { get; init; }
 }
 
-public sealed record ModifySkillActionDto : TalentActionBaseDto
+public sealed record ApplyEffectActionDto([JsonProperty] string effect_id) : ITalentActionDto
 {
-    public override Kind type => Kind.modify_skill;
+    [JsonProperty]
+    public string? from_skill { get; init; }
 
-    [JsonProperty(nameof(skill), Required = Required.Always)]
-    public required string skill { get; init; }
+    [JsonProperty]
+    public bool global { get; init; }
+};
 
-    [JsonProperty(nameof(skill), Required = Required.Always)]
-    public required ScalarOperationDto? cost { get; init; }
+public sealed record ModifySkillActionDto(
+    [JsonProperty] string skill_id
+) : ITalentActionDto
+{
+    [JsonProperty]
+    public ScalarOperationDto? cost { get; init; }
 
-    [JsonProperty(nameof(skill), Required = Required.Always)]
-    public required ScalarOperationDto? cooldown { get; init; }
+    [JsonProperty]
+    public ScalarOperationDto? cooldown { get; init; }
 
-    public required ActivationRequirementDto? activation_req { get; init; }
+    [JsonProperty]
+    public ActivationRequirementDto? activation_requirement { get; init; }
 }
 
-internal sealed class TalentActionBaseDtoConverter : JsonConverter<TalentActionBaseDto>
+public sealed record AddHitDamageActionDto(
+    [JsonProperty] string skill_id,
+    [JsonProperty] HitDamageStepDto hit_damage
+) : ITalentActionDto;
+
+public sealed record AddDotDamageActionDto(
+    [JsonProperty] string skill_id,
+    [JsonProperty] DotDamageStepDto dot_damage
+) : ITalentActionDto;
+
+internal sealed class TalentActionBaseDtoConverter : JsonConverter<ITalentActionDto>
 {
-    public override TalentActionBaseDto? ReadJson(
+    public override ITalentActionDto? ReadJson(
         JsonReader reader,
         Type objectType,
-        TalentActionBaseDto? existingValue,
+        ITalentActionDto? existingValue,
         bool hasExistingValue,
         JsonSerializer serializer)
     {
         var jo = JObject.Load(reader);
         var typeToken = jo["type"] ?? throw new JsonSerializationException("TalentActionBaseDto object missing 'type' field.");
         var typeStr = typeToken.Value<string>()!;
-        switch (typeStr)
+        var actionKind = Enum.Parse<TalentActionTypeDto>(typeStr);
+
+        return actionKind switch
         {
-            case "modify_damage":
-                var attackKind = jo["attack_type"]?.ToString();
-                if (attackKind == "dot")
-                {
-                    return new ModifyDotDamageActionDto
-                    {
-                        skill = (string?)jo["skill"] ?? throw new JsonSerializationException("Missing required property 'skill' for ModifyDotDamageActionDto."),
-                        crit = (bool?)jo["crit"],
-                        damage_types = jo["damage_types"] is JToken dt1 ? serializer.Deserialize<DamageTypeCollectionOperationDto>(dt1.CreateReader()) : null,
-                        base_damage = jo["base_damage"] is JToken bd1 ? serializer.Deserialize<ScalarOperationDto>(bd1.CreateReader()) : null,
-                        timing = jo["dot_props"]?["timing"] is JToken t1 ? serializer.Deserialize<DotDamageStepDto.TimingKind?>(t1.CreateReader()) : null,
-                        duration = jo["dot_props"]?["duration"] is JToken d1 ? serializer.Deserialize<DurationOperationDto>(d1.CreateReader()) : null,
-                        frequency = jo["dot_props"]?["frequency"] is JToken f1 ? serializer.Deserialize<ScalarOperationDto>(f1.CreateReader()) : null,
-                        stacking = jo["dot_props"]?["stacking"] is JToken s1 ? serializer.Deserialize<StackBaseDto>(s1.CreateReader()) : null
-                    };
-                }
-                else
-                {
-                    return new ModifyHitDamageActionDto
-                    {
-                        skill = (string?)jo["skill"] ?? throw new JsonSerializationException("Missing required property 'skill' for ModifyHitDamageActionDto."),
-                        crit = (bool?)jo["crit"],
-                        damage_types = jo["damage_types"] is JToken dt2 ? serializer.Deserialize<DamageTypeCollectionOperationDto>(dt2.CreateReader()) : null,
-                        base_damage = jo["base_damage"] is JToken bd2 ? serializer.Deserialize<ScalarOperationDto>(bd2.CreateReader()) : null
-                    };
-                }
-            case "modify_effect":
-                return new ModifyEffectActionDto
-                {
-                    id = (string?)jo["id"] ?? throw new JsonSerializationException("Missing required property 'id' for ModifyEffectActionDto."),
-                    duration = jo["duration"] is JToken d2 ? serializer.Deserialize<DurationOperationDto>(d2.CreateReader()) : null,
-                    stacking = jo["stacking"] is JToken s2 ? serializer.Deserialize<StackBaseDto>(s2.CreateReader()) : null,
-                    leech = jo["leech"] is JToken l2 ? serializer.Deserialize<ScalarOperationDto>(l2.CreateReader()) : null,
-                    damage_types = jo["damage_types"] is JToken dt3 ? serializer.Deserialize<DamageTypeCollectionOperationDto>(dt3.CreateReader()) : null,
-                    apply_status = jo["apply_status"] is JToken as1 ? serializer.Deserialize<StatusCollectionOperationDto>(as1.CreateReader()) : null,
-                    modifiers = jo["modifiers"] is JToken m1 ? serializer.Deserialize<ModifierCollectionOperationDto>(m1.CreateReader()) : null
-                };
-            case "modify_skill":
-                return new ModifySkillActionDto
-                {
-                    skill = (string?)jo["skill"] ?? throw new JsonSerializationException("Missing required property 'skill' for ModifySkillActionDto."),
-                    cost = jo["cost"] is JToken c3 ? serializer.Deserialize<ScalarOperationDto>(c3.CreateReader()) : null,
-                    cooldown = jo["cooldown"] is JToken cd3 ? serializer.Deserialize<ScalarOperationDto>(cd3.CreateReader()) : null,
-                    activation_req = jo["activation_req"] is JToken ar3 ? serializer.Deserialize<ActivationRequirementDto>(ar3.CreateReader()) : null
-                };
-            case "apply_effect":
-                return new ApplyeffectTalentActionDto
-                {
-                    effect = jo["effect"]?.Value<string>() ?? throw new JsonSerializationException(),
-                    from_skill = jo["from_skill"]?.Value<string>() ?? throw new JsonSerializationException(),
-                };
-            case "damage":
-                return new DamageTalentActionDto
-                {
-                    skill = jo["skill"]?.Value<string>() ?? throw new JsonSerializationException("Missing required property 'skill' for DamageTalentActionDto."),
-                    damage = jo["damage"]?.ToObject<DamageStepDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'damage' for DamageTalentActionDto.")
-                };
-            default:
-                throw new JsonSerializationException($"Unknown TalentActionBaseDto type '{typeStr}'.");
-        }
+            TalentActionTypeDto.modify_hit_damage => new ModifyHitDamageActionDto(
+                skill_id: (string?)jo[nameof(ModifyHitDamageActionDto.skill_id)] ?? throw new JsonSerializationException($"Missing required property '{nameof(ModifyHitDamageActionDto.skill_id)}' for ModifyHitDamageActionDto.")
+            )
+            {
+                crit = (bool?)jo[nameof(ModifyHitDamageActionDto.crit)],
+                damage_types = jo[nameof(ModifyHitDamageActionDto.damage_types)] is JToken dt1 ? serializer.Deserialize<DamageTypeCollectionOperationDto>(dt1.CreateReader()) : null,
+                min_base_damage = jo[nameof(ModifyHitDamageActionDto.min_base_damage)] is JToken bd1min ? serializer.Deserialize<ScalarOperationDto>(bd1min.CreateReader()) : null,
+                max_base_damage = jo[nameof(ModifyHitDamageActionDto.max_base_damage)] is JToken bd1max ? serializer.Deserialize<ScalarOperationDto>(bd1max.CreateReader()) : null
+            },
+            TalentActionTypeDto.modify_dot_damage => new ModifyDotDamageActionDto(
+                skill_id: (string?)jo[nameof(ModifyDotDamageActionDto.skill_id)] ?? throw new JsonSerializationException($"Missing required property '{nameof(ModifyDotDamageActionDto.skill_id)}' for ModifyDotDamageActionDto.")
+            )
+            {
+                crit = (bool?)jo[nameof(ModifyDotDamageActionDto.crit)],
+                damage_types = jo[nameof(ModifyDotDamageActionDto.damage_types)] is JToken dt2 ? serializer.Deserialize<DamageTypeCollectionOperationDto>(dt2.CreateReader()) : null,
+                min_base_damage = jo[nameof(ModifyDotDamageActionDto.min_base_damage)] is JToken bd2min ? serializer.Deserialize<ScalarOperationDto>(bd2min.CreateReader()) : null,
+                max_base_damage = jo[nameof(ModifyDotDamageActionDto.max_base_damage)] is JToken bd2max ? serializer.Deserialize<ScalarOperationDto>(bd2max.CreateReader()) : null,
+                duration = jo[nameof(ModifyDotDamageActionDto.duration)] is JToken d2 ? serializer.Deserialize<DurationOperationDto>(d2.CreateReader()) : null,
+                frequency = jo[nameof(ModifyDotDamageActionDto.frequency)] is JToken f2 ? serializer.Deserialize<ScalarOperationDto>(f2.CreateReader()) : null,
+                stack_strategy = jo[nameof(ModifyDotDamageActionDto.stack_strategy)] is JToken s2 ? serializer.Deserialize<StackDefaultModifierDto>(s2.CreateReader()) : null
+            },
+            TalentActionTypeDto.modify_effect => new ModifyEffectActionDto(
+                effect_id: (string?)jo[nameof(ModifyEffectActionDto.effect_id)] ?? throw new JsonSerializationException($"Missing required property '{nameof(ModifyEffectActionDto.effect_id)}' for ModifyEffectActionDto.")
+            )
+            {
+                duration = jo[nameof(ModifyEffectActionDto.duration)] is JToken d3 ? serializer.Deserialize<DurationOperationDto>(d3.CreateReader()) : null,
+                stack_strategy = jo[nameof(ModifyEffectActionDto.stack_strategy)] is JToken s3 ? serializer.Deserialize<StackDefaultModifierDto>(s3.CreateReader()) : null,
+                modifiers = jo[nameof(ModifyEffectActionDto.modifiers)] is JToken m3 ? serializer.Deserialize<ModifierCollectionOperationDto>(m3.CreateReader()) : null,
+            },
+            TalentActionTypeDto.modify_skill => new ModifySkillActionDto(
+                skill_id: (string?)jo[nameof(ModifySkillActionDto.skill_id)] ?? throw new JsonSerializationException($"Missing required property '{nameof(ModifySkillActionDto.skill_id)}' for ModifySkillActionDto.")
+            )
+            {
+                cost = jo[nameof(ModifySkillActionDto.cost)] is JToken c4 ? serializer.Deserialize<ScalarOperationDto>(c4.CreateReader()) : null,
+                cooldown = jo[nameof(ModifySkillActionDto.cooldown)] is JToken cd4 ? serializer.Deserialize<ScalarOperationDto>(cd4.CreateReader()) : null,
+                activation_requirement = jo[nameof(ModifySkillActionDto.activation_requirement)] is JToken ar4 ? serializer.Deserialize<ActivationRequirementDto>(ar4.CreateReader()) : null
+            },
+            TalentActionTypeDto.apply_effect => new ApplyEffectActionDto(
+                effect_id: (string?)jo[nameof(ApplyEffectActionDto.effect_id)] ?? throw new JsonSerializationException($"Missing required property '{nameof(ApplyEffectActionDto.effect_id)}' for ApplyEffectActionDto.")
+            )
+            {
+                from_skill = (string?)jo[nameof(ApplyEffectActionDto.from_skill)],
+                global = jo[nameof(ApplyEffectActionDto.global)]?.Value<bool>() ?? false
+            },
+            TalentActionTypeDto.add_hit_damage => new AddHitDamageActionDto(
+                skill_id: (string?)jo[nameof(AddHitDamageActionDto.skill_id)] ?? throw new JsonSerializationException($"Missing required property '{nameof(AddHitDamageActionDto.skill_id)}' for AddHitDamageActionDto."),
+                hit_damage: jo[nameof(AddHitDamageActionDto.hit_damage)] is JToken hitDamageToken
+                    ? hitDamageToken["type"]?.Value<string>() == "hit_damage_step"
+                        ? hitDamageToken.ToObject<HitDamageStepDto>(serializer) ?? throw new JsonSerializationException("Failed to deserialize HitDamageStepDto")
+                        : throw new JsonSerializationException("Invalid type for hit_damage. Expected 'hit_damage_step'")
+                    : throw new JsonSerializationException($"Missing required property '{nameof(AddHitDamageActionDto.hit_damage)}' for AddHitDamageActionDto.")
+            ),
+            TalentActionTypeDto.add_dot_damage => new AddDotDamageActionDto(
+                skill_id: (string?)jo[nameof(AddDotDamageActionDto.skill_id)] ?? throw new JsonSerializationException($"Missing required property '{nameof(AddDotDamageActionDto.skill_id)}' for AddDotDamageActionDto."),
+                dot_damage: jo[nameof(AddDotDamageActionDto.dot_damage)] is JToken dotDamageToken
+                    ? dotDamageToken["type"]?.Value<string>() == "dot_damage_step"
+                        ? dotDamageToken.ToObject<DotDamageStepDto>(serializer) ?? throw new JsonSerializationException("Failed to deserialize DotDamageStepDto")
+                        : throw new JsonSerializationException("Invalid type for dot_damage. Expected 'dot_damage_step'")
+                    : throw new JsonSerializationException($"Missing required property '{nameof(AddDotDamageActionDto.dot_damage)}' for AddDotDamageActionDto.")
+            ),
+            _ => throw new JsonSerializationException($"Unknown TalentActionTypeDto '{actionKind}'.")
+        };
     }
 
-    public override void WriteJson(JsonWriter writer, TalentActionBaseDto? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, ITalentActionDto? value, JsonSerializer serializer)
     {
         serializer.Serialize(writer, value);
     }

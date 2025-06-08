@@ -20,7 +20,7 @@
     },
     {
       "type": "apply_effect",
-      "effect": "enrage_buff_effect"
+      "effect_id": "enrage_buff_effect"
     }
   ],
   "id": "enrage_skill",

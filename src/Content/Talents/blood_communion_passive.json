@@ -5,8 +5,7 @@
       "effect_id": "blood_communion_effect",
       "type": "modify_effect",
       "duration": {
-        "permanent": true,
-        "type": "permanent"
+        "permanent": true
       },
       "modifiers": {
         "type": "modifier",

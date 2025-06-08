@@ -1,11 +1,5 @@
 {
   "id": "blood_communion_increase_heal_talent",
-  "applies_to": [
-    {
-      "type": "skill",
-      "effect_id": "blood_communion_skill"
-    }
-  ],
   "actions": [
     {
       "type": "modify_effect",
@@ -24,7 +18,7 @@
     },
     {
       "type": "modify_skill",
-      "skill": "blood_communion_skill",
+      "skill_id": "blood_communion_skill",
       "cooldown": {
         "scale_added": -2,
         "scale_empowered": 0,

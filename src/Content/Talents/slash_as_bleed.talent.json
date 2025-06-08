@@ -16,9 +16,9 @@
       }
     },
     {
-      "type": "add_damage",
+      "type": "add_dot_damage",
       "skill_id": "slash_skill",
-      "damage": {
+      "dot_damage": {
         "type": "dot_damage_step",
         "attack_type": "dot",
         "weapon_type": "melee",

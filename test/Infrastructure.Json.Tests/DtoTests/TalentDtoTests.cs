@@ -14,7 +14,7 @@ namespace Infrastructure.Json.Tests.DtoTests
             var dto = JsonConvert.DeserializeObject<TalentDto>(json);
 
             Assert.NotNull(dto);
-            Assert.True(dto.id is string);
+            Assert.True(dto.id is not null);
             Assert.True(dto.actions is not null);
             Assert.True(dto.presentation is not null);
         }
