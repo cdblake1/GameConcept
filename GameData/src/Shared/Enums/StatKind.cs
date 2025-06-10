@@ -1,6 +1,6 @@
 namespace GameData.src.Shared.Enums
 {
-    public enum StatKind
+    public enum StatKind : byte
     {
         PhysicalDamageAdded,
         PhysicalDamageIncreased,

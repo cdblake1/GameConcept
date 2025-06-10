@@ -11,7 +11,7 @@ class InventoryScene
 
     public void ShowScene()
     {
-        if (GlobalGameState.Instance.Player is not Player player)
+        if (GlobalGameState.Instance.Player is not PlayerDefinition player)
         {
             throw new InvalidOperationException("Player is not initialized.");
         }
@@ -24,25 +24,25 @@ class InventoryScene
         menu.ShowTabbedMenu();
     }
 
-    TabbedMenu GetEquipment(Player player)
+    TabbedMenu GetEquipment(PlayerDefinition player)
     {
         return new TabbedMenu("Equipment", player.Inventory.Equipment.Select(e => new MenuOption(e.Name)).ToList());
     }
 
-    private static Action<int> ShowEquipmentMenu(Player player) => (int selectedIndex) =>
+    private static Action<int> ShowEquipmentMenu(PlayerDefinition player) => (int selectedIndex) =>
     {
         var selectedItem = player.Inventory.Equipment[selectedIndex];
 
         EquipmentScene.ShowEquipmentMenu(player, selectedItem);
     };
 
-    TabbedMenu GetCraftingMaterials(Player player)
+    TabbedMenu GetCraftingMaterials(PlayerDefinition player)
     {
         return new TabbedMenu("Crafting Materials", [..player.Inventory.CraftingMaterials
             .Select(material => new MenuOption([GameTextPrinter.GetItemText(material)]))]);
     }
 
-    Action<int> ShowCraftingMaterialsMenu(Player player) => (int selectedIndex) =>
+    Action<int> ShowCraftingMaterialsMenu(PlayerDefinition player) => (int selectedIndex) =>
     {
         var selectedItem = player.Inventory.CraftingMaterials[selectedIndex];
 

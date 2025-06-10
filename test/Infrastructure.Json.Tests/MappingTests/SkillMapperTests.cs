@@ -27,7 +27,7 @@ namespace Infrastructure.Json.Tests.MappingTests
         public void CanMapHitDamageStepDto()
         {
             var hdDto = new HitDamageStepDto(
-                damage_types: [DamageTypeDto.physical],
+                damage_types: DamageTypeDto.physical,
                 weapon_type: WeaponTypeDto.melee,
                 min_base_damage: 1,
                 max_base_damage: 1,
@@ -55,7 +55,7 @@ namespace Infrastructure.Json.Tests.MappingTests
         public void CanMapDotDamageStepDto()
         {
             var dotDto = new DotDamageStepDto(
-                damage_types: [DamageTypeDto.physical],
+                damage_types: DamageTypeDto.physical,
                 weapon_type: WeaponTypeDto.melee,
                 min_base_damage: 1,
                 max_base_damage: 10,
@@ -72,9 +72,8 @@ namespace Infrastructure.Json.Tests.MappingTests
             Assert.Equal(dotDto.min_base_damage, dotDamageStep.MinBaseDamage);
             Assert.Equal(dotDto.max_base_damage, dotDamageStep.MaxBaseDamage);
             Assert.Equal(dotDto.crit, dotDamageStep.Crit);
-            Assert.Single(dotDamageStep.DamageTypes);
-            Assert.Equal(DamageType.Physical, dotDamageStep.DamageTypes[0]);
-            Assert.True(dotDamageStep.Duration.Type == GameData.src.Shared.Duration.Kind.Permanent);
+            Assert.Equal(DamageType.Physical, dotDamageStep.DamageType);
+            Assert.True(dotDamageStep.Duration.Kind == GameData.src.Shared.DurationKind.Permanent);
             Assert.Equal(dotDto.frequency, dotDamageStep.Frequency);
             Assert.NotNull(dotDamageStep.StackStrategy);
             Assert.Equal(((StackDefaultDto)dotDto.stack_strategy).max_stacks, ((StackDefault)dotDamageStep.StackStrategy).MaxStacks);
@@ -93,7 +92,7 @@ namespace Infrastructure.Json.Tests.MappingTests
                 cooldown = 1,
                 cost = 1,
                 effects = [new HitDamageStepDto(
-                    damage_types: [DamageTypeDto.true_damage],
+                    damage_types: DamageTypeDto.true_damage,
                     weapon_type: WeaponTypeDto.spell,
                     min_base_damage: 1,
                     max_base_damage: 1,
@@ -126,14 +125,13 @@ namespace Infrastructure.Json.Tests.MappingTests
             Assert.NotNull(hitDamageStep);
             Assert.Equal(AttackType.Hit, hitDamageStep.AttackType);
             Assert.True(hitDamageStep.Crit);
-            Assert.NotNull(hitDamageStep.DamageTypes);
-            Assert.Single(hitDamageStep.DamageTypes);
+            Assert.Equal(DamageType.TrueDamage, hitDamageStep.DamageType);
             Assert.Equal(1, hitDamageStep.MinBaseDamage);
             Assert.Equal(1, hitDamageStep.MaxBaseDamage);
             Assert.Equal(1, hitDamageStep.ScaleProperties.ScaleAdded);
             Assert.Equal(1, hitDamageStep.ScaleProperties.ScaleIncreased);
             Assert.Equal(1, hitDamageStep.ScaleProperties.ScaleSpeed);
-            Assert.Equal(DamageType.TrueDamage, hitDamageStep.DamageTypes[0]);
+            Assert.Equal(DamageType.TrueDamage, hitDamageStep.DamageType);
 
             Assert.Equal(skillDto.id, skillDef.Id);
 

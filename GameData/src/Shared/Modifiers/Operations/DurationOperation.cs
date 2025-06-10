@@ -2,7 +2,7 @@ namespace GameData.src.Shared.Modifiers.Operations
 {
     public sealed record DurationOperation
     {
-        public Duration.Kind Kind { get; private init; }
+        public DurationKind Kind { get; private init; }
 
         public ScalarOperation? Turns { get; private init; }
 
@@ -14,7 +14,7 @@ namespace GameData.src.Shared.Modifiers.Operations
         {
             return new()
             {
-                Kind = Duration.Kind.Turns,
+                Kind = DurationKind.Turns,
                 Turns = turns
             };
         }
@@ -23,7 +23,7 @@ namespace GameData.src.Shared.Modifiers.Operations
         {
             return new()
             {
-                Kind = Duration.Kind.Permanent,
+                Kind = DurationKind.Permanent,
                 Permanent = permanent
             };
         }
@@ -32,7 +32,7 @@ namespace GameData.src.Shared.Modifiers.Operations
         {
             return new()
             {
-                Kind = Duration.Kind.ExpiresWith,
+                Kind = DurationKind.ExpiresWith,
                 ExpiresWith = expiresWith
             };
         }

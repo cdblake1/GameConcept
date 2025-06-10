@@ -37,7 +37,7 @@ public class LoadGameScene
             if (selectedOption >= 0 && selectedOption < saveStates.Count)
             {
                 var selectedSave = saveStates[selectedOption];
-                GlobalGameState.Instance.Player = Player.Restore(selectedSave.Player);
+                GlobalGameState.Instance.Player = PlayerDefinition.Restore(selectedSave.Player);
                 textPrinter.Print($"Loaded game: {selectedSave.GameName}");
                 textPrinter.WaitForInput();
                 return true;

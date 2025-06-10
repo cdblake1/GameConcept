@@ -193,8 +193,8 @@ namespace Infrastructure.Json.Tests.MappingTests
             Assert.Equal(aeDto.global, ae.Global);
             Assert.Equal(aeDto2.global, ae2.Global);
 
-            Assert.Equal(aeDto.from_skill, ae.FromSkill);
-            Assert.Equal(aeDto2.from_skill, ae2.FromSkill);
+            Assert.Equal(aeDto.from_skill, ae.SkillId);
+            Assert.Equal(aeDto2.from_skill, ae2.SkillId);
 
         }
 
@@ -202,7 +202,7 @@ namespace Infrastructure.Json.Tests.MappingTests
         public void CanMapAddHitDamageActionDto()
         {
             var dto = new AddHitDamageActionDto("test_skill", new HitDamageStepDto(
-                damage_types: [DamageTypeDto.bleed],
+                damage_types: DamageTypeDto.bleed,
                 weapon_type: WeaponTypeDto.melee,
                 min_base_damage: 1,
                 max_base_damage: 1,
@@ -212,7 +212,7 @@ namespace Infrastructure.Json.Tests.MappingTests
 
             var ah = dto.ToDomain();
 
-            Assert.Equal(DamageType.Bleed, ah.HitDamage.DamageTypes[0]);
+            Assert.Equal(DamageType.Bleed, ah.HitDamage.DamageType);
             Assert.Equal(WeaponType.Melee, ah.HitDamage.WeaponType);
             Assert.Equal(dto.hit_damage.min_base_damage, ah.HitDamage.MinBaseDamage);
             Assert.True(ah.HitDamage.Crit);
@@ -225,7 +225,7 @@ namespace Infrastructure.Json.Tests.MappingTests
         public void CanMapAddDotDamageActionDto()
         {
             var dto = new AddDotDamageActionDto("test_skill", new(
-                damage_types: [DamageTypeDto.burn],
+                damage_types: DamageTypeDto.burn,
                 weapon_type: WeaponTypeDto.melee,
                 min_base_damage: 1,
                 max_base_damage: 1,
@@ -246,12 +246,12 @@ namespace Infrastructure.Json.Tests.MappingTests
             Assert.NotNull(dotAction);
 
             Assert.Equal(dto.skill_id, dotAction.SkillId);
-            Assert.Equal(DamageType.Burn, dotAction.DotDamage.DamageTypes[0]);
+            Assert.Equal(DamageType.Burn, dotAction.DotDamage.DamageType);
             Assert.Equal(WeaponType.Melee, dotAction.DotDamage.WeaponType);
             Assert.Equal(dto.dot_damage.min_base_damage, dotAction.DotDamage.MinBaseDamage);
             Assert.Equal(dto.dot_damage.max_base_damage, dotAction.DotDamage.MaxBaseDamage);
             Assert.Equal(dto.dot_damage.crit, dotAction.DotDamage.Crit);
-            Assert.True(dotAction.DotDamage.Duration.Type == GameData.src.Shared.Duration.Kind.Permanent);
+            Assert.True(dotAction.DotDamage.Duration.Kind == GameData.src.Shared.DurationKind.Permanent);
             Assert.Equal(dto.dot_damage.frequency, dotAction.DotDamage.Frequency);
 
             var stackStrategy = dotAction.DotDamage.StackStrategy as StackDefault;

@@ -14,7 +14,7 @@
     {
       "type": "apply_effect",
       "effect_id": "deep_gash_on_crash_effect",
-      "from_skill": "deep_gash"
+      "from_skill": "deep_gash_skill"
     },
     {
       "type": "add_hit_damage",

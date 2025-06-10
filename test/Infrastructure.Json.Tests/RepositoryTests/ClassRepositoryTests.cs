@@ -25,9 +25,9 @@ namespace Infrastructure.Json.Tests.RepositoryTests
             var class1 = this.repository.Get(classId);
 
             Assert.Equal(classId, class1.Id);
-            Assert.Single(class1.SkillEntry);
-            Assert.Equal("test_skill", class1.SkillEntry[0].Id);
-            Assert.Equal(10, class1.SkillEntry[0].Level);
+            Assert.Single(class1.SkillEntries);
+            Assert.Equal("test_skill", class1.SkillEntries[0].Id);
+            Assert.Equal(10, class1.SkillEntries[0].Level);
 
             Assert.Single(class1.Talents);
             Assert.Equal("test_talent_one", class1.Talents[0].Id);

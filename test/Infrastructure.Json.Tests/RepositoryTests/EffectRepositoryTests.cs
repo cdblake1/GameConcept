@@ -60,7 +60,7 @@ namespace Infrastructure.Json.Tests.RepositoryTests
             Assert.Equal(StackRefreshMode.NoRefresh, stack.RefreshMode);
 
             Assert.Equal(TestEffectTwoId, effectTwo.Id);
-            Assert.Equal(Duration.Kind.Permanent, effectTwo.Duration.Type);
+            Assert.Equal(DurationKind.Permanent, effectTwo.Duration.Kind);
 
             Assert.Single(effectTwo.Modifiers);
             var statModThree = effectTwo.Modifiers[0] as StatModifier;

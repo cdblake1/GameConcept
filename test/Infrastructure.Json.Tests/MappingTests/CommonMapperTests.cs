@@ -37,7 +37,7 @@ namespace Infrastructure.Json.Tests.MappingTests
             var ed = expireswithDurationDto.ToDomain();
 
             Assert.True(td.Turns == turnsDurationDto.turns);
-            Assert.Equal(Duration.Kind.Permanent, pd.Type);
+            Assert.Equal(DurationKind.Permanent, pd.Kind);
             Assert.True(ed.Expiry.Id == expireswithDurationDto.expires_with.expires_with);
             Assert.True(ed.Expiry.Source == Duration.ExpiresWith.Category.Skill);
         }
@@ -70,9 +70,9 @@ namespace Infrastructure.Json.Tests.MappingTests
             Assert.NotNull(pDurOp.Permanent);
             Assert.NotNull(eDurOp.ExpiresWith);
 
-            Assert.Equal(Duration.Kind.Turns, tDurOp.Kind);
-            Assert.Equal(Duration.Kind.Permanent, pDurOp.Kind);
-            Assert.Equal(Duration.Kind.ExpiresWith, eDurOp.Kind);
+            Assert.Equal(DurationKind.Turns, tDurOp.Kind);
+            Assert.Equal(DurationKind.Permanent, pDurOp.Kind);
+            Assert.Equal(DurationKind.ExpiresWith, eDurOp.Kind);
 
             Assert.Equal(turnsDto.turns.scale_added, tDurOp.Turns.ScaleAdded);
             Assert.Equal(true, pDurOp.Permanent);

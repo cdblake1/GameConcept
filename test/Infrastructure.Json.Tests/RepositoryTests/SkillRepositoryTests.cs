@@ -43,7 +43,7 @@ namespace Infrastructure.Json.Tests.RepositoryTests
             Assert.True(modOne.Crit);
             Assert.Equal(1, modOne.MinBaseDamage);
             Assert.Equal(1, modOne.MaxBaseDamage);
-            Assert.Equal(DamageType.Nature, modOne.DamageTypes[0]);
+            Assert.Equal(DamageType.Nature, modOne.DamageType);
             Assert.Equal(1, modOne.ScaleProperties.ScaleAdded);
             Assert.Equal(1, modOne.ScaleProperties.ScaleIncreased);
             Assert.Equal(0, modOne.ScaleProperties.ScaleSpeed);
@@ -76,8 +76,8 @@ namespace Infrastructure.Json.Tests.RepositoryTests
             Assert.Equal(1, dot.ScaleProperties.ScaleIncreased);
             Assert.Equal(0, dot.ScaleProperties.ScaleSpeed);
             Assert.False(dot.Crit);
-            Assert.Equal(DamageType.Nature, dot.DamageTypes[0]);
-            Assert.Equal(Duration.Kind.Permanent, dot.Duration.Type);
+            Assert.Equal(DamageType.Nature, dot.DamageType);
+            Assert.Equal(DurationKind.Permanent, dot.Duration.Kind);
             Assert.Equal(1, dot.Frequency);
             var stacking = dot.StackStrategy as StackDefault;
             Assert.NotNull(stacking);

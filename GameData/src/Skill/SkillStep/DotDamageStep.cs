@@ -6,7 +6,7 @@ namespace GameData.src.Skill.SkillStep
 {
     public sealed record DotDamageStep(
         AttackType AttackType,
-        IReadOnlyList<DamageType> DamageTypes,
+        DamageType DamageType,
         WeaponType WeaponType,
         int MinBaseDamage,
         int MaxBaseDamage,

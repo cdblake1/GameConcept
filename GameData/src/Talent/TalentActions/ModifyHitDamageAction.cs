@@ -1,4 +1,3 @@
-using GameData.src.Effect.Talent;
 using GameData.src.Shared.Modifiers;
 using GameData.src.Shared.Modifiers.Operations;
 

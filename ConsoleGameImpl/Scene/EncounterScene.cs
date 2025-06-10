@@ -9,7 +9,7 @@ public class EncounterScene
     private readonly GameTextPrinter textPrinter;
     private readonly EncounterSelector encounterSelector;
 
-    public void ShowScene(Player player, EncounterConfig config, int maxEncounters)
+    public void ShowScene(PlayerDefinition player, EncounterConfig config, int maxEncounters)
     {
         var encounters = encounterSelector.SelectEncounters(config, maxEncounters);
         var menu = new Menu("Encounters", encounters.Select(e => new MenuOption(e.Name)).ToList());
@@ -36,7 +36,7 @@ public class EncounterScene
         }
     }
 
-    private void StartEncounter(Player player, Encounter encounter)
+    private void StartEncounter(PlayerDefinition player, Encounter encounter)
     {
         DialogueQueue.AddDialogue([
             $"You entered the {encounter.Name}",

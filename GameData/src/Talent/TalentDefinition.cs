@@ -1,4 +1,5 @@
 using GameData.src.Shared;
+using GameData.src.Talent.TalentActions;
 
 namespace GameData.src.Effect.Talent
 {

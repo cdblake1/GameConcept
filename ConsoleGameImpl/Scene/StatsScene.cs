@@ -14,7 +14,7 @@ public class StatsScene
 
     public void ShowScene()
     {
-        if (GlobalGameState.Instance.Player is not Player player)
+        if (GlobalGameState.Instance.Player is not PlayerDefinition player)
         {
             throw new InvalidOperationException("Player is not initialized.");
         }

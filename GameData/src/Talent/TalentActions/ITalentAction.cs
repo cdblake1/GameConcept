@@ -1,4 +1,4 @@
-namespace GameData.src.Effect.Talent
+namespace GameData.src.Talent.TalentActions
 {
     public interface ITalentAction
     {

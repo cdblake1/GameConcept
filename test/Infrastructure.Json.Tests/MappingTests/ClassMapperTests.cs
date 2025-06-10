@@ -80,11 +80,11 @@ namespace Infrastructure.Json.Tests.MappingTests
             Assert.Equal(TalentTier.Tier10, classDefinition.Talents[1].Tier);
 
 
-            Assert.Equal(classDto.skills.Length, classDefinition.SkillEntry.Count);
-            Assert.Equal(classDto.skills[0].skill, classDefinition.SkillEntry[0].Id);
-            Assert.Equal(classDto.skills[0].level, classDefinition.SkillEntry[0].Level);
-            Assert.Equal(classDto.skills[1].skill, classDefinition.SkillEntry[1].Id);
-            Assert.Equal(classDto.skills[1].level, classDefinition.SkillEntry[1].Level);
+            Assert.Equal(classDto.skills.Length, classDefinition.SkillEntries.Count);
+            Assert.Equal(classDto.skills[0].skill, classDefinition.SkillEntries[0].Id);
+            Assert.Equal(classDto.skills[0].level, classDefinition.SkillEntries[0].Level);
+            Assert.Equal(classDto.skills[1].skill, classDefinition.SkillEntries[1].Id);
+            Assert.Equal(classDto.skills[1].level, classDefinition.SkillEntries[1].Level);
         }
     }
 }

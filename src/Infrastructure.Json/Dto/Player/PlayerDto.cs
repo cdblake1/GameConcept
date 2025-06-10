@@ -1,11 +1,9 @@
 using GameData.src.Class;
+using GameData.src.Shared.Enums;
 
-namespace Infrastructure.Json.Player
+namespace Infrastructure.Json.Dto.Player
 {
-    public sealed record PlayerDto
-    {
-        public required StatTemplateDto BaseStats { get; init; }
-
-        public required ClassDefinition ClassDefinition { get; init; }
-    }
+    public sealed record PlayerDto(
+        float[] BaseStats,
+        ClassDefinition ClassDefinition);
 }
