@@ -1,0 +1,12 @@
+{
+    "id": "iron_helmet_item",
+    "item": {
+        "type": "equipment",
+        "kind": "helmet"
+    },
+    "presentation": {
+        "name": "Iron Helmet",
+        "description": ""
+    },
+    "rarity": "common"
+}

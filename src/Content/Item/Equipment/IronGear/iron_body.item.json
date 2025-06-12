@@ -1,0 +1,12 @@
+{
+    "id": "iron_body_item",
+    "item": {
+        "type": "equipment",
+        "kind": "body"
+    },
+    "presentation": {
+        "name": "Iron Body",
+        "description": ""
+    },
+    "rarity": "common"
+}

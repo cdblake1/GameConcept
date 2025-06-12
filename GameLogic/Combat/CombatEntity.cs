@@ -20,12 +20,12 @@ public class CombatEntity
 
     public StatCollection Stats { get; }
     public EffectSnapshotBuffer ActiveEffects;
-    public Memory<IModifier> Modifiers;
-    public ReadOnlyMemory<SkillSnapshot> Skills { get; }
+    public List<IModifier> Modifiers;
+    public IReadOnlyList<SkillSnapshot> Skills { get; }
 
     public CombatEntity(string identifier,
         StatCollection stats,
-        ReadOnlyMemory<SkillSnapshot> skills,
+        IReadOnlyList<SkillSnapshot> skills,
         bool isPlayer = false)
     {
         this.Identifier = identifier;
@@ -33,5 +33,8 @@ public class CombatEntity
         this.Skills = skills;
         this.IsPlayer = isPlayer;
         this.ActiveEffects = new();
+        this.currentHealth = 100;
+        this.Modifiers = [];
+        this.MaxHealth = 100;
     }
 }

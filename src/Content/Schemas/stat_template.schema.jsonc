@@ -1,0 +1,55 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "stat_template.schema.json",
+    "title": "Stat Template Table Definitions",
+    "type": "object",
+    "required": [
+        "id",
+        "stats"
+    ],
+    "properties": {
+        "id": {
+            "$ref": "common.schema.jsonc#/$defs/id"
+        },
+        "stats": {
+            "$ref": "#/$defs/stat_template"
+        }
+    },
+    "$defs": {
+        "stat_template": {
+            "type": "object",
+            "required": [
+                "global",
+                "damage",
+                "attack",
+                "weapon"
+            ],
+            "properties": {
+                "global": {
+                    "item": "array",
+                    "items": {
+                        "$ref": "common.schema.jsonc#/$defs/global_scalar_modifier"
+                    }
+                },
+                "damage": {
+                    "item": "array",
+                    "items": {
+                        "$ref": "common.schema.jsonc#/$defs/damage_scalar_modifier"
+                    }
+                },
+                "weapon": {
+                    "item": "array",
+                    "items": {
+                        "$ref": "common.schema.jsonc#/$defs/weapon_scalar_modifier"
+                    }
+                },
+                "attack": {
+                    "item": "array",
+                    "items": {
+                        "$ref": "common.schema.jsonc#/$defs/attack_scalar_modifier"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "id": "helmet_of_valor_item",
+    "item": {
+        "type": "equipment",
+        "kind": "helmet"
+    },
+    "rarity": "common",
+    "presentation": {
+        "name": "Helmet of Valor",
+        "description": ""
+    }
+}

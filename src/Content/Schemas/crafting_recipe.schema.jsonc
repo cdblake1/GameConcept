@@ -1,0 +1,56 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "crafting_recipe.schema.json",
+    "title": "Crafting Recipe Definitions",
+    "type": "object",
+    "required": [
+        "id",
+        "crafted_item_id",
+        "materials"
+    ],
+    "properties": {
+        "id": {
+            "$ref": "common.schema.jsonc#/$defs/id"
+        },
+        "crafted_item_id": {
+            "$ref": "common.schema.jsonc#/$defs/id"
+        },
+        "materials": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "item_id",
+                    "count"
+                ],
+                "properties": {
+                    "item_id": {
+                        "$ref": "common.schema.jsonc#/$defs/id"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "minItems": 1
+                    }
+                }
+            }
+        }
+    },
+    "$defs": {
+        "experience_entry": {
+            "type": "object",
+            "required": [
+                "level",
+                "experience"
+            ],
+            "properties": {
+                "level": {
+                    "type": "integer"
+                },
+                "experience": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

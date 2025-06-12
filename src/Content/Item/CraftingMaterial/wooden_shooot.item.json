@@ -1,0 +1,11 @@
+{
+    "id": "wooden_shoot_item",
+    "item": {
+        "type": "crafting_material"
+    },
+    "presentation": {
+        "name": "Wooden Shoot",
+        "description": ""
+    },
+    "rarity": "common"
+}

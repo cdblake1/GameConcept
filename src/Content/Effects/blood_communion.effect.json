@@ -4,9 +4,10 @@
   "id": "blood_communion_effect",
   "modifiers": [
     {
-      "type": "stat",
-      "stat": "melee_leech_increased",
-      "value": 50
+      "type": "global",
+      "stat": "leech",
+      "value": 50,
+      "scalar_op_type": "added"
     }
   ]
 }

@@ -1,5 +1,6 @@
 #nullable enable
 
+using ConsoleGameImpl.State;
 using GameData;
 using GameData.Save;
 using GameData.src.Player;

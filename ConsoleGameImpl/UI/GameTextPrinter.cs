@@ -1,6 +1,7 @@
 
 using System.Reflection;
 using GameData;
+using GameData.src.Item;
 
 public readonly struct TextPacket
 {

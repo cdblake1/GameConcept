@@ -7,8 +7,9 @@
   "category": "debuff",
   "modifiers": [
     {
-      "type": "stat",
-      "stat": "bleed_damage_empowered",
+      "type": "damage",
+      "stat": "bleed",
+      "scalar_op_type": "empowered",
       "value": 10
     }
   ]

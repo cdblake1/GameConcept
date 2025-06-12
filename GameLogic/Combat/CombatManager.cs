@@ -1,4 +1,5 @@
 using GameData;
+using GameData.src.Item;
 
 namespace GameLogic.Combat
 {
@@ -63,7 +64,6 @@ namespace GameLogic.Combat
 
             foreach (var actor in GetAllLivingActors())
             {
-                System.Diagnostics.Debugger.Launch();
                 turnQueue.Enqueue(actor, actor.Stats.Speed);
             }
         }

@@ -1,5 +1,6 @@
 
 using GameData;
+using GameData.src.Item;
 
 public interface ICraftingRecipe
 {

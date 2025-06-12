@@ -1,0 +1,14 @@
+{
+    "id": "iron_helmet_recipe",
+    "crafted_item": "iron_helmet_item",
+    "materials": [
+        {
+            "item_id": "iron_scrap_item",
+            "count": 15
+        },
+        {
+            "item_id": "scrap_leather_item",
+            "count": 7
+        }
+    ]
+}

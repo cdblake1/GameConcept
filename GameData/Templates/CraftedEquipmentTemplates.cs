@@ -1,4 +1,5 @@
 using GameData;
+using GameData.src.Item;
 
 public static class CraftedEquipmentTemplates
 {

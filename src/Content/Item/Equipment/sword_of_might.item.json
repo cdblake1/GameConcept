@@ -1,0 +1,12 @@
+{
+    "id": "sword_of_might_item",
+    "item": {
+        "type": "equipment",
+        "kind": "weapon"
+    },
+    "presentation": {
+        "name": "Sowrd of Might",
+        "description": ""
+    },
+    "rarity": "common"
+}

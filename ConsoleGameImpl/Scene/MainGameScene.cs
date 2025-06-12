@@ -1,6 +1,7 @@
 #nullable enable
 
 using ConsoleGameImpl;
+using ConsoleGameImpl.State;
 using GameData;
 using GameData.src.Player;
 

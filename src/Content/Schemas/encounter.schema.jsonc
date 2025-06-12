@@ -1,0 +1,61 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "encounter.schema.json",
+    "title": "Encounter Table Definitions",
+    "type": "object",
+    "required": [
+        "id",
+        "duration",
+        "mob_weights",
+        "boss_encounter",
+        "min_level",
+        "presentation"
+    ],
+    "properties": {
+        "id": {
+            "$ref": "common.schema.jsonc#/$defs/id"
+        },
+        "duration": {
+            "type": "object",
+            "required": [
+                "min",
+                "max"
+            ],
+            "properties": {
+                "min": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "max": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            }
+        },
+        "mob_weights": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/mob_weights"
+            },
+            "minItems": 1
+        }
+    },
+    "$defs": {
+        "mob_weights": {
+            "type": "object",
+            "required": [
+                "mob_id",
+                "weight"
+            ],
+            "properties": {
+                "mob_id": {
+                    "$ref": "common.schema.jsonc#/$defs/id"
+                },
+                "weight": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            }
+        }
+    }
+}

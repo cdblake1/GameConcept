@@ -22,6 +22,8 @@ dotnet_style_qualification_for_event = true:suggestion
 dotnet_style_qualification_for_type = true:suggestion
 dotnet_style_qualification_for_parameter = true:suggestion
 dotnet_style_qualification_for_method_parameter = true:suggestion
+dotnet_diagnostic.IDE0028.severity = none
+dotnet_diagnostic.IDE0290.severity = none
 
 [*.{yml,yaml}]
 indent_size = 2

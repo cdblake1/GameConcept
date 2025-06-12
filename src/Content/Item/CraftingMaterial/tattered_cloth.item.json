@@ -1,0 +1,11 @@
+{
+    "id": "tattered_cloth_item",
+    "item": {
+        "type": "crafting_material"
+    },
+    "presentation": {
+        "name": "Tattered Cloth",
+        "description": ""
+    },
+    "rarity": "common"
+}

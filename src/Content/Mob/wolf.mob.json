@@ -1,0 +1,8 @@
+{
+    "id": "wolf_mob",
+    "loot_table": "low_level_beast_table",
+    "skills": [
+        "bite_skill"
+    ],
+    "stats": "weak_physical_stats"
+}

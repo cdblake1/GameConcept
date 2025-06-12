@@ -1,5 +1,6 @@
 
 using GameData;
+using GameData.src.Item;
 using GameLogic.Combat;
 
 class CombatScene(CharacterBase player, MobBase mob)

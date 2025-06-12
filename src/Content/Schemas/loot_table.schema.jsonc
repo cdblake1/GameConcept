@@ -1,0 +1,59 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "loot_table.schema.json",
+    "title": "Loot Table Definitions",
+    "type": "object",
+    "required": [
+        "id",
+        "groups"
+    ],
+    "properties": {
+        "id": {
+            "$ref": "common.schema.jsonc#/$defs/id"
+        },
+        "groups": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "$ref": "#/$defs/loot_group"
+            }
+        }
+    },
+    "$defs": {
+        "loot_group": {
+            "type": "object",
+            "required": [
+                "entries"
+            ],
+            "properties": {
+                "entries": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/$defs/loot_entry"
+                    }
+                }
+            }
+        },
+        "loot_entry": {
+            "type": "object",
+            "required": [
+                "item_id",
+                "weight"
+            ],
+            "properties": {
+                "item_id": {
+                    "$ref": "common.schema.jsonc#/$defs/id"
+                }
+            },
+            "weight": {
+                "type": "integer",
+                "minimum": 1
+            },
+            "always": {
+                "type": "boolean",
+                "default": false
+            }
+        }
+    }
+}

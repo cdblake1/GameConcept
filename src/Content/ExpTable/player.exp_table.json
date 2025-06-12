@@ -1,0 +1,205 @@
+{
+    "id": "player_exp_table",
+    "table": [
+        {
+            "level": 1,
+            "experience": 0
+        },
+        {
+            "level": 2,
+            "experience": 1000
+        },
+        {
+            "level": 3,
+            "experience": 4063
+        },
+        {
+            "level": 4,
+            "experience": 4158
+        },
+        {
+            "level": 5,
+            "experience": 4289
+        },
+        {
+            "level": 6,
+            "experience": 4457
+        },
+        {
+            "level": 7,
+            "experience": 4667
+        },
+        {
+            "level": 8,
+            "experience": 4924
+        },
+        {
+            "level": 9,
+            "experience": 5233
+        },
+        {
+            "level": 10,
+            "experience": 5603
+        },
+        {
+            "level": 11,
+            "experience": 6042
+        },
+        {
+            "level": 12,
+            "experience": 6564
+        },
+        {
+            "level": 13,
+            "experience": 7182
+        },
+        {
+            "level": 14,
+            "experience": 7915
+        },
+        {
+            "level": 15,
+            "experience": 8785
+        },
+        {
+            "level": 16,
+            "experience": 9819
+        },
+        {
+            "level": 17,
+            "experience": 11053
+        },
+        {
+            "level": 18,
+            "experience": 12527
+        },
+        {
+            "level": 19,
+            "experience": 14297
+        },
+        {
+            "level": 20,
+            "experience": 16430
+        },
+        {
+            "level": 21,
+            "experience": 19009
+        },
+        {
+            "level": 22,
+            "experience": 22142
+        },
+        {
+            "level": 23,
+            "experience": 25966
+        },
+        {
+            "level": 24,
+            "experience": 30653
+        },
+        {
+            "level": 25,
+            "experience": 36428
+        },
+        {
+            "level": 26,
+            "experience": 43576
+        },
+        {
+            "level": 27,
+            "experience": 52470
+        },
+        {
+            "level": 28,
+            "experience": 63590
+        },
+        {
+            "level": 29,
+            "experience": 77565
+        },
+        {
+            "level": 30,
+            "experience": 95221
+        },
+        {
+            "level": 31,
+            "experience": 117644
+        },
+        {
+            "level": 32,
+            "experience": 146270
+        },
+        {
+            "level": 33,
+            "experience": 183010
+        },
+        {
+            "level": 34,
+            "experience": 230414
+        },
+        {
+            "level": 35,
+            "experience": 291906
+        },
+        {
+            "level": 36,
+            "experience": 372100
+        },
+        {
+            "level": 37,
+            "experience": 477246
+        },
+        {
+            "level": 38,
+            "experience": 615850
+        },
+        {
+            "level": 39,
+            "experience": 799542
+        },
+        {
+            "level": 40,
+            "experience": 1044299
+        },
+        {
+            "level": 41,
+            "experience": 1372180
+        },
+        {
+            "level": 42,
+            "experience": 1813776
+        },
+        {
+            "level": 43,
+            "experience": 2411724
+        },
+        {
+            "level": 44,
+            "experience": 3225728
+        },
+        {
+            "level": 45,
+            "experience": 4339794
+        },
+        {
+            "level": 46,
+            "experience": 5872689
+        },
+        {
+            "level": 47,
+            "experience": 7993126
+        },
+        {
+            "level": 48,
+            "experience": 10941924
+        },
+        {
+            "level": 49,
+            "experience": 15064470
+        },
+        {
+            "level": 50,
+            "experience": 20858497
+        }
+    ]
+}

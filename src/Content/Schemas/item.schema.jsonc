@@ -1,0 +1,180 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "exp_table.schema.json",
+    "title": "Experience Table Definitions",
+    "type": "object",
+    "required": [
+        "id",
+        "item",
+        "presentation",
+        "rarity"
+    ],
+    "properties": {
+        "id": {
+            "$ref": "common.schema.jsonc#/$defs/id"
+        },
+        "rarity": {
+            "enum": [
+                "common",
+                "uncommon",
+                "rare",
+                "epic"
+            ]
+        },
+        "item": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "type": {
+                    "enum": [
+                        "equipment",
+                        "currency",
+                        "crafting_material",
+                        "consumable"
+                    ]
+                }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "type": {
+                            "const": "equipment"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/equipment"
+                        }
+                    ]
+                },
+                {
+                    "properties": {
+                        "type": {
+                            "const": "currency"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/currency"
+                        }
+                    ]
+                },
+                {
+                    "properties": {
+                        "type": {
+                            "const": "crafting_material"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/crafting_material"
+                        }
+                    ]
+                },
+                {
+                    "properties": {
+                        "type": {
+                            "const": "consumable"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/consumable"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "presentation": {
+        "$ref": "common.schema.jsonc#/$defs/presentation"
+    },
+    "additionalProperties": true,
+    "$defs": {
+        "equipment": {
+            "type": "object",
+            "required": [
+                "type",
+                "kind"
+            ],
+            "properties": {
+                "type": {
+                    "const": "equipment"
+                },
+                "kind": {
+                    "enum": [
+                        "helmet",
+                        "ring",
+                        "necklace",
+                        "body",
+                        "legs",
+                        "boots",
+                        "gloves",
+                        "weapon"
+                    ]
+                }
+            }
+        },
+        "crafting_material": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "type": {
+                    "enum": "crafting_material"
+                }
+            },
+            "additionalProperties": false
+        },
+        "currency": {
+            "type": "object",
+            "required": [
+                "type",
+                "min_amount",
+                "max_amount"
+            ],
+            "properties": {
+                "type": {
+                    "const": "currency"
+                },
+                "min_amount": {
+                    "type": "integer"
+                },
+                "max_amount": {
+                    "type": "integer"
+                }
+            },
+            "additionalProperties": false
+        },
+        "consumable": {
+            "type": "object",
+            "required": [
+                "modifiers",
+                "type"
+            ],
+            "properties": {
+                "type": {
+                    "const": "consumable"
+                },
+                "modifiers": {
+                    "$ref": "common.schema.jsonc#/$defs/modifier"
+                }
+            }
+        }
+    }
+}

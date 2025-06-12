@@ -7,29 +7,30 @@
     "id",
     "talents",
     "skills",
-    "presentation"
+    "presentation",
+    "stats"
   ],
   "properties": {
     "id": {
       "$ref": "common.schema.jsonc#/$defs/id"
     },
     "talents": {
-      "$ref": "#/$defs/talent_tree"
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/talent"
+      }
     },
     "skills": {
       "$ref": "#/$defs/skills"
     },
     "presentation": {
       "$ref": "common.schema.jsonc#/$defs/presentation"
+    },
+    "stats": {
+      "$ref": "stat_template.schema.jsonc#/$defs/stat_template"
     }
   },
   "$defs": {
-    "talent_tree": {
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/talent"
-      }
-    },
     "talent": {
       "type": "object",
       "required": [
@@ -40,7 +41,9 @@
         "talent_tier": {
           "$ref": "#/$defs/talent_tier"
         },
-        "id": "common.schema.jsonc#/$defs/id",
+        "id": {
+          "$ref": "common.schema.jsonc#/$defs/id"
+        },
         "prerequisites": {
           "type": "array",
           "items": {

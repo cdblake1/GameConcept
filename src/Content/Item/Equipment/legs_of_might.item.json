@@ -1,0 +1,12 @@
+{
+    "id": "legs_of_might_item",
+    "item": {
+        "type": "equipment",
+        "kind": "weapon"
+    },
+    "presentation": {
+        "name": "Legs of Might",
+        "description": ""
+    },
+    "rarity": "common"
+}

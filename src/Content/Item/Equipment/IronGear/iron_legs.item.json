@@ -1,0 +1,12 @@
+{
+    "id": "iron_legs_item",
+    "item": {
+        "type": "equipment",
+        "kind": "legs"
+    },
+    "presentation": {
+        "name": "Iron Legs",
+        "description": ""
+    },
+    "rarity": "common"
+}

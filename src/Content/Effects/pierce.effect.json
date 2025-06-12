@@ -4,8 +4,9 @@
   "id": "pierce_effect",
   "modifiers": [
     {
-      "type": "stat",
-      "stat": "armor_rating_increased",
+      "type": "global",
+      "stat": "armor",
+      "scalar_op_type": "increased",
       "value": -5
     }
   ],

@@ -6,7 +6,7 @@ namespace GameLogic.Combat
 {
     public class EffectSnapshotBuffer
     {
-        private readonly Memory<EffectSnapshot> Effects = new EffectSnapshot[Globals.MaxEffects];
+        private readonly List<EffectSnapshot> Effects = new();
 
         private int effectCount = 0;
 
@@ -16,26 +16,40 @@ namespace GameLogic.Combat
         {
             for (int i = 0; i < effects.Count; i++)
             {
-                this.Effects.Span[i] = effects[i];
+                this.Effects.Add(effects[i]);
             }
         }
 
         public EffectSnapshotBuffer() { }
 
-        public ReadOnlySpan<EffectSnapshot> GetEffects()
-        => this.Effects.Span;
+        public List<EffectSnapshot> GetEffects()
+        => this.Effects;
 
         public bool AddEffect(EffectSnapshot effect)
         {
-            for (int i = 0; i < this.Effects.Length; i++)
+            var merged = false;
+            for (int i = 0; i < this.Effects.Count; i++)
             {
-                if (this.Effects.Span[i].Equals(default(EffectSnapshot)))
+                var effectSnapshot = this.Effects[i];
+
+                if (effect.EffectId == effectSnapshot.EffectId)
                 {
-                    this.Effects.Span[i] = effect;
-                    this.effectCount++;
-                    return true;
+                    if (effectSnapshot.StackStrategy.RefreshMode == GameData.src.Effect.Stack.StackRefreshMode.ResetTime)
+                    {
+                        effectSnapshot.StackStrategy.StackCount
+                            = Math.Min(effect.StackStrategy.StackCount
+                                + effect.StackStrategy.StacksPerApplication,
+                                effect.StackStrategy.MaxStacks);
+
+                        merged = true;
+                        break;
+                    }
                 }
 
+                if (!merged)
+                {
+                    this.Effects.Add(effect);
+                }
             }
 
             return false;
@@ -43,11 +57,11 @@ namespace GameLogic.Combat
 
         public void RemoveEffect(EffectSnapshot effect)
         {
-            for (int i = 0; i < this.Effects.Length; i++)
+            for (int i = 0; i < this.Effects.Count; i++)
             {
-                if (this.Effects.Span[i].Equals(effect))
+                if (this.Effects[i].Equals(effect))
                 {
-                    this.Effects.Span[i] = default(EffectSnapshot);
+                    this.Effects[i] = default(EffectSnapshot);
                     --this.effectCount;
 
                     return;

@@ -1,0 +1,12 @@
+{
+    "id": "iron_boots_item",
+    "item": {
+        "type": "equipment",
+        "kind": "boots"
+    },
+    "presentation": {
+        "name": "Iron Boots",
+        "description": ""
+    },
+    "rarity": "common"
+}

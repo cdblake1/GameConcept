@@ -1,0 +1,53 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "mob.schema.json",
+    "title": "Mob Table Definitions",
+    "type": "object",
+    "required": [
+        "id",
+        "presentation",
+        "stats",
+        "skills",
+        "loot_table"
+    ],
+    "properties": {
+        "id": {
+            "$ref": "common.schema.jsonc#/$defs/id"
+        },
+        "presentation": {
+            "$ref": "common.schema.jsonc#/$defs/presentation"
+        },
+        "stats": {
+            "anyOf": [
+                {
+                    "$ref": "stat_template.schema.jsonc#/$defs/stat_template"
+                },
+                {
+                    "type": "string",
+                    "$ref": "common.schema.jsonc#/$defs/id"
+                }
+            ]
+        },
+        "skills": {
+            "type": "array",
+            "items": {
+                "$ref": "common.schema.jsonc#/$defs/id"
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "additionalProperties": false
+        },
+        "loot_table": {
+            "anyOf": [
+                {
+                    "$ref": "loot_table.schema.jsonc"
+                },
+                {
+                    "type": "string",
+                    "$ref": "common.schema.jsonc#/$defs/id"
+                }
+            ]
+        }
+    },
+    "additionalProperties": false
+}

@@ -1,0 +1,14 @@
+{
+    "id": "iron_legs_crafting_recipe",
+    "crafted_item": "iron_legs_item",
+    "materials": [
+        {
+            "item_id": "iron_scrap_item",
+            "count": 20
+        },
+        {
+            "item_id": "scrap_leather_item",
+            "count": 10
+        }
+    ]
+}

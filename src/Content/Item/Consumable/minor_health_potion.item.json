@@ -1,0 +1,17 @@
+{
+    "id": "minor_health_potion_item",
+    "item": {
+        "type": "consumable",
+        "modifiers": {
+            "type": "global",
+            "scalar_op_type": "added",
+            "stat": "health",
+            "value": 50
+        }
+    },
+    "presentation": {
+        "name": "Minor Health Potion",
+        "description": ""
+    },
+    "rarity": "uncommon"
+}

@@ -11,13 +11,13 @@ namespace GameLogic.Combat
     public static class DamageSnapshotBuilder
     {
         public static DamageSnapshot BuildNew(
-            SkillDefinition skills,
+            SkillDefinition skill,
             DamageStepSnapshot damageStep)
         {
             return new DamageSnapshot()
             {
                 Damage = Random.Shared.Next(damageStep.MinBaseDamage, damageStep.MaxBaseDamage),
-                SkillDefinition = skills,
+                SkillDefinition = skill,
                 DamageType = damageStep.DamageType,
                 AttackType = damageStep.AttackType,
                 WeaponType = damageStep.WeaponType,
@@ -25,13 +25,13 @@ namespace GameLogic.Combat
         }
 
         public static DamageSnapshot BuildNew(
-            SkillDefinition skills,
+            SkillDefinition skill,
             DotDamageStepSnapshot damageStep)
         {
             return new DamageSnapshot()
             {
                 Damage = Random.Shared.Next(damageStep.MinBaseDamage, damageStep.MaxBaseDamage),
-                SkillDefinition = skills,
+                SkillDefinition = skill,
                 DamageType = damageStep.DamageType,
                 AttackType = damageStep.AttackType,
                 WeaponType = damageStep.WeaponType,
@@ -65,9 +65,9 @@ namespace GameLogic.Combat
             return snapshot;
         }
 
-        public static DamageSnapshot AddModifiers(this DamageSnapshot snapshot, ReadOnlySpan<IModifier> modifiers)
+        public static DamageSnapshot AddModifiers(this DamageSnapshot snapshot, List<IModifier> modifiers)
         {
-            for (int i = 0; i < modifiers.Length; i++)
+            for (int i = 0; i < modifiers.Count; i++)
             {
                 var action = modifiers[i];
 

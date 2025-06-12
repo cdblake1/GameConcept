@@ -2,13 +2,15 @@
   "id": "bleed_dmg_increase_effect",
   "modifiers": [
     {
-      "type": "stat",
-      "stat": "bleed_damage_empowered",
+      "type": "damage",
+      "stat": "bleed",
+      "scalar_op_type": "empowered",
       "value": 50
     },
     {
-      "type": "stat",
-      "stat": "hit_damage_empowered",
+      "type": "attack",
+      "stat": "hit",
+      "scalar_op_type": "empowered",
       "value": -40
     }
   ],

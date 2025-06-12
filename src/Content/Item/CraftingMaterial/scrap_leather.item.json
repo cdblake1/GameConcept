@@ -1,0 +1,11 @@
+{
+    "id": "scrap_leather_item",
+    "item": {
+        "type": "crafting_material"
+    },
+    "rarity": "uncommon",
+    "presentation": {
+        "name": "Scrap Leather",
+        "description": ""
+    }
+}

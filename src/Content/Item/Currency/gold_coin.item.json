@@ -1,0 +1,13 @@
+{
+    "id": "gold_coin",
+    "item": {
+        "type": "currency",
+        "min_amount": 0,
+        "max_amount": 2147483648
+    },
+    "presentation": {
+        "name": "Gold Coin",
+        "description": ""
+    },
+    "rarity": "uncommon"
+}

@@ -1,0 +1,11 @@
+{
+    "id": "iron_scrap_item",
+    "item": {
+        "type": "crafting_material"
+    },
+    "presentation": {
+        "name": "Iron Scrap",
+        "description": ""
+    },
+    "rarity": "common"
+}

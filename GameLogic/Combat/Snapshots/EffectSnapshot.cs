@@ -1,7 +1,6 @@
 using GameData.src.Effect;
 using GameData.src.Shared.Modifiers;
 using GameData.src.Skill;
-using GameData.src.Skill.SkillStep;
 using GameLogic.Combat.Snapshots.Steps;
 
 namespace GameLogic.Combat.Snapshots
@@ -9,7 +8,7 @@ namespace GameLogic.Combat.Snapshots
     public struct EffectSnapshot
     {
         private const string dotIdentifier = "DotEffect";
-        public Memory<IModifier>? Modifiers;
+        public List<IModifier> Modifiers;
         public DamageSnapshot? Damage;
         public required string EffectId;
         public required DurationSnapshot Duration;
@@ -18,14 +17,12 @@ namespace GameLogic.Combat.Snapshots
 
         public static EffectSnapshot FromEffect(EffectDefinition effect)
         {
-            Memory<IModifier>? modifiers = null;
+            List<IModifier> modifiers = [];
             if (effect.Modifiers.Count > 0)
             {
-                modifiers ??= new();
-
                 for (int i = 0; i < effect.Modifiers.Count; i++)
                 {
-                    modifiers.Value.Span[i] = effect.Modifiers[i];
+                    modifiers.Add(effect.Modifiers[i]);
                 }
             }
 

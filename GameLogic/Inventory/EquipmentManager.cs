@@ -1,7 +1,8 @@
 #nullable enable
-using static GameData.Inventory.EquipmentManager;
+using GameData;
+using static GameLogic.Inventory.EquipmentManager;
 
-namespace GameData.Inventory;
+namespace GameLogic.Inventory;
 
 public class EquipmentManager : IStateSerializable<EquipmentManagerDto, EquipmentManager>
 {

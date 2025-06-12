@@ -1,12 +1,14 @@
 #nullable enable
 
-using GameData;
 using GameData.src.Player;
 
-public class GlobalGameState()
+namespace ConsoleGameImpl.State
 {
-    public static GlobalGameState Instance => instance;
-    private static readonly GlobalGameState instance = new GlobalGameState();
+    public class GlobalGameState()
+    {
+        public static GlobalGameState Instance => instance;
+        private static readonly GlobalGameState instance = new GlobalGameState();
 
-    public PlayerDefinition? Player { get; set; }
+        public PlayerDefinition? Player { get; set; }
+    }
 }

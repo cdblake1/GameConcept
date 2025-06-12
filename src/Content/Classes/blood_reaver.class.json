@@ -2,129 +2,99 @@
   "id": "blood_reaver_class",
   "talents": [
     {
-      "talent": {
-        "talent_tier": "tier_05",
-        "id": "slash_increase_dmg_talent"
-      }
+      "talent_tier": "tier_05",
+      "id": "slash_increase_dmg_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_05",
-        "id": "rend_increase_dmg_talent"
-      }
+      "talent_tier": "tier_05",
+      "id": "rend_increase_dmg_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_10",
-        "id": "slash_stack_dmg_talent"
-      },
-      "prerequisites": ["slash_increase_dmg_talent"]
+      "talent_tier": "tier_10",
+      "id": "slash_stack_dmg_talent",
+      "prerequisites": [
+        "slash_increase_dmg_talent"
+      ]
     },
     {
-      "talent": {
-        "talent_tier": "tier_10",
-        "id": "rend_stack_talent"
-      },
-      "prerequisites": ["rend_increase_dmg_talent"]
+      "talent_tier": "tier_10",
+      "id": "rend_stack_talent",
+      "prerequisites": [
+        "rend_increase_dmg_talent"
+      ]
     },
     {
-      "talent": {
-        "talent_tier": "tier_15",
-        "id": "pierce_inc_stack_per_hit_talent"
-      }
+      "talent_tier": "tier_15",
+      "id": "pierce_inc_stack_per_hit_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_15",
-        "id": "blood_boon_inc_dur_talent"
-      }
+      "talent_tier": "tier_15",
+      "id": "blood_boon_inc_dur_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_20",
-        "id": "blood_communion_increase_heal_talent"
-      }
+      "talent_tier": "tier_20",
+      "id": "blood_communion_increase_heal_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_20",
-        "id": "rend_permanent_talent"
-      },
-      "prerequisites": ["rend_stack_talent"]
+      "talent_tier": "tier_20",
+      "id": "rend_permanent_talent",
+      "prerequisites": [
+        "rend_stack_talent"
+      ]
     },
     {
-      "talent": {
-        "talent_tier": "tier_25",
-        "id": "slash_as_bleed_talent"
-      }
+      "talent_tier": "tier_25",
+      "id": "slash_as_bleed_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_25",
-        "id": "crash_less_cd_talent"
-      }
+      "talent_tier": "tier_25",
+      "id": "crash_less_cd_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_30",
-        "id": "crash_increase_stun_talent"
-      },
-      "prerequisites": ["crash_less_cd_talent"]
+      "talent_tier": "tier_30",
+      "id": "crash_increase_stun_talent",
+      "prerequisites": [
+        "crash_less_cd_talent"
+      ]
     },
     {
-      "talent": {
-        "talent_tier": "tier_30",
-        "id": "pierce_stacks_permanent"
-      },
-      "prerequisites": ["pierce_inc_stack_per_hit_talent"]
+      "talent_tier": "tier_30",
+      "id": "pierce_stacks_permanent",
+      "prerequisites": [
+        "pierce_inc_stack_per_hit_talent"
+      ]
     },
     {
-      "talent": {
-        "talent_tier": "tier_35",
-        "id": "slash_apply_2x_stack_talent"
-      }
+      "talent_tier": "tier_35",
+      "id": "slash_apply_2x_stack_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_35",
-        "id": "deep_gash_reduce_dur_talent"
-      }
+      "talent_tier": "tier_35",
+      "id": "deep_gash_reduce_dur_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_40",
-        "id": "dot_increase_dmg_talent"
-      }
+      "talent_tier": "tier_40",
+      "id": "dot_increase_dmg_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_40",
-        "id": "blood_communion_passive_talent"
-      }
+      "talent_tier": "tier_40",
+      "id": "blood_communion_passive_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_45",
-        "id": "deep_gash_on_crash_talent"
-      }
+      "talent_tier": "tier_45",
+      "id": "deep_gash_on_crash_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_45",
-        "id": "enrage_increase_stacks_talent"
-      }
+      "talent_tier": "tier_45",
+      "id": "enrage_increase_stacks_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_50",
-        "id": "enrage_only_bleed_talent"
-      }
+      "talent_tier": "tier_50",
+      "id": "enrage_only_bleed_talent"
     },
     {
-      "talent": {
-        "talent_tier": "tier_50",
-        "id": "slash_applies_pierce_talent"
-      }
+      "talent_tier": "tier_50",
+      "id": "slash_applies_pierce_talent"
     }
   ],
   "skills": [
@@ -160,5 +130,47 @@
       "level": 35,
       "skill": "enrage_skill"
     }
-  ]
+  ],
+  "stats": {
+    "attack": [],
+    "damage": [],
+    "global": [
+      {
+        "stat": "health",
+        "scalar_op_type": "added",
+        "value": 200
+      },
+      {
+        "stat": "armor",
+        "value": 10,
+        "scalar_op_type": "added"
+      },
+      {
+        "scalar_op_type": "added",
+        "stat": "avoidance",
+        "value": 5
+      },
+      {
+        "stat": "ward",
+        "scalar_op_type": "added",
+        "value": 5
+      },
+      {
+        "stat": "speed",
+        "scalar_op_type": "added",
+        "value": 5
+      }
+    ],
+    "weapon": [
+      {
+        "stat": "melee",
+        "value": 10,
+        "scalar_op_type": "added"
+      }
+    ]
+  },
+  "presentation": {
+    "name": "Blood Reaver",
+    "description": ""
+  }
 }

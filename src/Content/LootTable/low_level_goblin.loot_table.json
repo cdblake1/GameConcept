@@ -1,0 +1,29 @@
+{
+    "id": "low_level_beast_table",
+    "groups": [
+        {
+            "entries": [
+                {
+                    "item_id": "iron_scrap_item",
+                    "weight": 900
+                },
+                {
+                    "item_id": "chest_of_might_item",
+                    "weight": 30
+                },
+                {
+                    "item_id": "helmet_of_valor_item",
+                    "weight": 30
+                },
+                {
+                    "item_id": "legs_of_might_item",
+                    "weight": 30
+                },
+                {
+                    "item_id": "sword_of_might_item",
+                    "weight": 10
+                }
+            ]
+        }
+    ]
+}

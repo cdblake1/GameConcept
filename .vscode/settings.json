@@ -37,6 +37,54 @@
         "**/*.class.json"
       ],
       "url": "./src/Content/Schemas/class.schema.jsonc"
+    },
+    {
+      "fileMatch": [
+        "/src/Content/ExpTable/*.json",
+        "*/ExpTable/*.json",
+        "**/*.exp_table.json"
+      ],
+      "url": "./src/Content/Schemas/exp_table.schema.jsonc"
+    },
+    {
+      "fileMatch": [
+        "/src/Content/Item/**/*.json",
+        "*/Item/*.json",
+        "**/*.item.json"
+      ],
+      "url": "./src/Content/Schemas/item.schema.jsonc"
+    },
+    {
+      "fileMatch": [
+        "/src/Content/LootTable/**/*.json",
+        "*/LootTable/*.json",
+        "**/*.LootTable.json"
+      ],
+      "url": "./src/Content/Schemas/loot_table.schema.jsonc"
+    },
+    {
+      "fileMatch": [
+        "/src/Content/CraftingRecipe/**/*.json",
+        "*/CraftingRecipe/*.json",
+        "**/*.CraftingRecipe.json"
+      ],
+      "url": "./src/Content/Schemas/crafting_recipe.schema.jsonc"
+    },
+    {
+      "fileMatch": [
+        "/src/Content/StatTemplate/**/*.json",
+        "*/StatTemplate/*.json",
+        "**/*.StatTemplate.json"
+      ],
+      "url": "./src/Content/Schemas/stat_template.schema.jsonc"
+    },
+    {
+      "fileMatch": [
+        "/src/Content/Mob/**/*.json",
+        "*/Mob/*.json",
+        "**/*.Mob.json"
+      ],
+      "url": "./src/Content/Schemas/mob.schema.jsonc"
     }
   ],
   "json.validate.enable": true,

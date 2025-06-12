@@ -1,0 +1,33 @@
+{
+    "id": "low_level_beast_table",
+    "groups": [
+        {
+            "entries": [
+                {
+                    "item_id": "scrap_leather_item",
+                    "weight": 475
+                },
+                {
+                    "item_id": "wooden_shoot_item",
+                    "weight": 475
+                },
+                {
+                    "item_id": "chest_of_might_item",
+                    "weight": 15
+                },
+                {
+                    "item_id": "helmet_of_valor_item",
+                    "weight": 15
+                },
+                {
+                    "item_id": "legs_of_might_item",
+                    "weight": 15
+                },
+                {
+                    "item_id": "sword_of_might_item",
+                    "weight": 5
+                }
+            ]
+        }
+    ]
+}

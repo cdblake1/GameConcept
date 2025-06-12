@@ -1,5 +1,6 @@
 using GameData;
 using GameData.Mobs;
+using GameData.src.Item;
 using static LootTable;
 
 public abstract class Encounter

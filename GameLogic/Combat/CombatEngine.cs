@@ -22,14 +22,16 @@ namespace GameLogic.Combat
         internal readonly IEffectRepository effectRepository;
         internal readonly ITalentRepository talentRepository;
 
-        private readonly CombatEntity player;
-        private readonly CombatEntity mob;
+        internal readonly CombatEntity player;
+        internal readonly CombatEntity mob;
 
         public bool IsCombatActive => this.combatActive;
 
         private bool combatActive = false;
         private bool intialized = false;
         private readonly PriorityQueue<CombatEntity, float> turnQueue = new();
+
+        internal readonly List<CombatEvent> events = [];
 
         public CombatEngine(ISkillRepository skillRepository,
             IEffectRepository effectRepository,
@@ -46,36 +48,40 @@ namespace GameLogic.Combat
 
         public List<CombatEvent> ProcessCombat(CombatCommand command)
         {
-            var events = new List<CombatEvent>();
-
+            this.events.Clear();
             if (!this.intialized)
             {
                 this.combatActive = true;
                 this.intialized = true;
-                events.Add(combatStartEvent);
+                this.events.Add(combatStartEvent);
             }
 
             if (!this.combatActive)
             {
-                events.Add(combatEndEvent);
-                return events;
+                this.events.Add(combatEndEvent);
+                return this.events;
             }
 
-            ProccessEntityStatusBuffer(this.player, events);
+            this.ProccessEntityStatusBuffer(this.player);
             if (IsEntityDead(this.player))
             {
-                events.Add(playerDiedEvent);
-                events.Add(combatEndEvent);
-                return events;
+                this.events.Add(playerDiedEvent);
+                this.events.Add(combatEndEvent);
+                return this.events;
             }
 
-            ProccessEntityStatusBuffer(this.mob, events);
+            this.turnQueue.Enqueue(this.player, this.player.Stats.GetStatValue(GlobalStat.Speed));
+
+            this.ProccessEntityStatusBuffer(this.mob);
             if (IsEntityDead(this.mob))
             {
-                events.Add(new MobDiedEvent(this.mob.Identifier));
-                events.Add(combatEndEvent);
-                return events;
+                this.events.Add(new MobDiedEvent(this.mob.Identifier));
+                this.events.Add(combatEndEvent);
+                return this.events;
             }
+
+            this.turnQueue.Enqueue(this.mob, this.mob.Stats.GetStatValue(GlobalStat.Speed));
+
 
             do
             {
@@ -87,26 +93,26 @@ namespace GameLogic.Combat
                     {
                         case UseSkillCommand cmd:
 
-                            this.ProcessAttack(FindSkill(cmd.SkillId, this.player), this.player, this.mob, events);
+                            this.ProcessAttack(FindSkill(cmd.SkillId, this.player), this.player, this.mob);
 
                             break;
                         case CombatFleeCommand cmd:
-                            events.Add(combatFleeCommand);
+                            this.events.Add(combatFleeCommand);
                             break;
                     }
                 }
                 else
                 {
-                    var skill = entity.Skills.Span[Random.Shared.Next(entity.Skills.Length)];
-                    this.ProcessAttack(skill, this.mob, this.player, events);
+                    var skill = entity.Skills[Random.Shared.Next(entity.Skills.Count)];
+                    this.ProcessAttack(skill, this.mob, this.player);
                 }
 
             } while (this.IsCombatActive && this.turnQueue.Count > 0);
 
-            return events;
+            return this.events;
         }
 
-        internal static void ProccessEntityStatusBuffer(CombatEntity source, in List<CombatEvent> events)
+        internal void ProccessEntityStatusBuffer(CombatEntity source)
         {
             //TODO(Caleb): decrement all statuses. Remove status from buffer if at duration.
             var effects = source.ActiveEffects.GetEffects();
@@ -115,53 +121,53 @@ namespace GameLogic.Combat
                 if (effect.Damage is DamageSnapshot dmg)
                 {
                     (bool isCrit, float damage) = CalculateDamage(dmg, source);
-                    source.CurrentHealth = Math.Min(0, (int)(source.CurrentHealth - damage));
-                    events.Add(new DamageApplied(source.Identifier, source.Identifier, dmg.SkillDefinition.Id, damage, isCrit));
+                    source.CurrentHealth = (int)(source.CurrentHealth - damage);
+                    this.events.Add(new DamageAppliedEvent(source.Identifier, source.Identifier, dmg.SkillDefinition.Id, damage, isCrit));
                 }
             }
         }
 
-        internal void ProcessAttack(SkillSnapshot skill, CombatEntity source, CombatEntity target, in List<CombatEvent> events)
+        internal void ProcessAttack(SkillSnapshot skill, CombatEntity source, CombatEntity target)
         {
-            foreach (var effect in skill.DamageSteps.Span)
+            foreach (var effect in skill.DamageSteps)
             {
                 (bool isCrit, float damage) = CalculateDamage(skill, effect, source, target);
 
-                target.CurrentHealth = Math.Min(0, (int)(target.CurrentHealth - damage));
-                events.Add(new DamageApplied("mob", "player", skill.skillDefinition.Id, damage, isCrit));
+                target.CurrentHealth = (int)(target.CurrentHealth - damage);
+                this.events.Add(new DamageAppliedEvent(source.Identifier, target.Identifier, skill.skillDefinition.Id, damage, isCrit));
 
                 if (IsEntityDead(target))
                 {
-                    events.Add(new MobDiedEvent(target.Identifier));
-                    events.Add(combatEndEvent);
+                    this.events.Add(new MobDiedEvent(target.Identifier));
+                    this.events.Add(combatEndEvent);
                     return;
                 }
             }
 
-            foreach (var effect in skill.DotEffects.Span)
+            foreach (var effect in skill.DotEffects)
             {
                 (bool isCrit, float damage) = CalculateDamage(skill, effect, source, target);
-                target.CurrentHealth = Math.Min(0, (int)(target.CurrentHealth - damage));
-                events.Add(new DamageApplied("mob", "player", skill.skillDefinition.Id, damage, isCrit));
+                target.CurrentHealth = (int)(target.CurrentHealth - damage);
+                this.events.Add(new DamageAppliedEvent(source.Identifier, target.Identifier, skill.skillDefinition.Id, damage, isCrit));
 
                 if (IsEntityDead(target))
                 {
-                    events.Add(new MobDiedEvent(target.Identifier));
-                    events.Add(combatEndEvent);
+                    this.events.Add(new MobDiedEvent(target.Identifier));
+                    this.events.Add(combatEndEvent);
                     return;
                 }
             }
 
-            foreach (var effect in skill.ApplyEffects.Span)
+            foreach (var effect in skill.ApplyEffects)
             {
                 var effectSnapshot = EffectSnapshot.FromEffect(this.effectRepository.Get(effect.EffectId));
                 target.ActiveEffects.AddEffect(effectSnapshot);
-                events.Add(new EffectApplied(source.Identifier, target.Identifier, effect.EffectId));
+                this.events.Add(new EffectApplied(source.Identifier, target.Identifier, effect.EffectId));
 
                 if (IsEntityDead(target))
                 {
-                    events.Add(new MobDiedEvent(target.Identifier));
-                    events.Add(combatEndEvent);
+                    this.events.Add(new MobDiedEvent(target.Identifier));
+                    this.events.Add(combatEndEvent);
                     return;
                 }
             }
@@ -174,7 +180,7 @@ namespace GameLogic.Combat
 
         internal static SkillSnapshot FindSkill(string skillId, CombatEntity entity)
         {
-            foreach (var skill in entity.Skills.Span)
+            foreach (var skill in entity.Skills)
             {
                 if (skill.skillDefinition.Id == skillId)
                 {
@@ -201,12 +207,12 @@ namespace GameLogic.Combat
                     switch (talent.Actions[j])
                     {
                         case AddDotDamageAction action:
-                            for (int k = 0; k < combatEntity.Skills.Span.Length; k++)
+                            for (int k = 0; k < combatEntity.Skills.Count; k++)
                             {
-                                var skill = combatEntity.Skills.Span[k];
+                                var skill = combatEntity.Skills[k];
                                 if (skill.skillDefinition.Id == action.SkillId)
                                 {
-                                    skill.DotEffects.Span[skill.DotEffects.Length]
+                                    skill.DotEffects[skill.DotEffects.Count]
                                         = DotDamageStepSnapshot.FromStep(action.DotDamage);
 
                                     break;
@@ -214,35 +220,35 @@ namespace GameLogic.Combat
                             }
                             break;
                         case AddHitDamageAction action:
-                            for (int k = 0; k < combatEntity.Skills.Span.Length; k++)
+                            for (int k = 0; k < combatEntity.Skills.Count; k++)
                             {
-                                var skill = combatEntity.Skills.Span[k];
+                                var skill = combatEntity.Skills[k];
                                 if (skill.skillDefinition.Id == action.SkillId)
                                 {
-                                    skill.DamageSteps.Span[skill.DamageSteps.Length] = DamageStepSnapshot.FromStep(action.HitDamage);
+                                    skill.DamageSteps[skill.DamageSteps.Count] = DamageStepSnapshot.FromStep(action.HitDamage);
                                     break;
                                 }
                             }
                             break;
                         case ApplyEffectAction action:
-                            for (int k = 0; k < combatEntity.Skills.Span.Length; k++)
+                            for (int k = 0; k < combatEntity.Skills.Count; k++)
                             {
-                                var skill = combatEntity.Skills.Span[k];
+                                var skill = combatEntity.Skills[k];
                                 if (skill.skillDefinition.Id == action.SkillId)
                                 {
-                                    skill.ApplyEffects.Span[skill.ApplyEffects.Length] = new ApplyEffectSnapshot(action.EffectId);
+                                    skill.ApplyEffects[skill.ApplyEffects.Count] = new ApplyEffectSnapshot(action.EffectId);
                                     break;
                                 }
                             }
                             break;
                         case ModifyDotDamageAction action:
-                            foreach (var skill in combatEntity.Skills.Span)
+                            foreach (var skill in combatEntity.Skills)
                             {
                                 if (skill.skillDefinition.Id == action.SkillId)
                                 {
-                                    for (int k = 0; k < skill.DotEffects.Length; k++)
+                                    for (int k = 0; k < skill.DotEffects.Count; k++)
                                     {
-                                        var effect = skill.DotEffects.Span[k];
+                                        var effect = skill.DotEffects[k];
                                         if (action.Duration is not null)
                                         {
                                             if (action.Duration.Kind == DurationKind.Permanent)
@@ -277,13 +283,13 @@ namespace GameLogic.Combat
                             }
                             break;
                         case ModifyHitDamageAction action:
-                            foreach (var skill in combatEntity.Skills.Span)
+                            foreach (var skill in combatEntity.Skills)
                             {
                                 if (skill.skillDefinition.Id == action.SkillId)
                                 {
-                                    for (int k = 0; k < skill.DamageSteps.Length; k++)
+                                    for (int k = 0; k < skill.DamageSteps.Count; k++)
                                     {
-                                        var effect = skill.DamageSteps.Span[k];
+                                        var effect = skill.DamageSteps[k];
                                         effect.MinBaseDamage = AddScalar(effect.MinBaseDamage, action.MinBaseDamage);
                                         effect.MaxBaseDamage = AddScalar(effect.MaxBaseDamage, action.MaxBaseDamage);
                                     }
@@ -293,9 +299,9 @@ namespace GameLogic.Combat
                         case ModifyEffectAction action:
                             break;
                         case ModifySkillAction action:
-                            for (int k = 0; k < combatEntity.Skills.Span.Length; k++)
+                            for (int k = 0; k < combatEntity.Skills.Count; k++)
                             {
-                                var skill = combatEntity.Skills.Span[k];
+                                var skill = combatEntity.Skills[k];
                                 if (skill.skillDefinition.Id == action.SkillId)
                                 {
                                     skill.Cooldown = AddScalar(skill.Cooldown, action.Cooldown);
@@ -332,14 +338,14 @@ namespace GameLogic.Combat
             return new CombatEntity(nameof(mob), mob.Stats, skills, false);
         }
 
-        internal Memory<SkillSnapshot> CreateSkillSnapshots(string[] skillIds)
+        internal List<SkillSnapshot> CreateSkillSnapshots(List<string> skillIds)
         {
-            var skills = new Memory<SkillSnapshot>();
+            var skills = new List<SkillSnapshot>();
             for (int i = 0; i < skillIds.Length; i++)
             {
-                Memory<ApplyEffectSnapshot>? applyEffects = null;
-                Memory<DotDamageStepSnapshot>? dotEffects = null;
-                Memory<DamageStepSnapshot>? dmgEffects = null;
+                List<ApplyEffectSnapshot> applyEffects = [];
+                List<DotDamageStepSnapshot> dotEffects = [];
+                List<DamageStepSnapshot> dmgEffects = [];
 
                 var skill = this.skillRepository.Get(skillIds[i]);
 
@@ -349,28 +355,25 @@ namespace GameLogic.Combat
                     switch (effect)
                     {
                         case ApplyEffectStep step:
-                            applyEffects ??= new();
-                            applyEffects.Value.Span[j] = new(step.EffectId);
+                            applyEffects.Add(new(step.EffectId));
                             break;
                         case DotDamageStep step:
-                            dotEffects ??= new();
-                            dotEffects.Value.Span[j] = DotDamageStepSnapshot.FromStep(step);
+                            dotEffects.Add(DotDamageStepSnapshot.FromStep(step));
                             break;
                         case HitDamageStep step:
-                            dmgEffects ??= new();
-                            dmgEffects.Value.Span[j] = DamageStepSnapshot.FromStep(step);
+                            dmgEffects.Add(DamageStepSnapshot.FromStep(step));
                             break;
                     }
                 }
 
-                skills.Span[i] = new SkillSnapshot(
+                skills.Add(new SkillSnapshot(
                     skill,
                     skill.Cost,
                     skill.Cooldown,
                     applyEffects,
                     dmgEffects,
                     dotEffects
-                );
+                ));
             }
 
             return skills;
@@ -407,20 +410,17 @@ namespace GameLogic.Combat
             return snapshot.CalculateDamage();
         }
 
-        internal static Span<IModifier> GetModifiers(ReadOnlySpan<EffectSnapshot> effects)
+        internal static List<IModifier> GetModifiers(List<EffectSnapshot> effects)
         {
-            Span<IModifier> modifiers = new();
+            List<IModifier> modifiers = new();
             int modifierIndex = 0;
-            for (int i = 0; i < effects.Length; i++)
+            for (int i = 0; i < effects.Count; i++)
             {
                 var effect = effects[i];
-                if (effect.Modifiers.HasValue)
+                var effectModifiers = effect.Modifiers;
+                for (int j = 0; j < effectModifiers.Count; j++)
                 {
-                    var effectModifiers = effect.Modifiers.Value.Span;
-                    for (int j = 0; j < effectModifiers.Length; j++)
-                    {
-                        modifiers[modifierIndex++] = effectModifiers[j];
-                    }
+                    modifiers[modifierIndex++] = effectModifiers[j];
                 }
             }
 
@@ -434,7 +434,7 @@ namespace GameLogic.Combat
         public record PlayerFledEvent(bool Fled) : CombatEvent;
         public record MobDiedEvent(string TargetId) : CombatEvent;
         public record FleeEvent(bool Success) : CombatEvent;
-        public record DamageApplied(string SourceId, string TargetId, string SkillId, float Amount, bool IsCrit) : CombatEvent;
+        public record DamageAppliedEvent(string SourceId, string TargetId, string SkillId, float Amount, bool IsCrit) : CombatEvent;
         public record DotDamageApplied(string SourceId, string TargetId, string SkillId, float Amount, bool IsCrit) : CombatEvent;
         public record EffectApplied(string SourceId, string TargetId, string EffectId) : CombatEvent;
         public record StatusApplied(IStatus Status, string SourceId) : CombatEvent;

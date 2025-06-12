@@ -1,0 +1,12 @@
+{
+    "id": "iron_gloves_item",
+    "item": {
+        "type": "equipment",
+        "kind": "gloves"
+    },
+    "presentation": {
+        "name": "Iron Gloves",
+        "description": ""
+    },
+    "rarity": "common"
+}

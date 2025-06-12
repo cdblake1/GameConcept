@@ -2,9 +2,10 @@
   "id": "enrage_buff_effect",
   "modifiers": [
     {
-      "type": "stat",
-      "stat": "physical_damage_empowered",
-      "value": 5
+      "type": "damage",
+      "stat": "physical",
+      "value": 5,
+      "scalar_op_type": "empowered"
     }
   ],
   "stack_strategy": {
