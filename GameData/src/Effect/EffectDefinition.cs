@@ -1,7 +1,5 @@
 using GameData.src.Effect.Stack;
-using GameData.src.Effect.Status;
 using GameData.src.Shared;
-using GameData.src.Shared.Enums;
 using GameData.src.Shared.Modifiers;
 
 namespace GameData.src.Effect

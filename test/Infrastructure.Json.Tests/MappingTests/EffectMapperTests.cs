@@ -41,7 +41,7 @@ namespace Infrastructure.Json.Tests.MappingTests
                 category = EffectCategoryDto.buff,
                 duration = new TurnsDurationDto() { turns = 1 },
                 id = "test_effect",
-                modifiers = [new StatModifierDto(StatDto.physical_damage_added, 1)],
+                modifiers = [new DamageModifierDto(DamageTypeDto.physical, ScalarOpTypeDto.added, 1)],
                 stack_strategy = new StackDefaultDto()
                 {
                     max_stacks = 1,
@@ -60,10 +60,10 @@ namespace Infrastructure.Json.Tests.MappingTests
 
             Assert.NotNull(effectDefinition.Modifiers);
             Assert.Single(effectDefinition.Modifiers);
-            var statMod = effectDefinition.Modifiers[0] as StatModifier;
-            Assert.NotNull(statMod);
-            Assert.Equal(StatKind.PhysicalDamageAdded, statMod.StatKind);
-            Assert.Equal(1, statMod.Value);
+            var damageMod = effectDefinition.Modifiers[0] as DamageModifier;
+            Assert.NotNull(damageMod);
+            Assert.Equal(DamageType.Physical, damageMod.DamageType);
+            Assert.Equal(1, damageMod.Value);
 
             Assert.NotNull(effectDefinition.StackStrategy);
             Assert.IsType<StackDefault>(effectDefinition.StackStrategy);

@@ -1,0 +1,29 @@
+{
+  "id": "test_class",
+  "presentation": {
+    "description": "test class desc",
+    "icon": "./test_class.ico",
+    "name": "Test Class"
+  },
+  "skills": [
+    {
+      "level": 10,
+      "skill": "test_skill"
+    }
+  ],
+  "talents": [
+    {
+      "prerequisites": [
+        "test_talent_two"
+      ],
+      "talent_tier": "tier_05",
+      "id": "test_talent_one"
+    }
+  ],
+  "stats": {
+    "attack": [],
+    "damage": [],
+    "global": [],
+    "weapon": []
+  }
+}

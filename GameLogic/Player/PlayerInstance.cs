@@ -12,12 +12,11 @@ namespace GameLogic.Player
         private readonly string name;
         private readonly StatCollection stats;
         private readonly PlayerDefinition playerDefinition;
-        private readonly int level;
+        private int level;
         private readonly List<TalentDefinition> selectedTalents;
-        private readonly List<SkillDefinition> selectedSkills;
+        private readonly List<string> selectedSkills;
 
-        public EquipmentManager Equipment { get; init; }
-        public InventoryManager Inventory { get; init; }
+        public InventorySystem Inventory { get; set; }
         public LevelManager LevelManager { get; set; }
         public StatCollection Stats => this.stats;
         public int Level => this.level;
@@ -26,7 +25,6 @@ namespace GameLogic.Player
         {
             this.name = name;
             this.playerDefinition = playerDefinition;
-            this.Equipment = new();
             this.Inventory = new();
             this.stats = new();
             this.selectedSkills = new();
@@ -36,39 +34,24 @@ namespace GameLogic.Player
                 experienceTable: ExperienceTable.PlayerExpTable,
                 startingLevel: startingLevel
             );
+            this.level = startingLevel;
         }
-        public PlayerInstance(string name, PlayerDefinition playerDefinition) : this(name, playerDefinition, 1) { }
 
+        public PlayerInstance(string name, PlayerDefinition playerDefinition) : this(name, playerDefinition, 1) { }
         public ClassDefinition ClassDefinition => this.playerDefinition.ClassDefinition;
         public List<TalentDefinition> SelectedTalents => this.selectedTalents;
-        public List<SkillDefinition> SelectedSkills => this.selectedSkills;
+        public List<string> SelectedSkills => this.selectedSkills;
         public PlayerDefinition PlayerDefinition => this.playerDefinition;
 
         public void AddSelectedSkill(SkillDefinition skill)
         {
-            this.selectedSkills.Add(skill);
+            this.selectedSkills.Add(skill.Id);
         }
-
         public void AddTalent(TalentDefinition definition)
         {
             this.selectedTalents.Add(definition);
         }
-
-        public IReadOnlyList<SkillDefinition> GetSelectedSkills() => this.selectedSkills;
+        public IReadOnlyList<string> GetSelectedSkills() => this.selectedSkills;
         public IReadOnlyList<TalentDefinition> GetSelectedTalents() => this.selectedTalents;
-
-        public void EquipItem(string item)
-        {
-            //TODO(Caleb): Add logic to equip item and remove from inventory.
-            throw new NotImplementedException();
-        }
-
-        public void UnequipItem(string item)
-        {
-            //TODO(Caleb): Add logic to unequip item and add to the inventory.
-            //TODO(Caleb): consider merging Equipment into the inventory manager.
-            throw new NotImplementedException();
-        }
-
     }
 }

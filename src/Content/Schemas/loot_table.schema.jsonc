@@ -44,16 +44,16 @@
             "properties": {
                 "item_id": {
                     "$ref": "common.schema.jsonc#/$defs/id"
+                },
+                "weight": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "always": {
+                    "type": "boolean",
+                    "default": false
                 }
             },
-            "weight": {
-                "type": "integer",
-                "minimum": 1
-            },
-            "always": {
-                "type": "boolean",
-                "default": false
-            }
         }
     }
 }

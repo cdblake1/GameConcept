@@ -12,7 +12,7 @@ namespace Infrastructure.Json.Tests.RepositoryTests
     {
         private const string talentId = "test_talent_one";
         private readonly JsonTalentRepository repository;
-        public static readonly string TalentDirectoryPath = Path.Combine(AppContext.BaseDirectory, "Assets", "Talents");
+        public static readonly string TalentDirectoryPath = Path.Combine(AppContext.BaseDirectory, "Assets");
 
         public TalentRepositoryTests()
         {

@@ -21,6 +21,9 @@
                 "epic"
             ]
         },
+        "presentation": {
+            "$ref": "common.schema.jsonc#/$defs/presentation"
+        },
         "item": {
             "type": "object",
             "required": [
@@ -99,9 +102,6 @@
                 }
             ]
         }
-    },
-    "presentation": {
-        "$ref": "common.schema.jsonc#/$defs/presentation"
     },
     "additionalProperties": true,
     "$defs": {

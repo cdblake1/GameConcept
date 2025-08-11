@@ -1,0 +1,21 @@
+{
+    "id": "test_stats",
+    "attack": [],
+    "damage": [
+        {
+            "stat": "physical",
+            "scalar_op_type": "added",
+            "value": 0,
+            "type": "damage"
+        }
+    ],
+    "global": [
+        {
+            "stat": "health",
+            "scalar_op_type": "added",
+            "value": 100,
+            "type": "global"
+        }
+    ],
+    "weapon": []
+}

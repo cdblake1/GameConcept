@@ -5,6 +5,7 @@ using Infrastructure.Json.Dto.Common.Operations;
 using Infrastructure.Json.Dto.Common.Modifiers;
 using GameData.src.Shared.Modifiers.Operations;
 using GameData.src.Shared.Modifiers;
+using GameData.src.Shared.StatTemplate;
 
 namespace Infrastructure.Json.Mappers
 {
@@ -65,16 +66,32 @@ namespace Infrastructure.Json.Mappers
        => dto switch
        {
            SkillModifierDto sm => sm.ToDomain(),
-           StatModifierDto sm2 => sm2.ToDomain(),
+           GlobalModifierDto gm => gm.ToDomain(),
+           DamageModifierDto dm => dm.ToDomain(),
+           AttackModifierDto am => am.ToDomain(),
+           WeaponModifierDto wm => wm.ToDomain(),
            _ => throw new NotImplementedException($"modifier not implemented: {dto.GetType().Name}")
        };
 
         public static SkillModifier ToDomain(this SkillModifierDto dto)
-        => new SkillModifier(dto.skill_id, dto.operation.ToDomain());
+        => new(dto.skill_id, dto.scalar_op_type.ToDomain(), dto.value);
+        public static GlobalModifier ToDomain(this GlobalModifierDto dto)
+        => new(dto.stat.ToDomain(), dto.scalar_op_type.ToDomain(), dto.value);
+        public static DamageModifier ToDomain(this DamageModifierDto dto)
+        => new(dto.stat.ToDomain(), dto.scalar_op_type.ToDomain(), dto.value);
+        public static AttackModifier ToDomain(this AttackModifierDto dto)
+        => new(dto.stat.ToDomain(), dto.scalar_op_type.ToDomain(), dto.value);
+        public static WeaponModifier ToDomain(this WeaponModifierDto dto)
+        => new(dto.stat.ToDomain(), dto.scalar_op_type.ToDomain(), dto.value);
 
-        public static StatModifier ToDomain(this StatModifierDto dto)
-        => new StatModifier(dto.stat.ToDomain(), dto.value);
-
+        public static ScalarOpType ToDomain(this ScalarOpTypeDto dto)
+        => dto switch
+        {
+            ScalarOpTypeDto.added => ScalarOpType.Additive,
+            ScalarOpTypeDto.increased => ScalarOpType.Increased,
+            ScalarOpTypeDto.empowered => ScalarOpType.Empowered,
+            _ => throw new InvalidOperationException($"ScalarOpType not implemented: {dto}")
+        };
 
         public static StackDefaultOperation ToDomain(this StackDefaultModifierDto dto)
         => new()
@@ -93,7 +110,7 @@ namespace Infrastructure.Json.Mappers
         };
 
         public static ScalarOperation ToDomain(this ScalarOperationDto dto)
-        => new ScalarOperation()
+        => new()
         {
             ScaleAdded = dto.scale_added,
             ScaleEmpowered = dto.scale_empowered,
@@ -143,92 +160,18 @@ namespace Infrastructure.Json.Mappers
             CollectionOperationDto.set => CollectionOperationKind.Set,
             _ => throw new InvalidOperationException($"CollectionOperationKind not implemented: {dto}")
         };
-
-        public static StatKind ToDomain(this StatDto stat) =>
-            stat switch
-            {
-                StatDto.physical_damage_added => StatKind.PhysicalDamageAdded,
-                StatDto.physical_damage_increased => StatKind.PhysicalDamageIncreased,
-                StatDto.physical_damage_empowered => StatKind.PhysicalDamageEmpowered,
-
-                StatDto.elemental_damage_added => StatKind.ElementalDamageAdded,
-                StatDto.elemental_damage_increased => StatKind.ElementalDamageIncreased,
-                StatDto.elemental_damage_empowered => StatKind.ElementalDamageEmpowered,
-
-                StatDto.nature_damage_added => StatKind.NatureDamageAdded,
-                StatDto.nature_damage_increased => StatKind.NatureDamageIncreased,
-                StatDto.nature_damage_empowered => StatKind.NatureDamageEmpowered,
-
-                StatDto.bleed_damage_added => StatKind.BleedDamageAdded,
-                StatDto.bleed_damage_increased => StatKind.BleedDamageIncreased,
-                StatDto.bleed_damage_empowered => StatKind.BleedDamageEmpowered,
-
-                StatDto.poison_damage_added => StatKind.PoisonDamageAdded,
-                StatDto.poison_damage_increased => StatKind.PoisonDamageIncreased,
-                StatDto.poison_damage_empowered => StatKind.PoisonDamageEmpowered,
-
-                StatDto.burn_damage_added => StatKind.BurnDamageAdded,
-                StatDto.burn_damage_increased => StatKind.BurnDamageIncreased,
-                StatDto.burn_damage_empowered => StatKind.BurnDamageEmpowered,
-
-                StatDto.hit_damage_added => StatKind.HitDamageAdded,
-                StatDto.hit_damage_increased => StatKind.HitDamageIncreased,
-                StatDto.hit_damage_empowered => StatKind.HitDamageEmpowered,
-
-                StatDto.dot_damage_added => StatKind.DotDamageAdded,
-                StatDto.dot_damage_increased => StatKind.DotDamageIncreased,
-                StatDto.dot_damage_empowered => StatKind.DotDamageEmpowered,
-
-                StatDto.melee_damage_added => StatKind.MeleeDamageAdded,
-                StatDto.melee_damage_increased => StatKind.MeleeDamageIncreased,
-                StatDto.melee_damage_empowered => StatKind.MeleeDamageEmpowered,
-
-                StatDto.ranged_damage_added => StatKind.RangedDamageAdded,
-                StatDto.ranged_damage_increased => StatKind.RangedDamageIncreased,
-                StatDto.ranged_damage_empowered => StatKind.RangedDamageEmpowered,
-
-                StatDto.spell_damage_added => StatKind.SpellDamageAdded,
-                StatDto.spell_damage_increased => StatKind.SpellDamageIncreased,
-                StatDto.spell_damage_empowered => StatKind.SpellDamageEmpowered,
-
-                StatDto.armor_rating_added => StatKind.ArmorRatingAdded,
-                StatDto.armor_rating_increased => StatKind.ArmorRatingIncreased,
-                StatDto.armor_rating_empowered => StatKind.ArmorRatingEmpowered,
-
-                StatDto.avoidance_rating_added => StatKind.AvoidanceRatingAdded,
-                StatDto.avoidance_rating_increased => StatKind.AvoidanceRatingIncreased,
-                StatDto.avoidance_rating_empowered => StatKind.AvoidanceRatingEmpowered,
-
-                StatDto.ward_rating_added => StatKind.WardRatingAdded,
-                StatDto.ward_rating_increased => StatKind.WardRatingIncreased,
-                StatDto.ward_rating_empowered => StatKind.WardRatingEmpowered,
-
-                StatDto.nature_resistance_added => StatKind.NatureResistanceAdded,
-                StatDto.nature_resistance_increased => StatKind.NatureResistanceIncreased,
-
-                StatDto.elemental_resistance_added => StatKind.ElementalResistanceAdded,
-                StatDto.elemental_resistance_increased => StatKind.ElementalResistanceIncreased,
-
-                StatDto.speed_rating_added => StatKind.SpeedRatingAdded,
-                StatDto.speed_rating_increased => StatKind.SpeedRatingIncreased,
-                StatDto.speed_rating_empowered => StatKind.SpeedRatingEmpowered,
-
-                StatDto.health_rating_added => StatKind.HealthRatingAdded,
-                StatDto.health_rating_increased => StatKind.HealthRatingIncreased,
-                StatDto.health_rating_empowered => StatKind.HealthRatingEmpowered,
-
-                StatDto.melee_leech_added => StatKind.MeleeLeechAdded,
-                StatDto.melee_leech_increased => StatKind.MeleeLeechIncreased,
-
-                StatDto.range_leech_added => StatKind.RangeLeechAdded,
-                StatDto.range_leech_increased => StatKind.RangeLeechIncreased,
-
-                StatDto.spell_leech_added => StatKind.SpellLeechAdded,
-                StatDto.spell_leech_increased => StatKind.SpellLeechIncreased,
-
-                _ => throw new InvalidOperationException($"StatKind not implemented: {stat}")
-            };
-
+        public static GlobalStat ToDomain(this GlobalStatDto dto)
+        => dto switch
+        {
+            GlobalStatDto.armor => GlobalStat.Armor,
+            GlobalStatDto.avoidance => GlobalStat.Avoidance,
+            GlobalStatDto.crit => GlobalStat.Crit,
+            GlobalStatDto.health => GlobalStat.Health,
+            GlobalStatDto.speed => GlobalStat.Speed,
+            GlobalStatDto.ward => GlobalStat.Ward,
+            GlobalStatDto.leech => GlobalStat.Leech,
+            _ => throw new InvalidOperationException($"GlobalStat not implemented: {dto}")
+        };
         public static PresentationDefinition ToDomain(this PresentationDto dto)
         {
             return new PresentationDefinition()
@@ -238,5 +181,23 @@ namespace Infrastructure.Json.Mappers
                 Icon = dto.icon
             };
         }
+
+        public static StatTemplateDefinition ToDomain(this StatTemplateDto dto)
+        => new(dto.Id, dto.global.ToDomain(), dto.damage.ToDomain(), dto.attack.ToDomain(), dto.weapon.ToDomain());
+
+        public static IReadOnlyList<GlobalModifier> ToDomain(this GlobalModifierDto[] dto)
+        => [.. dto.Select(g => g.ToDomain())];
+
+        public static IReadOnlyList<DamageModifier> ToDomain(this DamageModifierDto[] dto)
+        => [.. dto.Select(d => d.ToDomain())];
+
+        public static IReadOnlyList<AttackModifier> ToDomain(this AttackModifierDto[] dto)
+        => [.. dto.Select(a => a.ToDomain())];
+
+        public static IReadOnlyList<WeaponModifier> ToDomain(this WeaponModifierDto[] dto)
+        => [.. dto.Select(w => w.ToDomain())];
+
+        public static IReadOnlyList<SkillModifier> ToDomain(this SkillModifierDto[] dto)
+        => [.. dto.Select(s => s.ToDomain())];
     }
 }

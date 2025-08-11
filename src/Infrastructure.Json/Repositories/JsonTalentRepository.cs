@@ -16,7 +16,7 @@ namespace Infrastructure.Json.Repositories
         public JsonTalentRepository(string contentDirectory)
         {
             this.contentDirectory = contentDirectory;
-            this.cache = new Lazy<IReadOnlyDictionary<string, TalentDefinition>>(LoadAll);
+            this.cache = new(this.LoadAll);
         }
         public TalentDefinition Get(string id)
         {
@@ -32,7 +32,7 @@ namespace Infrastructure.Json.Repositories
         {
             Dictionary<string, TalentDefinition>? dict = null;
 
-            foreach (var file in Directory.EnumerateFiles(contentDirectory, "*.talent.json", SearchOption.AllDirectories))
+            foreach (var file in Directory.EnumerateFiles(this.contentDirectory, "*.talent.json", SearchOption.AllDirectories))
             {
                 dict ??= [];
                 var json = File.ReadAllText(file);

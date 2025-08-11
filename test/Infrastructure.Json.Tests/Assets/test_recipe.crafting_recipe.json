@@ -1,0 +1,10 @@
+{
+    "id": "test_crafting_recipe",
+    "crafted_item_id": "test_item",
+    "materials": [
+        {
+            "item_id": "test_item",
+            "count": 1
+        }
+    ]
+}

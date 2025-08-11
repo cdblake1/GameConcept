@@ -1,9 +1,9 @@
 #nullable enable
 
 using ConsoleGameImpl.State;
-using GameData;
 using GameData.Save;
 using GameData.src.Player;
+using GameLogic.Player;
 
 public class LoadGameScene
 {
@@ -38,7 +38,7 @@ public class LoadGameScene
             if (selectedOption >= 0 && selectedOption < saveStates.Count)
             {
                 var selectedSave = saveStates[selectedOption];
-                GlobalGameState.Instance.Player = PlayerDefinition.Restore(selectedSave.Player);
+                GlobalGameState.Instance.Player = new PlayerInstance("Player", selectedSave.Player);
                 textPrinter.Print($"Loaded game: {selectedSave.GameName}");
                 textPrinter.WaitForInput();
                 return true;

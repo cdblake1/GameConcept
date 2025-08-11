@@ -1,0 +1,20 @@
+{
+    "id": "test_encounter",
+    "boss_encounter": false,
+    "duration": {
+        "min": 1,
+        "max": 5
+    },
+    "loot_table": "test_loot_table",
+    "min_level": 1,
+    "mob_weights": [
+        {
+            "mob_id": "test_mob",
+            "weight": 100
+        }
+    ],
+    "presentation": {
+        "name": "Test Name",
+        "description": "Test Description"
+    }
+}

@@ -6,6 +6,7 @@ using GameData.src.Skill.SkillStep;
 using GameData.src.Talent.TalentActions;
 using GameLogic.Combat.Snapshots;
 using GameLogic.Combat.Snapshots.Steps;
+using GameLogic.Mob;
 using GameLogic.Player;
 using GameLogic.Ports;
 
@@ -195,13 +196,14 @@ namespace GameLogic.Combat
         {
             var combatEntity = new CombatEntity(nameof(player),
                 player.Stats,
-                this.CreateSkillSnapshots(player.GetSkills()),
+                //TODO(Caleb) clean this up later, should not have second to list
+                this.CreateSkillSnapshots(player.GetSelectedSkills().ToList()),
                 true);
 
-            var talents = player.GetTalents();
-            for (int i = 0; i < talents.Length; i++)
+            var talents = player.GetSelectedTalents();
+            for (int i = 0; i < talents.Count; i++)
             {
-                var talent = this.talentRepository.Get(talents[i]);
+                var talent = this.talentRepository.Get(talents[i].Id);
                 for (int j = 0; j < talent.Actions.Count; j++)
                 {
                     switch (talent.Actions[j])
@@ -341,7 +343,7 @@ namespace GameLogic.Combat
         internal List<SkillSnapshot> CreateSkillSnapshots(List<string> skillIds)
         {
             var skills = new List<SkillSnapshot>();
-            for (int i = 0; i < skillIds.Length; i++)
+            for (int i = 0; i < skillIds.Count; i++)
             {
                 List<ApplyEffectSnapshot> applyEffects = [];
                 List<DotDamageStepSnapshot> dotEffects = [];

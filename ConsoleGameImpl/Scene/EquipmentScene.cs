@@ -1,6 +1,8 @@
 using ConsoleGameImpl.State;
-using GameData;
 using GameData.src.Player;
+using GameLogic.Player;
+using GameLogic.Inventory;
+using GameData.src.Item.Equipment;
 
 public class EquipmentScene
 {
@@ -13,18 +15,19 @@ public class EquipmentScene
 
     public void ShowScene()
     {
-        if (GlobalGameState.Instance.Player is not PlayerDefinition player)
+        if (GlobalGameState.Instance.Player is not PlayerInstance player)
         {
             throw new InvalidOperationException("Player is not initialized.");
         }
 
         var slots = new List<MenuOption>();
-        var equipment = player.Equipment.GetAllEquipment().ToList();
-        foreach (var (slot, item) in player.Equipment.GetAllEquipment())
+        var equippedItems = player.Inventory.GetEquippedItems();
+
+        foreach (var (slot, item) in equippedItems)
         {
-            if (item is Equipment equippedItem)
+            if (item != null)
             {
-                slots.Add(new([new($"{slot}: "), GameTextPrinter.GetItemText(equippedItem)]));
+                slots.Add(new([new($"{slot}: "), GameTextPrinter.GetItemText(item)]));
             }
             else
             {
@@ -42,11 +45,12 @@ public class EquipmentScene
 
         if (input >= 0 && input < slots.Count)
         {
-            var selectedItem = equipment[input].Item;
+            var selectedSlot = equippedItems.Keys.ElementAt(input);
+            var selectedItem = equippedItems[selectedSlot];
 
-            if (selectedItem is Equipment item)
+            if (selectedItem != null)
             {
-                ShowEquipmentMenu(player, item);
+                ShowEquipmentMenu(player, selectedItem);
             }
             else
             {
@@ -60,7 +64,7 @@ public class EquipmentScene
         }
     }
 
-    public static void ShowEquipmentMenu(PlayerDefinition player, Equipment item)
+    public static void ShowEquipmentMenu(PlayerInstance player, EquipmentDefinition item)
     {
         while (true)
         {
@@ -81,14 +85,15 @@ public class EquipmentScene
             }
             else if (input == 0)
             {
-                player.EquipItem(item);
+                player.Inventory.EquipItem(item);
                 break;
             }
             else if (input == 1)
             {
                 GameTextPrinter.DefaultInstance.PrintLine([GameTextPrinter.GetItemText(item)], false, 0);
-                GameTextPrinter.DefaultInstance.PrintLine([new($"Stats:\nAttack Power: {item.Stats.AttackPower}\nDefense: {item.Stats.Defense}\nHealth: {item.Stats.Health}\nSpeed: {item.Stats.Speed}\n\n")], false, 0);
-                GameTextPrinter.DefaultInstance.PrintLine([.. item.Description.Split("\n").Select(s => new TextPacket(s))], false, 0);
+                GameTextPrinter.DefaultInstance.PrintLine([new($"Rarity: {item.Rarity}")], false, 0);
+                GameTextPrinter.DefaultInstance.PrintLine([new($"Type: {item.Kind}")], false, 0);
+                GameTextPrinter.DefaultInstance.PrintLine([.. item.Presentation.Description.Split("\n").Select(s => new TextPacket(s))], false, 0);
                 GameTextPrinter.DefaultInstance.WaitForInput();
                 break;
             }
@@ -101,9 +106,13 @@ public class EquipmentScene
         kind switch
         {
             EquipmentKind.Weapon => "Weapon",
-            EquipmentKind.BodyArmor => "Body",
-            EquipmentKind.LegArmor => "Legs",
-            EquipmentKind.HeadArmor => "Head",
+            EquipmentKind.Body => "Body",
+            EquipmentKind.Legs => "Legs",
+            EquipmentKind.Helmet => "Head",
+            EquipmentKind.Gloves => "Gloves",
+            EquipmentKind.Boots => "Boots",
+            EquipmentKind.Necklace => "Necklace",
+            EquipmentKind.Ring => "Ring",
             _ => throw new InvalidOperationException("Unknown equipment kind.")
         };
 }

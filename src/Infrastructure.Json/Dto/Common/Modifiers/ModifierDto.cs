@@ -1,4 +1,3 @@
-using Infrastructure.Json.Dto.Common.Operations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -8,12 +7,28 @@ namespace Infrastructure.Json.Dto.Common.Modifiers
     public interface IModifierDto { }
 
     public sealed record SkillModifierDto(
-    [JsonProperty(nameof(skill_id))] string skill_id,
-    [JsonProperty(nameof(operation))] ScalarOperationDto operation) : IModifierDto;
+    [JsonProperty] string skill_id,
+    [JsonProperty] ScalarOpTypeDto scalar_op_type,
+    [JsonProperty] int value) : IModifierDto;
+    public sealed record GlobalModifierDto(
+    [JsonProperty] GlobalStatDto stat,
+    [JsonProperty] ScalarOpTypeDto scalar_op_type,
+    [JsonProperty] int value) : IModifierDto;
 
-    public sealed record StatModifierDto(
-          [JsonProperty(nameof(stat))] StatDto stat,
-          [JsonProperty(nameof(value))] float value) : IModifierDto;
+    public sealed record WeaponModifierDto(
+    [JsonProperty] WeaponTypeDto stat,
+    [JsonProperty] ScalarOpTypeDto scalar_op_type,
+    [JsonProperty] int value) : IModifierDto;
+
+    public sealed record DamageModifierDto(
+    [JsonProperty] DamageTypeDto stat,
+    [JsonProperty] ScalarOpTypeDto scalar_op_type,
+    [JsonProperty] int value) : IModifierDto;
+
+    public sealed record AttackModifierDto(
+    [JsonProperty] AttackTypeDto stat,
+    [JsonProperty] ScalarOpTypeDto scalar_op_type,
+    [JsonProperty] int value) : IModifierDto;
 
     internal sealed class ModifierDtoConverter : JsonConverter<IModifierDto>
     {
@@ -27,11 +42,28 @@ namespace Infrastructure.Json.Dto.Common.Modifiers
             {
                 "skill" => new SkillModifierDto(
                     skill_id: jo["skill_id"]?.Value<string>() ?? throw new JsonSerializationException("Missing required property 'skill_id' for SkillModifierDto."),
-                    operation: jo["operation"]?.ToObject<ScalarOperationDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'operation' for SkillModifierDto.")
+                    scalar_op_type: jo["scalar_op_type"]?.ToObject<ScalarOpTypeDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'scalar_op_type' for SkillModifierDto."),
+                    value: jo["value"]?.Value<int>() ?? throw new JsonSerializationException("Missing required property 'value' for SkillModifierDto.")
                 ),
-                "stat" => new StatModifierDto(
-                    stat: jo["stat"]?.ToObject<StatDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'stat' for StatModifierDto."),
-                    value: jo["value"]?.Value<float>() ?? throw new JsonSerializationException("Missing required property 'value' for StatModifierDto.")
+                "global" => new GlobalModifierDto(
+                    stat: jo["stat"]?.ToObject<GlobalStatDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'stat' for GlobalModifierDto."),
+                    scalar_op_type: jo["scalar_op_type"]?.ToObject<ScalarOpTypeDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'scalar_op_type' for GlobalModifierDto."),
+                    value: jo["value"]?.Value<int>() ?? throw new JsonSerializationException("Missing required property 'value' for GlobalModifierDto.")
+                ),
+                "weapon" => new WeaponModifierDto(
+                    stat: jo["stat"]?.ToObject<WeaponTypeDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'stat' for WeaponModifierDto."),
+                    scalar_op_type: jo["scalar_op_type"]?.ToObject<ScalarOpTypeDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'scalar_op_type' for WeaponModifierDto."),
+                    value: jo["value"]?.Value<int>() ?? throw new JsonSerializationException("Missing required property 'value' for WeaponModifierDto.")
+                ),
+                "damage" => new DamageModifierDto(
+                    stat: jo["stat"]?.ToObject<DamageTypeDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'stat' for DamageModifierDto."),
+                    scalar_op_type: jo["scalar_op_type"]?.ToObject<ScalarOpTypeDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'scalar_op_type' for DamageModifierDto."),
+                    value: jo["value"]?.Value<int>() ?? throw new JsonSerializationException("Missing required property 'value' for DamageModifierDto.")
+                ),
+                "attack" => new AttackModifierDto(
+                    stat: jo["stat"]?.ToObject<AttackTypeDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'stat' for AttackModifierDto."),
+                    scalar_op_type: jo["scalar_op_type"]?.ToObject<ScalarOpTypeDto>(serializer) ?? throw new JsonSerializationException("Missing required property 'scalar_op_type' for AttackModifierDto."),
+                    value: jo["value"]?.Value<int>() ?? throw new JsonSerializationException("Missing required property 'value' for AttackModifierDto.")
                 ),
                 _ => throw new JsonSerializationException($"Unknown modifier type '{typeStr}'.")
             };

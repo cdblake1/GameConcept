@@ -1,0 +1,111 @@
+{
+  "id": "test_talent",
+  "actions": [
+    {
+      "type": "modify_hit_damage",
+      "min_base_damage": {
+        "scale_added": 1,
+        "scale_empowered": 1,
+        "scale_increased": 1,
+        "override_value": 1
+      },
+      "max_base_damage": {
+        "scale_added": 1,
+        "override_value": 1,
+        "scale_empowered": 1,
+        "scale_increased": 1
+      },
+      "skill_id": "hit_damage_test",
+      "crit": true,
+      "damage_types": {
+        "items": [
+          "burn"
+        ],
+        "operation": "add",
+        "type": "damage_type"
+      }
+    },
+    {
+      "type": "modify_skill",
+      "cooldown": {
+        "scale_added": 1
+      },
+      "activation_req": {
+        "count": 1,
+        "effect_id": "status_effect",
+        "scope": "target",
+        "type": "effect_present"
+      },
+      "cost": {
+        "scale_empowered": 1
+      },
+      "skill_id": "skill_test"
+    },
+    {
+      "type": "add_dot_damage",
+      "skill_id": "skill_test",
+      "dot_damage": {
+        "attack_type": "hit",
+        "min_base_damage": 1,
+        "max_base_damage": 1,
+        "crit": true,
+        "damage_types": [
+          "burn",
+          "elemental"
+        ],
+        "weapon_type": "melee",
+        "duration": "permanent",
+        "frequency": 1,
+        "scale_properties": {
+          "scale_added": 1,
+          "scale_increased": 1,
+          "scale_speed": 1
+        },
+        "stack_strategy": {
+          "consume_stacks": false,
+          "effect_id": "test_effect",
+          "type": "from_effect"
+        },
+        "type": "dot_damage_step"
+      }
+    },
+    {
+      "type": "modify_effect",
+      "duration": {
+        "turns": {
+          "scale_added": 1
+        }
+      },
+      "effect_id": "test_effect",
+      "modifiers": {
+        "items": [
+          {
+            "type": "global",
+            "stat": "crit",
+            "scalar_op_type": "increased",
+            "value": 100
+          }
+        ],
+        "operation": "add",
+        "type": "modifier"
+      },
+      "stack_strategy": {
+        "max_stacks": {
+          "scale_added": 1
+        },
+        "stacks_per_application": {
+          "scale_added": 1
+        }
+      }
+    },
+    {
+      "type": "apply_effect",
+      "effect_id": "test_effect",
+      "from_skill": "hit_damage_test"
+    }
+  ],
+  "presentation": {
+    "name": "test talent",
+    "description": "test talent description"
+  }
+}

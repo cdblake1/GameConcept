@@ -1,0 +1,40 @@
+{
+  "id": "class_test",
+  "presentation": {
+    "name": "class_test",
+    "description": "this is a class test"
+  },
+  "skills": [
+    {
+      "level": 1,
+      "skill": "hit_damage_test"
+    }
+  ],
+  "talents": [
+    {
+      "prerequisites": [
+        "test_talent"
+      ],
+      "talent_tier": "tier_05",
+      "id": "test_talent"
+    }
+  ],
+  "stats": {
+    "attack": [
+      {
+        "stat": "hit",
+        "scalar_op_type": "added",
+        "value": 10
+      }
+    ],
+    "damage": [],
+    "global": [
+      {
+        "stat": "avoidance",
+        "scalar_op_type": "empowered",
+        "value": 10
+      }
+    ],
+    "weapon": []
+  }
+}

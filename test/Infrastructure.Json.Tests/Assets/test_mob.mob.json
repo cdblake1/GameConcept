@@ -1,0 +1,14 @@
+{
+    "id": "test_mob",
+    "loot_table": "test_loot_table",
+    "presentation": {
+        "name": "Test Mob",
+        "description": "test mob description",
+        "icon": "./test_mob.icon"
+    },
+    "skills": [
+        "hit_damage_test"
+    ],
+    "stats": "test_stats",
+    "exp_table": "test_xp_table"
+}

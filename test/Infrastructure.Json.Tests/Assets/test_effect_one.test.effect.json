@@ -1,0 +1,25 @@
+{
+  "id": "test_effect_one",
+  "category": "buff",
+  "duration": 1,
+  "modifiers": [
+    {
+      "type": "damage",
+      "scalar_op_type": "empowered",
+      "stat": "physical",
+      "value": 1
+    },
+    {
+      "type": "weapon",
+      "value": 1,
+      "stat": "melee",
+      "scalar_op_type": "added"
+    }
+  ],
+  "stack_strategy": {
+    "type": "default",
+    "max_stacks": 1,
+    "refresh_mode": "no_refresh",
+    "stacks_per_application": 1
+  }
+}

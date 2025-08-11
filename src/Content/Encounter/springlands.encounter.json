@@ -1,0 +1,28 @@
+{
+    "id": "springlands_encounter",
+    "duration": {
+        "min": 3,
+        "max": 5
+    },
+    "loot_table": "springlands_loot_table",
+    "min_level": 1,
+    "mob_weights": [
+        {
+            "mob_id": "wolf_mob",
+            "weight": 50
+        },
+        {
+            "mob_id": "boar_mob",
+            "weight": 50
+        },
+        {
+            "mob_id": "bear_mob",
+            "weight": 50
+        }
+    ],
+    "presentation": {
+        "name": "Springlands",
+        "description": ""
+    },
+    "boss_encounter": true
+}

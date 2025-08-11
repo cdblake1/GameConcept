@@ -9,5 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\GameData\GameData.csproj" />
     <ProjectReference Include="..\GameLogic\GameLogic.csproj" />
+    <ProjectReference Include="..\src\Infrastructure.Json\Infrastructure.Json.csproj" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 using GameData.src.Player;
 using GameLogic.Combat;
+using GameLogic.Mob;
 using GameLogic.Player;
 using GameLogicTests.Helpers.Effects;
 using GameLogicTests.Helpers.Setup;
@@ -9,7 +10,14 @@ namespace GameLogicTests.Combat
 {
     public class CombatEngineTests
     {
-        private readonly PlayerDefinition player = new PlayerDefinition(PlayerTestSetup.PlayerClassDefinition);
+        private readonly PlayerDefinition player = new PlayerDefinition(
+            PlayerTestSetup.PlayerClassDefinition,
+            new GameData.src.Shared.PresentationDefinition
+            {
+                Name = "Test Player",
+                Description = "A test player for unit tests",
+                Icon = null
+            });
         private readonly PlayerInstance playerInstace;
         private readonly MobInstance mobInstance;
         private readonly TestEffectRepository effectRepo = new();
@@ -37,11 +45,11 @@ namespace GameLogicTests.Combat
             var player = PlayerTestSetup.Create(this.player, 5);
             var mob = MobTestSetup.Create();
 
-            Assert.Equal(2, player.GetSkills().Count);
+            Assert.Equal(2, player.GetSelectedSkills().Count);
             Assert.Equal(2, mob.Skills.Length);
 
             player = PlayerTestSetup.Create(this.player, 10);
-            Assert.Equal(3, player.GetSkills().Count);
+            Assert.Equal(3, player.GetSelectedSkills().Count);
         }
 
         [Fact]
@@ -75,6 +83,7 @@ namespace GameLogicTests.Combat
                         cevtCt++;
                         break;
                     case DamageAppliedEvent evt:
+                        devtCt++;
                         break;
                     case EffectApplied evt:
                         aevtCt++;

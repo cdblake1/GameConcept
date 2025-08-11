@@ -1,31 +1,29 @@
 {
     "id": "low_level_marauder_stat_template",
-    "stats": {
-        "attack": [],
-        "damage": [
-            {
-                "stat": "physical",
-                "scalar_op_type": "added",
-                "value": 10
-            }
-        ],
-        "global": [
-            {
-                "scalar_op_type": "added",
-                "stat": "health",
-                "value": 150
-            },
-            {
-                "stat": "armor",
-                "scalar_op_type": "added",
-                "value": 10
-            },
-            {
-                "stat": "ward",
-                "scalar_op_type": "added",
-                "value": 10
-            }
-        ],
-        "weapon": []
-    }
+    "attack": [],
+    "damage": [
+        {
+            "stat": "physical",
+            "scalar_op_type": "added",
+            "value": 10
+        }
+    ],
+    "global": [
+        {
+            "scalar_op_type": "added",
+            "stat": "health",
+            "value": 150
+        },
+        {
+            "stat": "armor",
+            "scalar_op_type": "added",
+            "value": 10
+        },
+        {
+            "stat": "ward",
+            "scalar_op_type": "added",
+            "value": 10
+        }
+    ],
+    "weapon": []
 }

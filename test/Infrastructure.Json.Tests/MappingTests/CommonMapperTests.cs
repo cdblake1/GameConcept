@@ -84,20 +84,18 @@ namespace Infrastructure.Json.Tests.MappingTests
         [Fact]
         public void CanMapModiferDto()
         {
-            var statModDto = new StatModifierDto(StatDto.armor_rating_added, 1);
-            var skillModDto = new SkillModifierDto("test_skill", new(1, 0, 0, 0));
+            var statModDto = new GlobalModifierDto(GlobalStatDto.armor, ScalarOpTypeDto.added, 1);
+            var skillModDto = new SkillModifierDto("test_skill", ScalarOpTypeDto.added, 1);
 
             var statMod = statModDto.ToDomain();
             var skillMod = skillModDto.ToDomain();
 
-            Assert.Equal(StatKind.ArmorRatingAdded, statMod.StatKind);
+            Assert.Equal(GlobalStat.Armor, statMod.GlobalStat);
             Assert.Equal(statModDto.value, statMod.Value);
 
             Assert.Equal("test_skill", skillMod.SkillId);
-            Assert.Equal(1, skillMod.Operation.ScaleAdded);
-            Assert.Equal(0, skillMod.Operation.ScaleIncreased);
-            Assert.Equal(0, skillMod.Operation.ScaleEmpowered);
-            Assert.Equal(0, skillMod.Operation.OverrideValue);
+            Assert.Equal(ScalarOpType.Additive, skillMod.Operation);
+            Assert.Equal(1, skillMod.Value);
         }
 
         [Fact]
@@ -116,7 +114,7 @@ namespace Infrastructure.Json.Tests.MappingTests
         {
             var collOpDto = new ModifierCollectionOperationDto(
                 CollectionOperationDto.add,
-                [new StatModifierDto(StatDto.physical_damage_added, 1)]);
+                [new DamageModifierDto(DamageTypeDto.physical, ScalarOpTypeDto.added, 1)]);
 
             var collModifierOp = collOpDto.ToDomain();
 

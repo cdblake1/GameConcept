@@ -1,22 +1,10 @@
-﻿using GameData;
-using GameData.src.Item;
+﻿using ConsoleGameImpl.Scene;
 
 public static class KhabibGame
 {
-    private static readonly Shop shop = new Shop("General Store", new List<IItem>()
-    {
-        new HealthPotionBase.MinorHealthPotion()
-    });
-
-    private static readonly CraftingHub craftingStation = new CraftingHub();
 
     public static void Main(string[] args)
     {
-        GameInitializer.Initialize();
-        EncounterFactory.Register<EncounterTemplates.SpringLandsEncounter>(config => new EncounterTemplates.SpringLandsEncounter(config));
-        EncounterFactory.Register<EncounterTemplates.GoblinEncampment>(config => new EncounterTemplates.GoblinEncampment(config));
-        EncounterFactory.RegisterMetadata(new EncounterMetadata(typeof(EncounterTemplates.SpringLandsEncounter), int.MinValue, int.MaxValue, false));
-        EncounterFactory.RegisterMetadata(new EncounterMetadata(typeof(EncounterTemplates.GoblinEncampment), int.MinValue, int.MaxValue, false));
 
         while (true)
         {

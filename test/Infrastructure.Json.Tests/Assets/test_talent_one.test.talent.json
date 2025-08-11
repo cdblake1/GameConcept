@@ -1,0 +1,81 @@
+{
+  "id": "test_talent_one",
+  "actions": [
+    {
+      "type": "modify_dot_damage",
+      "max_base_damage": {
+        "scale_added": 1
+      },
+      "min_base_damage": {
+        "scale_added": 1
+      },
+      "crit": true,
+      "damage_types": {
+        "items": [
+          "burn"
+        ],
+        "operation": "add",
+        "type": "damage_type"
+      },
+      "duration": {
+        "permanent": true
+      },
+      "frequency": {
+        "scale_added": 1
+      },
+      "stack_strategy": {
+        "max_stacks": {
+          "scale_added": 1
+        },
+        "stacks_per_application": {
+          "scale_added": 1
+        }
+      },
+      "skill_id": "test_skill"
+    },
+    {
+      "type": "modify_effect",
+      "effect_id": "test_effect",
+      "stack_strategy": {
+        "max_stacks": {
+          "scale_added": 1
+        },
+        "stacks_per_application": {
+          "scale_added": 1
+        }
+      },
+      "duration": {
+        "turns": {
+          "scale_added": 1
+        }
+      },
+      "modifiers": {
+        "type": "modifier",
+        "operation": "remove",
+        "items": [
+          {
+            "type": "global",
+            "scalar_op_type": "added",
+            "stat": "leech",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "modify_skill",
+      "skill_id": "test_skill",
+      "cooldown": {
+        "scale_added": 1
+      },
+      "cost": {
+        "scale_added": 1
+      }
+    }
+  ],
+  "presentation": {
+    "description": "test_description",
+    "icon": "./test_talent.ico",
+    "name": "Test Talent"
+  }
+}

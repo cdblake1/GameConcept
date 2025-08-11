@@ -8,6 +8,7 @@ using GameData.src.Shared.Modifiers;
 using GameData.src.Skill;
 using GameData.src.Skill.SkillStep;
 using GameLogic.Player;
+using GameData.src.Shared.Modifiers.Operations;
 
 namespace GameLogicTests.Helpers.Effects
 {
@@ -26,7 +27,7 @@ namespace GameLogicTests.Helpers.Effects
             Duration = Duration.FromTurns(1),
             Id = playerEffect1Id,
             Modifiers = [
-                new SkillModifier(playerSkill2Id, new() {ScaleEmpowered = 20}),
+                new SkillModifier(playerSkill2Id, ScalarOpType.Additive, 20),
         ],
             StackStrategy = new StackDefault() { MaxStacks = 1, RefreshMode = StackRefreshMode.ResetTime, StacksPerApplication = 1 }
         };
@@ -37,7 +38,7 @@ namespace GameLogicTests.Helpers.Effects
             Duration = Duration.FromExpiry(new Duration.ExpiresWith(Duration.ExpiresWith.Category.Effect, playerSkill1Id)),
             Id = playerEffect2Id,
             Modifiers = [
-                new DamageModifier(DamageType.Physical, new() {ScaleIncreased = 50}),
+                new DamageModifier(DamageType.Physical, ScalarOpType.Additive, 50),
         ],
             StackStrategy = new StackDefault() { MaxStacks = 1, RefreshMode = StackRefreshMode.ResetTime, StacksPerApplication = 1 }
         };
@@ -48,7 +49,7 @@ namespace GameLogicTests.Helpers.Effects
             Duration = Duration.Permanent(),
             Id = playerEffect3Id,
             Modifiers = [
-                new GlobalModifier(GlobalStat.Speed, new () {ScaleIncreased = 100})
+                new GlobalModifier(GlobalStat.Speed, ScalarOpType.Additive, 100)
             ],
             StackStrategy = new StackDefault() { MaxStacks = 3, RefreshMode = StackRefreshMode.AddTime, StacksPerApplication = 1 }
         };
@@ -127,11 +128,23 @@ namespace GameLogicTests.Helpers.Effects
 
         public static PlayerInstance Create(PlayerDefinition player, int level = 10)
         {
-            return new PlayerInstance(
-                player,
-                new StatCollection(),
-                level
-            );
+            var playerInstance = new PlayerInstance("name", player, level);
+            foreach (var skillEntry in player.ClassDefinition.SkillEntries)
+            {
+                if (level >= skillEntry.Level)
+                {
+                    var skill = skillEntry.Id switch
+                    {
+                        playerSkill1Id => PlayerSkillOne,
+                        playerSkill2Id => PlayerSkillTwo,
+                        playerSkill3Id => PlayerSkillThree,
+                        _ => throw new ArgumentException($"Unknown skill id: {skillEntry.Id}")
+                    };
+
+                    playerInstance.AddSelectedSkill(skill);
+                }
+            }
+            return playerInstance;
         }
 
         public static ClassDefinition PlayerClassDefinition = new(

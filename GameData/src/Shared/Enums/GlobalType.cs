@@ -5,5 +5,6 @@ public enum GlobalStat
     Speed,
     Armor,
     Ward,
-    Avoidance
+    Avoidance,
+    Health,
 }

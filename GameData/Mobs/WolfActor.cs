@@ -1,15 +1,15 @@
-namespace GameData.Mobs;
+// namespace GameData.Mobs;
 
-public class WolfActor : MobBase
-{
-    public const string NameIdentifier = "Wolf";
+// public class WolfActor : MobBase
+// {
+//     public const string NameIdentifier = "Wolf";
 
-    public static readonly IReadOnlyList<Skill> Skills = [
-        new DefaultMobAttack(),
-    ];
+//     public static readonly IReadOnlyList<Skill> Skills = [
+//         new DefaultMobAttack(),
+//     ];
 
-    public WolfActor(MobDto wolfDto, LootTable lootTable, IReadOnlyList<Skill> skills)
-        : base(wolfDto, lootTable, skills, level: 1)
-    {
-    }
-}
+//     public WolfActor(MobDto wolfDto, LootTable lootTable, IReadOnlyList<Skill> skills)
+//         : base(wolfDto, lootTable, skills, level: 1)
+//     {
+//     }
+// }

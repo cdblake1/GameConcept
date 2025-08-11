@@ -22,7 +22,7 @@
       CopyToOutputDirectory="PreserveNewest"
       Link="Assets/%(Filename)%(Extension)" />
   </ItemGroup>
-  <ItemGroup>
+  <!-- <ItemGroup>
     <None Include="**/Assets/Effects/*.*"
       CopyToOutputDirectory="PreserveNewest"
       Link="Assets/Effects/%(Filename)%(Extension)" />
@@ -41,7 +41,7 @@
     <None Include="**/Assets/Classes/*.*"
       CopyToOutputDirectory="PreserveNewest"
       Link="Assets/Classes/%(Filename)%(Extension)" />
-  </ItemGroup>
+  </ItemGroup> -->
   <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure.Json\Infrastructure.Json.csproj" />
   </ItemGroup>

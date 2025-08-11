@@ -1,5 +1,12 @@
 namespace GameData;
 
+public interface IStateSerializable<TDto, TSelf>
+    where TSelf : IStateSerializable<TDto, TSelf>
+{
+    TDto Serialize();
+    static abstract TSelf Restore(TDto dto);
+}
+
 public class LevelManager : IStateSerializable<LevelManager.LevelManagerDto, LevelManager>
 {
     private readonly int maxLevel;

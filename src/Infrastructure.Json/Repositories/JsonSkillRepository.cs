@@ -18,24 +18,24 @@ namespace Infrastructure.Json.Repositories
         public JsonSkillRepository(string contentDirectory)
         {
             this.contentDirectory = contentDirectory;
-            cache = new(LoadAll);
+            this.cache = new(this.LoadAll);
         }
 
         public SkillDefinition Get(string id)
         {
-            return cache.Value[id];
+            return this.cache.Value[id];
         }
 
         public IReadOnlyList<SkillDefinition> GetAll()
         {
-            return [.. cache.Value.Values];
+            return [.. this.cache.Value.Values];
         }
 
         private IReadOnlyDictionary<string, SkillDefinition> LoadAll()
         {
             Dictionary<string, SkillDefinition>? dict = null;
 
-            foreach (var file in Directory.EnumerateFiles(contentDirectory, searchPattern, SearchOption.AllDirectories))
+            foreach (var file in Directory.EnumerateFiles(this.contentDirectory, searchPattern, SearchOption.AllDirectories))
             {
                 dict ??= [];
                 var json = File.ReadAllText(file);

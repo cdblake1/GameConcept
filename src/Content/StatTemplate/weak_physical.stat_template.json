@@ -1,21 +1,19 @@
 {
     "id": "weak_physical_stats",
-    "stats": {
-        "attack": [],
-        "damage": [
-            {
-                "stat": "physical",
-                "scalar_op_type": "added",
-                "value": 0
-            }
-        ],
-        "global": [
-            {
-                "stat": "health",
-                "scalar_op_type": "added",
-                "value": 100
-            }
-        ],
-        "weapon": []
-    }
+    "attack": [],
+    "damage": [
+        {
+            "stat": "physical",
+            "scalar_op_type": "added",
+            "value": 0
+        }
+    ],
+    "global": [
+        {
+            "stat": "health",
+            "scalar_op_type": "added",
+            "value": 100
+        }
+    ],
+    "weapon": []
 }

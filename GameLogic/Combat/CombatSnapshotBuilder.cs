@@ -65,6 +65,40 @@ namespace GameLogic.Combat
             return snapshot;
         }
 
+        private static void ApplyScalarOperation(DamageSnapshot snapshot, ScalarOpType operation, int value, bool isCrit = false)
+        {
+            if (isCrit)
+            {
+                switch (operation)
+                {
+                    case ScalarOpType.Additive:
+                        snapshot.CritAdditive += value;
+                        break;
+                    case ScalarOpType.Increased:
+                        snapshot.CritIncreased += value;
+                        break;
+                    case ScalarOpType.Empowered:
+                        snapshot.CritEmpowered += value;
+                        break;
+                }
+            }
+            else
+            {
+                switch (operation)
+                {
+                    case ScalarOpType.Additive:
+                        snapshot.ScaleAdditive += value;
+                        break;
+                    case ScalarOpType.Increased:
+                        snapshot.ScaleIncreased += value;
+                        break;
+                    case ScalarOpType.Empowered:
+                        snapshot.ScaleEmpowered += value;
+                        break;
+                }
+            }
+        }
+
         public static DamageSnapshot AddModifiers(this DamageSnapshot snapshot, List<IModifier> modifiers)
         {
             for (int i = 0; i < modifiers.Count; i++)
@@ -74,31 +108,21 @@ namespace GameLogic.Combat
                 switch (action)
                 {
                     case SkillModifier mod when mod.SkillId == mod.SkillId:
-                        snapshot.ScaleAdditive += mod.Operation.ScaleAdded;
-                        snapshot.ScaleIncreased += mod.Operation.ScaleIncreased;
-                        snapshot.ScaleEmpowered += mod.Operation.ScaleEmpowered;
+                        ApplyScalarOperation(snapshot, mod.Operation, mod.Value);
                         break;
                     case DamageModifier mod when (snapshot.DamageType & mod.DamageType) != 0:
-                        snapshot.ScaleAdditive += mod.Operation.ScaleAdded;
-                        snapshot.ScaleIncreased += mod.Operation.ScaleIncreased;
-                        snapshot.ScaleEmpowered += mod.Operation.ScaleEmpowered;
+                        ApplyScalarOperation(snapshot, mod.Operation, mod.Value);
                         break;
                     case AttackModifier mod when mod.AttackType == snapshot.AttackType:
-                        snapshot.ScaleAdditive += mod.Operation.ScaleAdded;
-                        snapshot.ScaleIncreased += mod.Operation.ScaleIncreased;
-                        snapshot.ScaleEmpowered += mod.Operation.ScaleEmpowered;
+                        ApplyScalarOperation(snapshot, mod.Operation, mod.Value);
                         break;
                     case WeaponModifier mod when mod.WeaponType == snapshot.WeaponType:
-                        snapshot.ScaleAdditive += mod.Operation.ScaleAdded;
-                        snapshot.ScaleIncreased += mod.Operation.ScaleIncreased;
-                        snapshot.ScaleEmpowered += mod.Operation.ScaleEmpowered;
+                        ApplyScalarOperation(snapshot, mod.Operation, mod.Value);
                         break;
                     case GlobalModifier mod:
                         if (mod.GlobalStat == GlobalStat.Crit)
                         {
-                            snapshot.CritAdditive += mod.Operation.ScaleAdded;
-                            snapshot.CritIncreased += mod.Operation.ScaleIncreased;
-                            snapshot.CritEmpowered += mod.Operation.ScaleEmpowered;
+                            ApplyScalarOperation(snapshot, mod.Operation, mod.Value, true);
                         }
                         break;
                 }

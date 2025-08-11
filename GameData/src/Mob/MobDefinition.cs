@@ -1,6 +1,13 @@
-using GameData.src.Skill;
+using GameData.src.Shared;
 
 namespace GameData.src.Mob
 {
-    public record MobDefinition(string[] Skills);
+    public sealed record MobDefinition(
+        string Id,
+        string LootTable,
+        PresentationDefinition Presentation,
+        string[] Skills,
+        string Stats,
+        string ExpTable
+    );
 }

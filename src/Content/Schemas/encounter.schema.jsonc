@@ -7,9 +7,9 @@
         "id",
         "duration",
         "mob_weights",
-        "boss_encounter",
         "min_level",
-        "presentation"
+        "presentation",
+        "boss_encounter"
     ],
     "properties": {
         "id": {
@@ -38,6 +38,19 @@
                 "$ref": "#/$defs/mob_weights"
             },
             "minItems": 1
+        },
+        "loot_table": {
+            "$ref": "common.schema.jsonc#/$defs/id"
+        },
+        "min_level": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "presentation": {
+            "$ref": "common.schema.jsonc#/$defs/presentation"
+        },
+        "boss_encounter": {
+            "type": "boolean"
         }
     },
     "$defs": {

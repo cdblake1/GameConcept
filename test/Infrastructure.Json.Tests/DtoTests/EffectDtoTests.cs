@@ -27,20 +27,23 @@ namespace Infrastructure.Json.Tests.DtoTests
             Assert.NotNull(dto.modifiers?.Length);
             Assert.Equal(3, dto.modifiers.Length);
 
-            var leech = dto.modifiers[0] as StatModifierDto;
+            var leech = dto.modifiers[0] as GlobalModifierDto;
             Assert.NotNull(leech);
-            Assert.Equal(StatDto.melee_leech_added, leech.stat);
+            Assert.Equal(GlobalStatDto.leech, leech.stat);
             Assert.Equal(1, leech.value);
+            Assert.Equal(ScalarOpTypeDto.added, leech.scalar_op_type);
 
-            var physDamageEmpowered = dto.modifiers[1] as StatModifierDto;
+            var physDamageEmpowered = dto.modifiers[1] as DamageModifierDto;
             Assert.NotNull(physDamageEmpowered);
-            Assert.Equal(StatDto.physical_damage_empowered, physDamageEmpowered.stat);
+            Assert.Equal(DamageTypeDto.physical, physDamageEmpowered.stat);
             Assert.Equal(1, physDamageEmpowered.value);
+            Assert.Equal(ScalarOpTypeDto.empowered, physDamageEmpowered.scalar_op_type);
 
-            var hitDamageInc = dto.modifiers[2] as StatModifierDto;
+            var hitDamageInc = dto.modifiers[2] as AttackModifierDto;
             Assert.NotNull(hitDamageInc);
-            Assert.Equal(StatDto.hit_damage_increased, hitDamageInc.stat);
+            Assert.Equal(AttackTypeDto.hit, hitDamageInc.stat);
             Assert.Equal(1, hitDamageInc.value);
+            Assert.Equal(ScalarOpTypeDto.empowered, hitDamageInc.scalar_op_type);
         }
     }
 }

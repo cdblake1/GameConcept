@@ -1,7 +1,5 @@
-
-using System.Reflection;
-using GameData;
 using GameData.src.Item;
+using GameData.src.Item.Equipment;
 
 public readonly struct TextPacket
 {
@@ -138,7 +136,7 @@ public class GameTextPrinter
         };
     }
 
-    public static TextPacket GetItemText(IItem item)
+    public static TextPacket GetItemText(IItemDefinition item)
     {
         var color = item.Rarity switch
         {
@@ -149,7 +147,7 @@ public class GameTextPrinter
             _ => ConsoleColor.White
         };
 
-        return new TextPacket(item.Name, color);
+        return new TextPacket(item.Presentation.Name, color);
     }
 }
 

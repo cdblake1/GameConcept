@@ -5,5 +5,4 @@ public interface IMobRegister
     /// </summary>
     /// <param name="type">The type of the mob to register.</param>
     /// <param name="constructor">The constructor function for creating instances of the mob.</param>
-    void Register(MobFactory factory);
 }

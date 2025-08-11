@@ -1,4 +1,6 @@
 #nullable enable
+using ConsoleGameImpl.Scene;
+
 public class MainMenuScene
 {
 
@@ -18,7 +20,7 @@ public class MainMenuScene
             switch (input)
             {
                 case 0:
-                    MainGameScene.InitializeNewGame();
+                    MainGameSceneFactory.Create().InitializeNewGame();
                     return;
                 case 1:
                     if (LoadGameScene.Show())

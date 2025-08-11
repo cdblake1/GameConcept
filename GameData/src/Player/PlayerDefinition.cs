@@ -1,7 +1,7 @@
 using GameData.src.Class;
-using GameData.src.Effect.Talent;
+using GameData.src.Shared;
 
 namespace GameData.src.Player
 {
-    public sealed record PlayerDefinition(ClassDefinition ClassDefinition);
+    public sealed record PlayerDefinition(ClassDefinition ClassDefinition, PresentationDefinition Presentation);
 }

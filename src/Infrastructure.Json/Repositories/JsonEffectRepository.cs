@@ -16,7 +16,7 @@ namespace Infrastructure.Json.Repositories
         public JsonEffectRepository(string contentDirectory)
         {
             this.contentDirectory = contentDirectory;
-            this.cache = new Lazy<IReadOnlyDictionary<string, EffectDefinition>>(LoadAll);
+            this.cache = new Lazy<IReadOnlyDictionary<string, EffectDefinition>>(this.LoadAll);
         }
         public EffectDefinition Get(string id)
         {
@@ -32,7 +32,7 @@ namespace Infrastructure.Json.Repositories
         {
             Dictionary<string, EffectDefinition>? dict = null;
 
-            foreach (var file in Directory.EnumerateFiles(contentDirectory, "*.effect.json", SearchOption.AllDirectories))
+            foreach (var file in Directory.EnumerateFiles(this.contentDirectory, "*.effect.json", SearchOption.AllDirectories))
             {
                 dict ??= [];
                 var json = File.ReadAllText(file);

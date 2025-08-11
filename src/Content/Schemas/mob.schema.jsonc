@@ -8,7 +8,8 @@
         "presentation",
         "stats",
         "skills",
-        "loot_table"
+        "loot_table",
+        "exp_table"
     ],
     "properties": {
         "id": {
@@ -18,15 +19,7 @@
             "$ref": "common.schema.jsonc#/$defs/presentation"
         },
         "stats": {
-            "anyOf": [
-                {
-                    "$ref": "stat_template.schema.jsonc#/$defs/stat_template"
-                },
-                {
-                    "type": "string",
-                    "$ref": "common.schema.jsonc#/$defs/id"
-                }
-            ]
+            "$ref": "common.schema.jsonc#/$defs/id"
         },
         "skills": {
             "type": "array",
@@ -38,15 +31,10 @@
             "additionalProperties": false
         },
         "loot_table": {
-            "anyOf": [
-                {
-                    "$ref": "loot_table.schema.jsonc"
-                },
-                {
-                    "type": "string",
-                    "$ref": "common.schema.jsonc#/$defs/id"
-                }
-            ]
+            "$ref": "common.schema.jsonc#/$defs/id"
+        },
+        "exp_table": {
+            "$ref": "common.schema.jsonc#/$defs/id"
         }
     },
     "additionalProperties": false

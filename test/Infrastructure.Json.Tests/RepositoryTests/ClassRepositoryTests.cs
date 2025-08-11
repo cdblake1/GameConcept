@@ -8,7 +8,7 @@ namespace Infrastructure.Json.Tests.RepositoryTests
     {
         private const string classId = "test_class";
         private readonly JsonClassRepository repository;
-        public static readonly string ClassDtoDirectoryPath = Path.Combine(AppContext.BaseDirectory, "Assets", "Classes");
+        public static readonly string ClassDtoDirectoryPath = Path.Combine(AppContext.BaseDirectory, "Assets");
 
         public ClassRepositoryTests()
         {

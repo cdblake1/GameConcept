@@ -11,7 +11,7 @@ namespace Infrastructure.Json.Tests.RepositoryTests
         private const string testSkillOneId = "test_skill_one";
         private const string testSkillTwoId = "test_skill_two";
         private readonly JsonSkillRepository repository;
-        public static readonly string SkillDirectoryPath = Path.Combine(AppContext.BaseDirectory, "Assets", "Skills");
+        public static readonly string SkillDirectoryPath = Path.Combine(AppContext.BaseDirectory, "Assets");
 
         public SkillRepositoryTests()
         {

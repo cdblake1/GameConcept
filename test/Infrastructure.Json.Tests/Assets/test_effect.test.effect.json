@@ -1,0 +1,31 @@
+{
+  "category": "buff",
+  "duration": 1,
+  "id": "test_effect",
+  "modifiers": [
+    {
+      "stat": "leech",
+      "type": "global",
+      "value": 1,
+      "scalar_op_type": "added"
+    },
+    {
+      "stat": "physical",
+      "value": 1,
+      "type": "damage",
+      "scalar_op_type": "empowered"
+    },
+    {
+      "type": "attack",
+      "stat": "hit",
+      "value": 1,
+      "scalar_op_type": "empowered"
+    }
+  ],
+  "stack_strategy": {
+    "type": "default",
+    "max_stacks": 1,
+    "stacks_per_application": 1,
+    "refresh_mode": "reset_time"
+  }
+}

@@ -140,7 +140,7 @@ namespace Infrastructure.Json.Tests.MappingTests
                 {
                     turns = new ScalarOperationDto(1, 1, 1, 1)
                 },
-                modifiers = new ModifierCollectionOperationDto(CollectionOperationDto.add, [new StatModifierDto(StatDto.physical_damage_added, 1)])
+                modifiers = new ModifierCollectionOperationDto(CollectionOperationDto.add, [new DamageModifierDto(DamageTypeDto.physical, ScalarOpTypeDto.added, 1)])
             };
 
             var me = dto.ToDomain();
@@ -164,11 +164,11 @@ namespace Infrastructure.Json.Tests.MappingTests
             Assert.Single(me.Modifiers.Operation.Items);
             Assert.Equal(CollectionOperationKind.Add, me.Modifiers.Operation.Operation);
 
-            // Verify StatModifier
-            var statMod = me.Modifiers.Operation.Items[0] as StatModifier;
-            Assert.NotNull(statMod);
-            Assert.Equal(StatKind.PhysicalDamageAdded, statMod.StatKind);
-            Assert.Equal(1, statMod.Value);
+            // Verify DamageModifier
+            var damageMod = me.Modifiers.Operation.Items[0] as DamageModifier;
+            Assert.NotNull(damageMod);
+            Assert.Equal(DamageType.Physical, damageMod.DamageType);
+            Assert.Equal(1, damageMod.Value);
         }
 
         [Fact]

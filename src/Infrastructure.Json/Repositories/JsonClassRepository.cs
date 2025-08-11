@@ -16,7 +16,7 @@ namespace Infrastructure.Json.Repositories
         public JsonClassRepository(string contentDirectory)
         {
             this.contentDirectory = contentDirectory;
-            this.cache = new Lazy<IReadOnlyDictionary<string, ClassDefinition>>(LoadAll);
+            this.cache = new Lazy<IReadOnlyDictionary<string, ClassDefinition>>(this.LoadAll);
         }
         public ClassDefinition Get(string id)
         {
@@ -32,7 +32,7 @@ namespace Infrastructure.Json.Repositories
         {
             Dictionary<string, ClassDefinition>? dict = null;
 
-            foreach (var file in Directory.EnumerateFiles(contentDirectory, "*.class.json", SearchOption.AllDirectories))
+            foreach (var file in Directory.EnumerateFiles(this.contentDirectory, "*.class.json", SearchOption.AllDirectories))
             {
                 dict ??= [];
                 var json = File.ReadAllText(file);

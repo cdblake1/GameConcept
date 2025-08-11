@@ -28,9 +28,9 @@ namespace Infrastructure.Json.Dto.Common.Operations
 
     public enum CollectionOperationDto { add, set, remove, clear }
 
-    public sealed record StatCollectionOperationDto : CollectionOperationBaseDto<StatDto>
+    public sealed record StatCollectionOperationDto : CollectionOperationBaseDto<GlobalStatDto>
     {
-        public StatCollectionOperationDto(CollectionOperationDto operation, StatDto[] items) : base(Kind.stat, operation, items)
+        public StatCollectionOperationDto(CollectionOperationDto operation, GlobalStatDto[] items) : base(Kind.stat, operation, items)
         {
         }
     }

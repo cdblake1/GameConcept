@@ -1,0 +1,12 @@
+{
+    "id": "test_equip_item",
+    "item": {
+        "type": "equipment",
+        "kind": "body"
+    },
+    "presentation": {
+        "name": "Test Equip",
+        "description": "Test Equip Description"
+    },
+    "rarity": "epic"
+}

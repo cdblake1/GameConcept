@@ -1,0 +1,19 @@
+{
+  "id": "test_effect_two",
+  "category": "buff",
+  "duration": "permanent",
+  "modifiers": [
+    {
+      "stat": "physical",
+      "value": 1,
+      "type": "damage",
+      "scalar_op_type": "empowered"
+    }
+  ],
+  "stack_strategy": {
+    "type": "default",
+    "max_stacks": 1,
+    "refresh_mode": "no_refresh",
+    "stacks_per_application": 1
+  }
+}

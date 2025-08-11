@@ -1,6 +1,6 @@
 #nullable enable
 
-using GameData.src.Player;
+using GameLogic.Player;
 
 namespace ConsoleGameImpl.State
 {
@@ -9,6 +9,6 @@ namespace ConsoleGameImpl.State
         public static GlobalGameState Instance => instance;
         private static readonly GlobalGameState instance = new GlobalGameState();
 
-        public PlayerDefinition? Player { get; set; }
+        public PlayerInstance? Player { get; set; }
     }
 }

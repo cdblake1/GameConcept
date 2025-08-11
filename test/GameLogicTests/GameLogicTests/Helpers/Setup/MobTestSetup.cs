@@ -4,6 +4,7 @@ using GameData.src.Mob;
 using GameData.src.Shared;
 using GameData.src.Shared.Enums;
 using GameData.src.Shared.Modifiers;
+using GameData.src.Shared.Modifiers.Operations;
 using GameData.src.Skill;
 using GameData.src.Skill.SkillStep;
 
@@ -21,7 +22,7 @@ namespace GameLogicTests.Helpers.Setup
             Duration = Duration.FromTurns(3),
             Id = mobEffect1Id,
             Modifiers = [
-                new GlobalModifier(GlobalStat.Armor, new() { ScaleIncreased = -10})
+                new GlobalModifier(GlobalStat.Armor, ScalarOpType.Additive, -10)
             ],
             StackStrategy = new StackDefault()
             {
@@ -37,7 +38,7 @@ namespace GameLogicTests.Helpers.Setup
             Duration = Duration.FromTurns(3),
             Id = mobEffect2Id,
             Modifiers = [
-                new AttackModifier(AttackType.Hit, new() { ScaleEmpowered = 30})
+                new AttackModifier(AttackType.Hit, ScalarOpType.Additive, 30)
             ],
             StackStrategy = new StackDefault()
             {
@@ -91,6 +92,18 @@ namespace GameLogicTests.Helpers.Setup
         };
 
         public static MobDefinition Create()
-            => new([mobSkill1Id, mobSkill2Id]);
+            => new(
+                Id: "mob_test",
+                LootTable: "mob_test_loot_table",
+                Presentation: new()
+                {
+                    Name = "Test Mob",
+                    Description = "Test Mob",
+                    Icon = "icon"
+                },
+                Skills: [mobSkill1Id, mobSkill2Id],
+                Stats: "mob_test_stats",
+                ExpTable: "mob_test_exp_table"
+            );
     }
 }

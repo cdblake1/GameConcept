@@ -1,0 +1,19 @@
+{
+    "id": "test_loot_table",
+    "groups": [
+        {
+            "entries": [
+                {
+                    "item_id": "test_item",
+                    "always": false,
+                    "weight": 500
+                },
+                {
+                    "item_id": "test_item_2",
+                    "always": true,
+                    "weight": 1000
+                }
+            ]
+        }
+    ]
+}

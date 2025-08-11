@@ -1,4 +1,3 @@
-using GameData;
 using GameData.Save;
 
 public class ExitGameScene

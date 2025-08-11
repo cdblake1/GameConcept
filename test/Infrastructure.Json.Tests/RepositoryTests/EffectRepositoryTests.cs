@@ -1,8 +1,8 @@
-
 using GameData.src.Effect.Stack;
 using GameData.src.Shared;
 using GameData.src.Shared.Enums;
 using GameData.src.Shared.Modifiers;
+using GameData.src.Shared.Modifiers.Operations;
 using Infrastructure.Json.Repositories;
 
 namespace Infrastructure.Json.Tests.RepositoryTests
@@ -12,7 +12,7 @@ namespace Infrastructure.Json.Tests.RepositoryTests
         private const string testEffectOneId = "test_effect_one";
         private const string TestEffectTwoId = "test_effect_two";
         private readonly JsonEffectRepository repository;
-        public static readonly string EffectDtoDirectoryPath = Path.Combine(AppContext.BaseDirectory, "Assets", "Effects");
+        public static readonly string EffectDtoDirectoryPath = Path.Combine(AppContext.BaseDirectory, "Assets");
 
         public EffectRepositoryTests()
         {
@@ -23,7 +23,7 @@ namespace Infrastructure.Json.Tests.RepositoryTests
         public void CanLoadIntoRepository()
         {
             var effects = this.repository.GetAll();
-            Assert.Equal(2, effects.Count);
+            Assert.Equal(3, effects.Count);
 
             Assert.Single(effects, item => item.Id == testEffectOneId);
             Assert.Single(effects, item => item.Id == TestEffectTwoId);
@@ -38,18 +38,20 @@ namespace Infrastructure.Json.Tests.RepositoryTests
             Assert.Equal(1, effectOne.Duration.Turns);
 
             Assert.Equal(2, effectOne.Modifiers.Count);
-            var modOne = effectOne.Modifiers[0] as StatModifier;
-            var modTwo = effectOne.Modifiers[1] as StatModifier;
+            var modOne = effectOne.Modifiers[0] as DamageModifier;
+            var modTwo = effectOne.Modifiers[1] as WeaponModifier;
 
             Assert.NotNull(modOne);
             Assert.NotNull(modTwo);
 
-            Assert.Equal(StatKind.PhysicalDamageIncreased, modOne.StatKind);
-            Assert.Equal(StatKind.MeleeDamageIncreased, modTwo.StatKind);
+            Assert.Equal(DamageType.Physical, modOne.DamageType);
+            Assert.Equal(WeaponType.Melee, modTwo.WeaponType);
 
+            Assert.Equal(ScalarOpType.Empowered, modOne.Operation);
             Assert.Equal(1, modOne.Value);
-            Assert.Equal(1, modTwo.Value);
 
+            Assert.Equal(ScalarOpType.Additive, modTwo.Operation);
+            Assert.Equal(1, modTwo.Value);
 
             var stack = effectOne.StackStrategy as StackDefault;
 
@@ -63,13 +65,12 @@ namespace Infrastructure.Json.Tests.RepositoryTests
             Assert.Equal(DurationKind.Permanent, effectTwo.Duration.Kind);
 
             Assert.Single(effectTwo.Modifiers);
-            var statModThree = effectTwo.Modifiers[0] as StatModifier;
+            var statModThree = effectTwo.Modifiers[0] as DamageModifier;
 
             Assert.NotNull(statModThree);
+            Assert.Equal(DamageType.Physical, statModThree.DamageType);
             Assert.Equal(1, statModThree.Value);
-            Assert.Equal(StatKind.PhysicalDamageAdded, statModThree.StatKind);
-
-
+            Assert.Equal(ScalarOpType.Empowered, statModThree.Operation);
         }
     }
 }

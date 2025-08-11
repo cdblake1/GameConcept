@@ -5,7 +5,10 @@
     "type": "object",
     "required": [
         "id",
-        "stats"
+        "global",
+        "damage",
+        "attack",
+        "weapon"
     ],
     "properties": {
         "id": {
@@ -26,27 +29,27 @@
             ],
             "properties": {
                 "global": {
-                    "item": "array",
+                    "type": "array",
                     "items": {
                         "$ref": "common.schema.jsonc#/$defs/global_scalar_modifier"
                     }
                 },
                 "damage": {
-                    "item": "array",
+                    "type": "array",
                     "items": {
                         "$ref": "common.schema.jsonc#/$defs/damage_scalar_modifier"
                     }
                 },
-                "weapon": {
-                    "item": "array",
-                    "items": {
-                        "$ref": "common.schema.jsonc#/$defs/weapon_scalar_modifier"
-                    }
-                },
                 "attack": {
-                    "item": "array",
+                    "type": "array",
                     "items": {
                         "$ref": "common.schema.jsonc#/$defs/attack_scalar_modifier"
+                    }
+                },
+                "weapon": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "common.schema.jsonc#/$defs/weapon_scalar_modifier"
                     }
                 }
             }
