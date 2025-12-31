@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3jac2t42yxvu"]
+
+[ext_resource type="Script" path="res://PlayerResourceContainer.cs" id="1_qx7sn"]
+[ext_resource type="PackedScene" uid="uid://bd0jc5mhx6rf3" path="res://Skill/impl/ResourceContainer.tscn" id="2_um6dj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qx7sn"]
+resource_local_to_scene = true
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="PlayerResourceContainer" type="PanelContainer" node_paths=PackedStringArray("_resourceContainer")]
+offset_right = 160.0
+offset_bottom = 14.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qx7sn")
+script = ExtResource("1_qx7sn")
+_resourceContainer = NodePath("ResourceContainer")
+
+[node name="ResourceContainer" parent="." instance=ExtResource("2_um6dj")]
+layout_mode = 2

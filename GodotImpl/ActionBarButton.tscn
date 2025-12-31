@@ -1,0 +1,107 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctekc35o5wou1"]
+
+[ext_resource type="Script" uid="uid://bdf7153855soj" path="res://SkillSlotControl.cs" id="1_j6vee"]
+[ext_resource type="FontFile" uid="uid://njiymhst8q7i" path="res://assets/boldpixels/BoldPixels.otf" id="2_7ehy1"]
+[ext_resource type="FontFile" uid="uid://ni40et787clv" path="res://assets/boldpixels/BoldPixels.ttf" id="3_w2unk"]
+
+[sub_resource type="Gradient" id="Gradient_e3yti"]
+colors = PackedColorArray(0, 0, 0, 0.588235, 0, 0, 0, 0.588235)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7ehy1"]
+gradient = SubResource("Gradient_e3yti")
+
+[sub_resource type="LabelSettings" id="LabelSettings_xiyul"]
+font = ExtResource("2_7ehy1")
+outline_size = 1
+outline_color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j6vee"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_e3yti"]
+font = ExtResource("3_w2unk")
+outline_size = 1
+outline_color = Color(0.188235, 0.188235, 0.188235, 1)
+
+[node name="SkillSlot" type="Control" node_paths=PackedStringArray("_button", "_iconRect", "_cooldownBar", "_cooldownLabel", "_keybind")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 45.0
+offset_bottom = 45.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_j6vee")
+_button = NodePath("Button")
+_iconRect = NodePath("Button/Icon")
+_cooldownBar = NodePath("CooldownProgressControl")
+_cooldownLabel = NodePath("CooldownProgressControl/CooldownLabel")
+_keybind = NodePath("KeybindContainer/KeybindLabel")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureRect" parent="Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 4
+
+[node name="CooldownProgressControl" type="TextureProgressBar" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+max_value = 0.0
+step = 0.0
+fill_mode = 5
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture2D_7ehy1")
+
+[node name="CooldownLabel" type="Label" parent="CooldownProgressControl"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_xiyul")
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 160
+
+[node name="KeybindContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_j6vee")
+
+[node name="KeybindLabel" type="Label" parent="KeybindContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+label_settings = SubResource("LabelSettings_e3yti")
+horizontal_alignment = 2
+vertical_alignment = 2
+justification_flags = 160

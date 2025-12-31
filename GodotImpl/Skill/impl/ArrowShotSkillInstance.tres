@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ArrowShotSkillResource" load_steps=2 format=3 uid="uid://bwxapbhvkid8w"]
+
+[ext_resource type="Script" uid="uid://lljrj7487sl" path="res://Skill/impl/ArrowShotSkillResource.cs" id="1_tp300"]
+
+[resource]
+script = ExtResource("1_tp300")
+metadata/_custom_type_script = "uid://lljrj7487sl"
