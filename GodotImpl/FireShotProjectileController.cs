@@ -1,5 +1,6 @@
 using Godot;
-using TopDownGame.GodotImpl.TargetingStrategies;
+
+namespace GodotImpl;
 
 public partial class FireShotProjectileController : Area2D
 {
@@ -56,6 +57,15 @@ public partial class FireShotProjectileController : Area2D
 				// Delete if we exceeded max range from the start
 				if (GlobalPosition.DistanceTo(_spawnPosition) >= MaxRange + AtkOffset)
 				{
+						QueueFree();
+				}
+		}
+
+		public void OnCollision(Node2D target)
+		{
+				if (target is ICombatantInstance instance)
+				{
+						instance.Combatant.ApplyDamage(10); // Example damage value
 						QueueFree();
 				}
 		}

@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+namespace GodotImpl;
+
 public partial class ResourceContainer : HBoxContainer
 {
 		[Export]

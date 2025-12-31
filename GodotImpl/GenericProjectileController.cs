@@ -1,9 +1,5 @@
 using Godot;
 using System;
-using TopDownGame;
-using TopDownGame.Data.impl;
-using TopDownGame.GodotImpl;
-using TopDownGame.GodotImpl.TargetingStrategies;
 
 namespace GodotImpl;
 

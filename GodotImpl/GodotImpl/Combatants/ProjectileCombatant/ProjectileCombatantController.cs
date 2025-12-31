@@ -1,12 +1,10 @@
 using Godot;
 using System;
-using TopDownGame.Data.impl;
 using TopDownGame.GodotImpl;
-using TopDownGame.Presets;
 
 namespace GodotImpl;
 
-public partial class ProjectileCombatantController : RigidBody2D
+public partial class ProjectileCombatantController : RigidBody2D, ICombatantInstance
 {
 		[Export]
 		private WorldEntityHealthBar healthBar;
@@ -17,15 +15,18 @@ public partial class ProjectileCombatantController : RigidBody2D
 		[Export]
 		private float AttackCooldown = 2f;
 
-		private ICombatant combatantInstance = new ProjectileCombatant();
+		[Export]
+		private float AttackRangeBuffer = 50f;
 
 		private float _cooldownTimer = 0f;
 
+		public ICombatant Combatant { get; } = new ProjectileCombatant();
+
 		public override void _Ready()
 		{
-				healthBar.MaxHealth = combatantInstance.MaxHealth;
+				healthBar.MaxHealth = Combatant.MaxHealth;
 				healthBar.MinHealth = 0;
-				healthBar.Health = combatantInstance.CurrentHealth;
+				healthBar.Health = Combatant.CurrentHealth;
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -37,12 +38,25 @@ public partial class ProjectileCombatantController : RigidBody2D
 
 				var player = Utilities.FindPlayer(this);
 				if (player == null)
+				{
+						LinearVelocity = Vector2.Zero;
 						return;
+				}
 
 				float distanceToPlayer = GlobalPosition.DistanceTo(player.GlobalPosition);
+				float attackRange = Combatant.CurrentStats.AtkRange;
+				float approachRange = MathF.Max(0f, attackRange - AttackRangeBuffer);
 
-				// Use attack range from combatant stats
-				if (distanceToPlayer <= combatantInstance.CurrentStats.AtkRange && _cooldownTimer <= 0f && AttackScene != null)
+				if (distanceToPlayer > approachRange)
+				{
+						ProcessMovement(player);
+				}
+				else
+				{
+						LinearVelocity = Vector2.Zero;
+				}
+
+				if (distanceToPlayer <= attackRange && _cooldownTimer <= 0f && AttackScene != null)
 				{
 						Fire();
 						_cooldownTimer = AttackCooldown;
@@ -57,15 +71,19 @@ public partial class ProjectileCombatantController : RigidBody2D
 
 				projectile.StartPoint = GlobalPosition;
 
-				// Add to scene
 				GetTree().CurrentScene.AddChild(projectile);
+		}
+
+		private void ProcessMovement(Node2D player)
+		{
+				Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
+				LinearVelocity = direction * Combatant.CurrentStats.MovementSpeed;
 		}
 
 		internal class ProjectileCombatant : ICombatant
 		{
 				public Stats CurrentStats => baseStats;
 				public float MaxHealth => maxHealth;
-				public float CurrentHealth => currentHealth;
 
 				private int level = 1;
 
@@ -81,13 +99,30 @@ public partial class ProjectileCombatantController : RigidBody2D
 						}
 				}
 
+				public float CurrentHealth
+				{
+						get
+						{
+								return currentHealth;
+						}
+
+						set
+						{
+								currentHealth = value;
+								CurrentHealthChanged?.Invoke(this, currentHealth);
+						}
+				}
+
 				private readonly Stats baseStats = PresetStats.ProjectileCombatantStats;
 				private readonly float maxHealth = PresetStats.ProjectileCombatantStats.Health;
 				private float currentHealth = PresetStats.ProjectileCombatantStats.Health;
 
+				public event EventHandler<double> CurrentHealthChanged;
+				public event EventHandler<double> CurrentEnergyChanged;
+
 				public float ApplyDamage(float damage)
 				{
-						currentHealth = Math.Max(0, currentHealth - damage);
+						CurrentHealth = Math.Max(0, currentHealth - damage);
 						return damage;
 				}
 		}

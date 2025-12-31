@@ -1,9 +1,6 @@
-using TopDownGame.Data.impl;
+namespace GodotImpl;
 
-namespace TopDownGame.GodotImpl
+internal static class GameParts
 {
-		internal static class GameParts
-		{
-				public static Player Player = new();
-		}
+		public static Player Player = new();
 }
