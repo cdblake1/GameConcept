@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+namespace GodotImpl;
+
 public partial class WorldEntityHealthBar : PanelContainer
 {
 		[Export]
@@ -78,12 +80,23 @@ public partial class WorldEntityHealthBar : PanelContainer
 						throw new InvalidOperationException("Parent entity must be set for WorldEntityHealthBar.");
 				}
 
+				if (resourceContainer is null)
+				{
+						throw new InvalidOperationException("ResourceContainer must be set for WorldEntityHealthBar.");
+				}
+
 				if (resourceContainer != null)
 				{
 						resourceContainer.MaxValue = MaxHealth;
 						resourceContainer.MinValue = MinHealth;
 						resourceContainer.CurrentValue = Health;
 						resourceContainer.BarColor = BarColor;
+				}
+
+				System.Diagnostics.Debugger.Launch();
+				if (parentEntity is ICombatantInstance c)
+				{
+						c.Combatant.CurrentHealthChanged += OnParentHealthChanged;
 				}
 
 				//// Center horizontally using anchors
@@ -96,5 +109,10 @@ public partial class WorldEntityHealthBar : PanelContainer
 				//OffsetRight = Size.X / 2f;
 
 				Position = new Vector2(-(parentEntity.Position.X / 2) - 10f, -11f + VerticalOffset);
+		}
+
+		public void OnParentHealthChanged(object sender, double newHealth)
+		{
+				Health = (float)newHealth;
 		}
 }

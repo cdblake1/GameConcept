@@ -1,5 +1,7 @@
 using Godot;
 
+namespace GodotImpl;
+
 public partial class SkeletonOne : CharacterBody2D
 {
 		[Export]

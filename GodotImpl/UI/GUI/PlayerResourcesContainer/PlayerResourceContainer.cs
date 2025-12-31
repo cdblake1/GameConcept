@@ -1,5 +1,6 @@
 using Godot;
-using TopDownGame;
+
+namespace GodotImpl;
 
 public partial class PlayerResourceContainer : Control
 {

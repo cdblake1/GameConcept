@@ -1,6 +1,7 @@
 using Godot;
-using TopDownGame.Data.impl;
-using TopDownGame.GodotImpl;
+
+
+namespace GodotImpl;
 
 public partial class PlayerResourcesContainer : PanelContainer
 {

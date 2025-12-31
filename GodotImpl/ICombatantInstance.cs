@@ -1,8 +1,6 @@
-﻿using System;
+﻿namespace GodotImpl;
 
-public class Class1
+internal interface ICombatantInstance
 {
-	public Class1()
-	{
-	}
+		public ICombatant Combatant { get; }
 }

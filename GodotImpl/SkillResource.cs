@@ -1,13 +1,11 @@
 using Godot;
-using TopDownGame.Skill;
 
-namespace TopDownGame
+namespace GodotImpl;
+
+[GlobalClass]
+public abstract partial class SkillResource : Resource
 {
-  [GlobalClass]
-  public abstract partial class SkillResource : Resource
-  {
-	public abstract ISkill Skill { get; }
+		public abstract ISkill Skill { get; }
 
-	public abstract string IconPath { get; }
-  }
+		public abstract string IconPath { get; }
 }

@@ -1,10 +1,9 @@
-namespace TopDownGame.Skill
+namespace GodotImpl;
+
+public interface ISkill
 {
-		public interface ISkill
-		{
-				public string Name { get; }
-				public float Cooldown { get; }
-				public string Id { get; }
-				public float BaseDamage { get; }
-		}
+		public string Name { get; }
+		public float Cooldown { get; }
+		public string Id { get; }
+		public float BaseDamage { get; }
 }
