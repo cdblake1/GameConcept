@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://bd0jc5mhx6rf3"]
+
+[ext_resource type="Script" uid="uid://bmvku1aiyipgo" path="res://ResourceContainer.cs" id="1_s57si"]
+[ext_resource type="FontFile" uid="uid://njiymhst8q7i" path="res://assets/boldpixels/BoldPixels.otf" id="2_lqi2i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ax7g"]
+bg_color = Color(0.226707, 0.226707, 0.226707, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4pxuo"]
+resource_local_to_scene = true
+bg_color = Color(0.999543, 0, 0.049902, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0ew48"]
+font = ExtResource("2_lqi2i")
+outline_size = 1
+outline_color = Color(0.22, 0.22, 0.22, 0.588235)
+
+[node name="ResourceContainer" type="HBoxContainer" node_paths=PackedStringArray("_progressBar", "_valueLabel")]
+offset_right = 163.0
+offset_bottom = 20.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+script = ExtResource("1_s57si")
+_progressBar = NodePath("ResourceBar")
+_valueLabel = NodePath("ResourceLabel")
+
+[node name="ResourceBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(150, 20)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_8ax7g")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4pxuo")
+step = 1.0
+show_percentage = false
+
+[node name="ResourceLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 1
+text = "0"
+label_settings = SubResource("LabelSettings_0ew48")
+horizontal_alignment = 1
+vertical_alignment = 1

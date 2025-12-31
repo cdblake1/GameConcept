@@ -5,17 +5,17 @@ namespace Infrastructure.Json.Repositories.Initialize
 {
     public static class Repositories
     {
-        private static readonly string ClassesFilePath = Path.Combine("src", "Content", "Classes");
-        private static readonly string EncounterFilePath = Path.Combine("src", "Content", "Encounter");
-        private static readonly string SkillsFilePath = Path.Combine("src", "Content", "Skills");
-        private static readonly string StatTemplateFilePath = Path.Combine("src", "Content", "StatTemplate");
-        private static readonly string MobFilePath = Path.Combine("src", "Content", "Mob");
-        private static readonly string CraftingRecipeFilePath = Path.Combine("src", "Content", "CraftingRecipe");
-        private static readonly string ItemFilePath = Path.Combine("src", "Content", "Item");
-        private static readonly string LootTableFilePath = Path.Combine("src", "Content", "LootTable");
-        private static readonly string ExpTableFilePath = Path.Combine("src", "Content", "ExpTable");
-        private static readonly string EffectsFilePath = Path.Combine("src", "Content", "Effects");
-        private static readonly string TalentsFilePath = Path.Combine("src", "Content", "Talents");
+        private static readonly string ClassesFilePath = Path.Combine("Content", "Classes");
+        private static readonly string EncounterFilePath = Path.Combine("Content", "Encounter");
+        private static readonly string SkillsFilePath = Path.Combine("Content", "Skills");
+        private static readonly string StatTemplateFilePath = Path.Combine("Content", "StatTemplate");
+        private static readonly string MobFilePath = Path.Combine("Content", "Mob");
+        private static readonly string CraftingRecipeFilePath = Path.Combine("Content", "CraftingRecipe");
+        private static readonly string ItemFilePath = Path.Combine("Content", "Item");
+        private static readonly string LootTableFilePath = Path.Combine("Content", "LootTable");
+        private static readonly string ExpTableFilePath = Path.Combine("Content", "ExpTable");
+        private static readonly string EffectsFilePath = Path.Combine("Content", "Effects");
+        private static readonly string TalentsFilePath = Path.Combine("Content", "Talents");
 
         public static IClassRepository ClassRepository { get; } = new JsonClassRepository(ClassesFilePath);
         public static IEncounterRepository EncounterRepository { get; } = new JsonEncounterRepository(EncounterFilePath);

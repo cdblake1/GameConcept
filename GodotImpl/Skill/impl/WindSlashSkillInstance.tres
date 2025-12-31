@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="WindSlashSkillResource" load_steps=2 format=3 uid="uid://bhnp5r608edbs"]
+
+[ext_resource type="Script" uid="uid://ckhrtj1bvf4o2" path="res://Skill/impl/WindSlashSkillResource.cs" id="1_y1sep"]
+
+[resource]
+script = ExtResource("1_y1sep")
+metadata/_custom_type_script = "uid://ckhrtj1bvf4o2"

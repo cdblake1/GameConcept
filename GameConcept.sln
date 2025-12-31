@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11123.170
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameData", "GameData\GameData.csproj", "{A69E34FD-3C4E-476E-BDBE-3C62858E49D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogic", "GameLogic\GameLogic.csproj", "{1ECBBAEE-EBB6-42DE-BACC-CA68E4A634B0}"
@@ -16,6 +18,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogicTests", "test\GameLogicTests\GameLogicTests\GameLogicTests.csproj", "{68DC0B2A-182A-4058-954C-D2DAE6B7E1BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleGameImpl", "ConsoleGameImpl\ConsoleGameImpl.csproj", "{4271BB10-93D6-42A6-BC37-1524792A7532}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopDown Game", "GodotImpl\TopDown Game.csproj", "{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D62C1A5A-B40E-45FD-A4BA-B2D45150534B}"
+	ProjectSection(SolutionItems) = preProject
+		GodotImpl\TopDown Game.sln = GodotImpl\TopDown Game.sln
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +186,30 @@ Global
 		{4271BB10-93D6-42A6-BC37-1524792A7532}.Release|x64.Build.0 = Release|Any CPU
 		{4271BB10-93D6-42A6-BC37-1524792A7532}.Release|x86.ActiveCfg = Release|Any CPU
 		{4271BB10-93D6-42A6-BC37-1524792A7532}.Release|x86.Build.0 = Release|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Debug|x64.Build.0 = Debug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Debug|x86.Build.0 = Debug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportDebug|x64.ActiveCfg = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportDebug|x64.Build.0 = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportDebug|x86.ActiveCfg = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportDebug|x86.Build.0 = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportRelease|x64.ActiveCfg = ExportRelease|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportRelease|x64.Build.0 = ExportRelease|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportRelease|x86.ActiveCfg = ExportRelease|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.ExportRelease|x86.Build.0 = ExportRelease|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Release|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Release|Any CPU.Build.0 = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Release|x64.ActiveCfg = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Release|x64.Build.0 = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Release|x86.ActiveCfg = ExportDebug|Any CPU
+		{AEE7237B-33C1-5FA5-8C3F-F202098D03B3}.Release|x86.Build.0 = ExportDebug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,5 +218,8 @@ Global
 		{85484F3E-8AEF-4985-B738-8800B3382E96} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
 		{00C383B3-E431-FB48-7683-238519A7C82F} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
 		{68DC0B2A-182A-4058-954C-D2DAE6B7E1BD} = {00C383B3-E431-FB48-7683-238519A7C82F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D94DEB4-D8ED-4E17-9383-63CCB9EFD558}
 	EndGlobalSection
 EndGlobal

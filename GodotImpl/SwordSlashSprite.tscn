@@ -1,0 +1,102 @@
+[gd_scene load_steps=7 format=3 uid="uid://xhn8hei4a8kj"]
+
+[ext_resource type="Animation" uid="uid://cai8gp0ccbogv" path="res://SlashAnimation.res" id="1_4gley"]
+[ext_resource type="Script" uid="uid://cbxf3hjskdqug" path="res://SwordSlashSpriteController.cs" id="1_otwt0"]
+[ext_resource type="Texture2D" uid="uid://bcpqj05tcyujj" path="res://SwordSlash.png" id="1_pd02x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pd02x"]
+size = Vector2(272, 256)
+
+[sub_resource type="Animation" id="Animation_pd02x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../SwordSlashSprite2:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.588235)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../SwordSlashSprite2:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.588235)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_otwt0"]
+_data = {
+&"RESET": SubResource("Animation_pd02x"),
+&"Slash": ExtResource("1_4gley")
+}
+
+[node name="SwordSlashEntity" type="Area2D"]
+script = ExtResource("1_otwt0")
+MaxRange = 60.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(59, 15)
+shape = SubResource("RectangleShape2D_pd02x")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../SwordSlashSprite1")
+libraries = {
+&"": SubResource("AnimationLibrary_otwt0")
+}
+autoplay = "Slash"
+
+[node name="SwordSlashSprite1" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.588235)
+position = Vector2(1, 2)
+rotation = 2.17643
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_pd02x")
+flip_v = true
+hframes = 2
+
+[node name="SwordSlashSprite2" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.588235)
+z_index = 1
+position = Vector2(7, 1)
+rotation = 2.96881
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_pd02x")
+flip_h = true
+flip_v = true
+hframes = 2
+frame = 1

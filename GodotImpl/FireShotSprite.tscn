@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bedat11y1vmxt"]
+
+[ext_resource type="Script" uid="uid://kgtkdvfovhib" path="res://FireShotProjectileController.cs" id="1_dtd7l"]
+[ext_resource type="SpriteFrames" uid="uid://d0n5jf1s50hnv" path="res://ArrowShotSprite.tres" id="1_mxggm"]
+[ext_resource type="Shader" uid="uid://cook0s4yqq06h" path="res://OutlineShader.gdshader" id="1_yj4fv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dtd7l"]
+shader = ExtResource("1_yj4fv")
+shader_parameter/outline_px = 1.0
+shader_parameter/outline_color = Color(0, 0, 0, 0.9)
+shader_parameter/bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yj4fv"]
+radius = 4.0
+height = 18.0
+
+[node name="FireShotSprite" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_dtd7l")
+Speed = 100.0
+MaxRange = 60.0
+
+[node name="FireArrowAnimation" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_dtd7l")
+scale = Vector2(0.35, 0.35)
+sprite_frames = ExtResource("1_mxggm")
+animation = &"Fly"
+autoplay = "Fly"
+frame_progress = 0.850104
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_yj4fv")

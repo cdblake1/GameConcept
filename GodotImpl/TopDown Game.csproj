@@ -1,0 +1,15 @@
+﻿<Project Sdk="Godot.NET.Sdk/4.4.1">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>TopDownGame</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Combatants\ProjectileCombatant\" />
+    <Folder Include="Data\def\" />
+    <Folder Include="UI\GUI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,117 @@
+[gd_scene load_steps=10 format=3 uid="uid://bln7obe56mrlt"]
+
+[ext_resource type="LabelSettings" uid="uid://bvjclphfgsue" path="res://TitleLabelSettings.tres" id="1_lrn60"]
+[ext_resource type="Texture2D" uid="uid://rfxh45tnatq8" path="res://icon.svg" id="1_o6rx4"]
+[ext_resource type="FontFile" uid="uid://njiymhst8q7i" path="res://assets/boldpixels/BoldPixels.otf" id="2_47rn7"]
+[ext_resource type="Script" uid="uid://bwgpn1kncl06s" path="res://StartGameButton.cs" id="2_lrn60"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_47rn7"]
+bg_color = Color(0.16, 0.16, 0.16, 0.607843)
+
+[sub_resource type="LabelSettings" id="LabelSettings_17sr7"]
+font = ExtResource("2_47rn7")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_lrn60"]
+font = ExtResource("2_47rn7")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_47rn7"]
+font = ExtResource("2_47rn7")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_mlkpy"]
+font = ExtResource("2_47rn7")
+font_size = 32
+
+[node name="PanelContainer" type="PanelContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="HSplitContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="TitleContainer" type="MarginContainer" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="TitleLabel" type="Label" parent="HSplitContainer/VBoxContainer/TitleContainer"]
+layout_mode = 2
+text = "MY NEW ROGUELIKE"
+label_settings = ExtResource("1_lrn60")
+
+[node name="StartGameButtonContainer" type="MarginContainer" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="StartGameButton" type="Button" parent="HSplitContainer/VBoxContainer/StartGameButtonContainer"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_47rn7")
+action_mode = 0
+flat = true
+alignment = 0
+script = ExtResource("2_lrn60")
+
+[node name="StartLabel" type="Label" parent="HSplitContainer/VBoxContainer/StartGameButtonContainer"]
+layout_mode = 2
+text = "New Game"
+label_settings = SubResource("LabelSettings_17sr7")
+
+[node name="ContinueButton" type="MarginContainer" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="ContinueLabel" type="Label" parent="HSplitContainer/VBoxContainer/ContinueButton"]
+layout_mode = 2
+text = "Continue"
+label_settings = SubResource("LabelSettings_lrn60")
+
+[node name="LoadGameButton" type="MarginContainer" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="LoadGameLabel" type="Label" parent="HSplitContainer/VBoxContainer/LoadGameButton"]
+layout_mode = 2
+text = "Load Game"
+label_settings = SubResource("LabelSettings_47rn7")
+
+[node name="ExitButton" type="MarginContainer" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="ExitLabel" type="Label" parent="HSplitContainer/VBoxContainer/ExitButton"]
+layout_mode = 2
+text = "Exit"
+label_settings = SubResource("LabelSettings_mlkpy")
+
+[node name="CenterContainer" type="CenterContainer" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="HSplitContainer/CenterContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("1_o6rx4")
