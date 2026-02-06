@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bdevhl17sqwib"]
+[gd_scene load_steps=13 format=4 uid="uid://bdevhl17sqwib"]
 
 [ext_resource type="Script" uid="uid://vqawed5r1o8q" path="res://Main.cs" id="1_i2arf"]
 [ext_resource type="TileSet" uid="uid://cuwve0iliw8il" path="res://new_tile_set.tres" id="1_k77ap"]
@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://c5fx7nn6xbaru" path="res://ActionBar.tscn" id="3_i2arf"]
 [ext_resource type="PackedScene" uid="uid://cainfqxmfudm2" path="res://UI/GUI/PlayerResourcesContainer/PlayerResourcesContainer.tscn" id="4_1kil2"]
 [ext_resource type="PackedScene" uid="uid://dpj5ktlawy34b" path="res://GodotImpl/Player.tscn" id="5_hvuor"]
+[ext_resource type="PackedScene" uid="uid://bqn8fuvoo6qhj" path="res://ExperienceBar.tscn" id="6_ed8b8"]
 [ext_resource type="PackedScene" uid="uid://jnyi4u5yp63o" path="res://GodotImpl/Combatants/ProjectileCombatant/ProjectileCombatant.tscn" id="7_1kil2"]
+[ext_resource type="Script" uid="uid://bodbsa2uipwb4" path="res://Logic/ZoneManager.cs" id="8_5cvvu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hvuor"]
 
@@ -284,12 +286,6 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_hvuor")
 sources/0 = SubResource("TileSetAtlasSource_0hol4")
 
-[sub_resource type="Curve2D" id="Curve2D_1kil2"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 128, 112, 0, 0, 0, 0, 128, 448, 0, 0, 0, 0, 384, 448, 0, 0, 0, 0, 384, 112, 0, 0, 0, 0, 128, 112)
-}
-point_count = 5
-
 [node name="Node" type="Node"]
 script = ExtResource("1_i2arf")
 
@@ -338,17 +334,14 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="MobTimer" type="Timer" parent="."]
-
-[node name="MobPath" type="Path2D" parent="."]
-curve = SubResource("Curve2D_1kil2")
-
-[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
-position = Vector2(128, 112)
-rotation = 1.5708
+[node name="ExperienceBar" parent="CanvasLayer/FullScreen" instance=ExtResource("6_ed8b8")]
+layout_mode = 0
+offset_left = 448.0
+offset_right = 611.0
 
 [node name="Player" parent="." instance=ExtResource("5_hvuor")]
 position = Vector2(248, 224)
 
-[node name="ProjectileCombatant" parent="." instance=ExtResource("7_1kil2")]
-position = Vector2(165, 168)
+[node name="ZoneManager" type="Node" parent="."]
+script = ExtResource("8_5cvvu")
+_enemyScene = ExtResource("7_1kil2")

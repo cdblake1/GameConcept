@@ -93,7 +93,6 @@ public partial class WorldEntityHealthBar : PanelContainer
 						resourceContainer.BarColor = BarColor;
 				}
 
-				System.Diagnostics.Debugger.Launch();
 				if (parentEntity is ICombatantInstance c)
 				{
 						c.Combatant.CurrentHealthChanged += OnParentHealthChanged;
@@ -108,7 +107,8 @@ public partial class WorldEntityHealthBar : PanelContainer
 				//OffsetLeft = -Size.X / 2f;
 				//OffsetRight = Size.X / 2f;
 
-				Position = new Vector2(-(parentEntity.Position.X / 2) - 10f, -11f + VerticalOffset);
+				var xpos = -(parentEntity.Position.X / 2) - 10f;
+				Position = new Vector2(xpos + Math.Abs(xpos / 2), -11f + VerticalOffset);
 		}
 
 		public void OnParentHealthChanged(object sender, double newHealth)

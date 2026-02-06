@@ -15,6 +15,8 @@ public partial class FireShotProjectileController : Area2D
 
 		private ISkillTargetingStrategy targetStrategy = new FireAtCursorStrategy();
 
+		private ISkill Skill = new ArrowShotSkill();
+
 		// If your sprite points downward at Rotation = 0, an offset of -90 aligns it with the direction.
 		// Adjust in the inspector if your asset faces another default direction.
 		[Export]
@@ -45,8 +47,8 @@ public partial class FireShotProjectileController : Area2D
 				// Point the projectile in the direction it's traveling, accounting for sprite default orientation
 				Rotation = _direction.Angle() + Mathf.DegToRad(RotationOffsetDegrees);
 
-				BodyEntered += _ => QueueFree();
-				AreaEntered += _ => QueueFree();
+				BodyEntered += OnCollision;
+				AreaEntered += OnCollision;
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -65,7 +67,7 @@ public partial class FireShotProjectileController : Area2D
 		{
 				if (target is ICombatantInstance instance)
 				{
-						instance.Combatant.ApplyDamage(10); // Example damage value
+						instance.Combatant.ApplyDamage(Skill.BaseDamage	); // Example damage value
 						QueueFree();
 				}
 		}

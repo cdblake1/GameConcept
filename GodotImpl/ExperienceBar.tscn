@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqn8fuvoo6qhj"]
+
+[ext_resource type="Script" uid="uid://8a7fti1tc1ht" path="res://ExperienceBar.cs" id="1_f7a3m"]
+[ext_resource type="PackedScene" uid="uid://bd0jc5mhx6rf3" path="res://Skill/impl/ResourceContainer.tscn" id="2_d3ecw"]
+
+[node name="ExperienceBar" type="PanelContainer" node_paths=PackedStringArray("_experienceBar")]
+offset_right = 163.0
+offset_bottom = 20.0
+script = ExtResource("1_f7a3m")
+_experienceBar = NodePath("ResourceContainer")
+
+[node name="ResourceContainer" parent="." instance=ExtResource("2_d3ecw")]
+layout_mode = 2

@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using TopDownGame.GodotImpl;
 
 namespace GodotImpl;
 
