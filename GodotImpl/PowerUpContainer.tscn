@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bu3fbaeonr7vx"]
+
+[ext_resource type="Script" uid="uid://cwt5hehimt21i" path="res://PowerUpContainer.cs" id="1_oki50"]
+[ext_resource type="PackedScene" uid="uid://dcrxppc03o6xm" path="res://PowerUpCard.tscn" id="2_rldj2"]
+
+[node name="PowerUpContainer" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oki50")
+
+[node name="PowerUpCard" parent="." instance=ExtResource("2_rldj2")]
+layout_mode = 2
+
+[node name="PowerUpCard2" parent="." instance=ExtResource("2_rldj2")]
+layout_mode = 2
+
+[node name="PowerUpCard3" parent="." instance=ExtResource("2_rldj2")]
+layout_mode = 2

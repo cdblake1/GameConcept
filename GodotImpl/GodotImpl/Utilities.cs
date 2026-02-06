@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace TopDownGame.GodotImpl
+namespace GodotImpl
 {
 		internal static class Utilities
 		{
@@ -13,7 +13,7 @@ namespace TopDownGame.GodotImpl
 
 						// Try by group first
 						var player = node.GetTree().Root.FindChild(pattern: "Player",
-								recursive: true, 
+								recursive: true,
 								owned: false);
 
 						if (player != null && player is Node2D p0)

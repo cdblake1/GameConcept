@@ -9,5 +9,5 @@ internal partial class ArrowShotSkill : ISkill
 		public string Name => ArrowShotSkillName;
 		public float Cooldown => ArrowShotSkillCooldown;
 		public string Id => ArrowShotSkillId;
-		public float BaseDamage { get; } = 10f;
+		public float BaseDamage { get; } = 40f;
 }

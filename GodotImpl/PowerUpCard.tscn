@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://dcrxppc03o6xm"]
+
+[ext_resource type="Script" uid="uid://dejfqbjkckpm5" path="res://PowerUpCard.cs" id="1_dt64m"]
+[ext_resource type="FontFile" uid="uid://ni40et787clv" path="res://assets/boldpixels/BoldPixels.ttf" id="1_s4b20"]
+[ext_resource type="FontFile" uid="uid://njiymhst8q7i" path="res://assets/boldpixels/BoldPixels.otf" id="2_dt64m"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7cmtg"]
+font = ExtResource("1_s4b20")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_8e13a"]
+font = ExtResource("2_dt64m")
+
+[node name="PowerUpCard" type="ColorRect" node_paths=PackedStringArray("Title", "Description", "ColorRect")]
+clip_contents = true
+offset_top = 1.0
+offset_right = 200.0
+offset_bottom = 241.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.152941, 0.152941, 0.152941, 1)
+script = ExtResource("1_dt64m")
+Title = NodePath("ItemContainer/Title")
+Description = NodePath("ItemContainer/Description")
+ColorRect = NodePath("ItemContainer/Color")
+
+[node name="ItemContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="ItemContainer"]
+layout_mode = 2
+text = "[Placeholder]"
+label_settings = SubResource("LabelSettings_7cmtg")
+horizontal_alignment = 1
+
+[node name="Color" type="ColorRect" parent="ItemContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.377636, 0.426902, 1, 1)
+
+[node name="Description" type="Label" parent="ItemContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+text = "[Placeholder decsription]"
+label_settings = SubResource("LabelSettings_8e13a")
+autowrap_mode = 2
